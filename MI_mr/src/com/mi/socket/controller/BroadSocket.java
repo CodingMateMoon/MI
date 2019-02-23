@@ -51,16 +51,15 @@ public class BroadSocket {
     	String username = (String)userSession.getUserProperties().get("username");
     	JSONParser jsonParser = new JSONParser();
 
+    	// 클라이언트에서 받은 JSON 형식의 객체를 String으로 받은 다음 JSONParser로 파싱하여 JSONObject로 변환
     	JSONObject jsonObject = null;
 		try {
 			jsonObject = (JSONObject) jsonParser.parse(message);
-			System.out.print(jsonObject.toJSONString());
+//			System.out.print(jsonObject.toJSONString());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
     	
-        
-        
         //username이 있으면 전체에게 메시지를 보낸다. (JSON 형식)
         Iterator<Session> iterator = sessionUsers.iterator();
         while(iterator.hasNext()){

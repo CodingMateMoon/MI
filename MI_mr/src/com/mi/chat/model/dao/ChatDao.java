@@ -83,4 +83,22 @@ public class ChatDao {
 		}
 		return list;
 	}
+	
+	public int insertChat(Connection conn, Chat c) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("insertChat");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, c.getChatContent());
+			pstmt.setInt(2, c.getChatroomId());
+			pstmt.setString(3, c.getMemberId());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }

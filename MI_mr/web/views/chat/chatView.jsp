@@ -6,6 +6,7 @@
 <% 
 	List<Chat> list = (List<Chat>) request.getAttribute("list"); 
 	int chatroomId = Integer.parseInt(request.getParameter("chatroomId"));
+	System.out.println("chatroomId : " + chatroomId);
   	Member loginMember = (Member) session.getAttribute("loginMember");
   	
 %>
@@ -27,6 +28,8 @@
 	#send {
 		width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px;
 	}
+	
+	
 </style>
 <body>
 	<div id="chatroomBorder">
@@ -41,8 +44,6 @@
 		</table>
 	</div>
 	
-	<!-- 메시지 표시 영역 -->
-    <textarea id="messageTextArea" readonly="readonly" rows="10" cols="45"></textarea><br />
     <div id="sender">
 	    <!-- 송신 메시지 텍스트박스 -->
 	    <input type="text" id="messageText" size="50" />
@@ -77,12 +78,15 @@
         	*/
             //Json 풀기
             var jsonData = JSON.parse(message.data);
-           	switch(jsonData.type) {
-           	case "message":
-           		var lastTr = $("#chatroom tr:last-child");
-           		console.log(lastTr);
-           		addChat(jsonData.name, jsonData.content, jsonData.time);
-           	}
+        	console.log(jsonData.chatroomId + " : " + <%=chatroomId%>);
+        	if (jsonData.chatroomId == <%=chatroomId%>) {
+	           	switch(jsonData.type) {
+	           	case "message":
+	           		var lastTr = $("#chatroom tr:last-child");
+	           		console.log(lastTr);
+	           		addChat(jsonData.name, jsonData.content, jsonData.time);
+	           	}
+        	}
         }
         //메시지 보내기
         function sendMessage(){
@@ -92,18 +96,18 @@
             $.ajax({
 				url: "<%=request.getContextPath()%>/insertChat",
 				type: "post",
-				data: {"name" : "<%=loginMember.getMemberName()%>","content" : messageText.value},
-				dataType: "json",
+				data: {"chatContent" : messageText.value, "chatroomId" : <%=chatroomId%>, "memberId" : "<%=loginMember.getMemberId()%>"},
+				
 				success: function(data) {
-					console.log(data);
+					console.log(data); 
 					// 서버에서 인코딩한 뒤 보낸 데이터 : %EC%9C%A0%EB%B3%91%EC%8A%B9 
-					console.log(data['userId']);
+					// console.log(data['userId']);
 					// 서버에서 인코딩한 뒤 보낸 데이터를 decode 처리 : 유병승
-					console.log(decodeURI(data['userId']));
+					//console.log(decodeURI(data['userId']));
 					/* console.log(data.name + " type : " + typeof data.name);
 					console.log(data.height + " type : " + typeof data.height);
 					console.log(data.weight + " type : " + typeof data.weight); */
-					var user = "";
+					/* var user = "";
 					for (var i = 0; i < data.length; i++) {
 						console.log(data[i]);
 						
@@ -112,7 +116,7 @@
 							user += a + " : " + data[i][a] + "\n";
 						 } 
 					}
-					$("#mydiv").html(user);
+					$("#mydiv").html(user); */
 				}
 			});
             messageText.value = "";
@@ -131,15 +135,12 @@
         	    leadingZeros(d.getFullYear(), 4) + '-' +
         	    leadingZeros(d.getMonth() + 1, 2) + '-' +
         	    leadingZeros(d.getDate(), 2) + ' ' +
-
         	    leadingZeros(d.getHours(), 2) + ':' +
         	    leadingZeros(d.getMinutes(), 2) + ':' +
-        	    leadingZeros(d.getSeconds(), 2);
+      	 	    leadingZeros(d.getSeconds(), 2);
 
         	  return s;
         }
-
-
 
        	function leadingZeros(n, digits) {
        	  var zero = '';
@@ -166,7 +167,6 @@
    		$("#chatroom").append(newTr);
    		/* var scrollPosition = $("#send").offset().top; */
    		/* document.body.scrollTop = document.body.scrollHeight; */
-   		var scrollPosition = $("#send").offset().top;
    		$("#chatroomBorder").scrollTop($("#chatroomBorder")[0].scrollHeight);
 	}
 	
