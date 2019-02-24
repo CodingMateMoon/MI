@@ -97,7 +97,7 @@
 			var chatroomId = $(this).siblings("input").val();
 			var url = "<%=request.getContextPath()%>/chatroom?chatroomId=" + chatroomId;
 			console.log(url);
-			var option = "left=500px, top=100px, width=500px, height=500px, menubar=no, toolbar=no, status=no, scrollbars=yes";		
+			var option = "left=100px, top=0px, width=500px, height=700px, menubar=no, toolbar=no, status=no, scrollbars=yes";		
 			window.open(url, "", option);
 			
 			/* chatForm.target = windowName;

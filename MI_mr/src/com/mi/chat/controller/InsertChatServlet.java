@@ -35,7 +35,7 @@ public class InsertChatServlet extends HttpServlet {
 		int chatroomId = Integer.parseInt(request.getParameter("chatroomId"));
 		String memberId = request.getParameter("memberId");
 		String temp = chatContent + " : " + chatroomId + " : " + memberId + "test";
-		
+		chatContent= chatContent.replaceAll("'","′"); // 작은 따옴표를 ′로 치환
 		Chat c = new Chat();
 		c.setChatContent(chatContent);
 		c.setChatroomId(chatroomId);
