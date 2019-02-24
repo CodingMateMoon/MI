@@ -11,7 +11,13 @@
   	
 %>
 <meta charset="UTF-8">
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/chatroom.css">
+<title>JSP Ajax 실시간 채팅</title>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+
 <title>채팅방</title>
 </head>
 <style>
@@ -25,14 +31,64 @@
 		border: 1px solid blue; padding: 10px; width: 90%; margin-right: .5%;
 	}
 	
-	#send {
+	/* #send {
 		width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px;
-	}
+	} */
 	
 	
 </style>
+<script>
+	$(function(){
+		
+		<%for (Chat c : list) {
+			 String tempContent = c.getChatContent();
+			 // tempContent = tempContent.replaceAll("′","'"); // 치환된 작은따옴표 원래 작은따옴표로 환원처리
+			 tempContent = tempContent.replaceAll("\n","<br>"); // 줄바꿈처리
+			 tempContent = tempContent.replaceAll("\u0020","&nbsp;"); // 스페이스바로 띄운 공백처리
+		%>
+		addChat('<%=c.getMemberName()%>', '<%=tempContent%>','<%=c.getChatTime()%>');
+		<%} %>
+	});
+</script>
 <body>
-	<div id="chatroomBorder">
+	
+	<div class="container bootstrap snippet">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="portlet portlet-default">
+					<div class="portlet-heading">
+						<div class="portlet-title">
+							<h4><i class="fa fa-circle text-green">실시간 채팅창</i></h4>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div id="chat" class="panel-collapse collapse in">
+						<div id="chatList" class="portlet-body chat-widget" style="overflow-y: auto; width: auto; height: 600px;">
+						</div>
+						<div class="portlet-footer">
+							<!-- <div class="row">
+								<div class="form-group col-xs-4">
+									<input style="height: 40px;" type="text" id="chatName" class="form-control" placeholder="이름" maxlength="8">
+								</div>
+							</div> -->
+							<div class="row" style="height: 90px;">
+								<div class="form-group col-xs-10">
+									<textarea style="height: 80px;" id="messageText" class="form-control" placeholder="메세지를 입력하세요." maxlength="100"></textarea>
+								</div>
+								<div class="form-group col-xs-2">
+									<button type="button" id="send" class="btn btn-default pull-right" onclick="sendMessage();">전송</button>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<%-- <div id="chatroomBorder">
 		<table id="chatroom">
 		<%for (Chat c : list) {%>
 		<tr>
@@ -42,14 +98,16 @@
 		</tr>
 		<%} %>
 		</table>
-	</div>
+	</div> --%>
 	
-    <div id="sender">
-	    <!-- 송신 메시지 텍스트박스 -->
+    <!-- <div id="sender">
+	    송신 메시지 텍스트박스
 	    <input type="text" id="messageText" size="50" />
-	    <!-- 송신 버튼 -->
+	    송신 버튼
 	    <input type="button" value="Send" onclick="sendMessage()" id="send"/>
-	</div>
+	</div> -->
+	
+	
 	<% if (loginMember != null) { %>
     <script type="text/javascript">
     
@@ -156,7 +214,7 @@
     <%} %>
 	
 	<script>
-	function addChat(name, content, time) {
+	function addChat2(name, content, time) {
 		/* 스크롤바 위치 위에서부터 scrollHeight만큼 내림
 		$("#chatroomBorder").scrollTop($("#chatroomBorder")[0].scrollHeight); */ 
 		var newTr = $("<tr></tr>");
@@ -168,6 +226,32 @@
    		/* var scrollPosition = $("#send").offset().top; */
    		/* document.body.scrollTop = document.body.scrollHeight; */
    		$("#chatroomBorder").scrollTop($("#chatroomBorder")[0].scrollHeight);
+	}
+	
+	function addChat(chatName, chatContent, chatTime){
+		$("#chatList").append('<div class="row">' +
+			'<div class="col-lg-12">' +
+			'<div class="media">' +
+			'<a class="pull-left" href="#">' +
+			'<img class="media-object" img-circle" style="width:30px; height: 30px" src="views/image/icon.png" alt="">' +
+			'</a>' +
+			'<div class="media-body">' +
+			'<h4 class="media-heading">' +
+			chatName +
+			'<span class="small pull-right">' +
+			chatTime +
+			'</span>' +
+			'</h4>' +
+			'<p>' +
+			chatContent +
+			'</p>' +
+			'</div>' +
+			'</div>' +
+			'</div>' +
+			'</div>' +
+			'<hr>');
+		
+	$("#chatList").scrollTop($("#chatList")[0].scrollHeight); 
 	}
 	
 	</script>
