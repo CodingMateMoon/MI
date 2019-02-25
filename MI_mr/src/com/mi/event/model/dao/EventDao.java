@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -40,7 +41,9 @@ public class EventDao {
 				e.setEndDate(rs.getDate("end_date"));
 				e.setGroupId(rs.getString("group_id"));
 				e.setMemo(rs.getString("memo"));
-				e.setFilePath(rs.getString("file_path"));
+				if(rs.getString("file_path")!=null) {
+					e.setFilePath(Arrays.asList(rs.getString("file_path").split(",")));
+				}
 				e.setPrepairingId(rs.getString("prepairing_id"));
 				list.add(e);
 			}
@@ -59,6 +62,9 @@ public class EventDao {
 		String sql=prop.getProperty("insertEvent");
 		System.out.println("insertEvent----");
 		System.out.println(e);
+		String[] files=new String[e.getFilePath().size()];
+		String transfiles=String.join(",", e.getFilePath().toArray(files));
+		System.out.println(transfiles);
 		try {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, e.getTitle());
@@ -66,7 +72,7 @@ public class EventDao {
 			pstmt.setDate(3, (Date)e.getEndDate());
 			pstmt.setString(4, e.getGroupId());
 			pstmt.setString(5, e.getMemo());
-			pstmt.setString(6, e.getFilePath());
+			pstmt.setString(6,transfiles );
 			pstmt.setString(7, e.getPrepairingId());
 			
 			result=pstmt.executeUpdate();

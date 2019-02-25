@@ -67,10 +67,17 @@
   		float:right;
   		
 	}
+	#images{
+	margin-left:5px;
+	height:80px;width:70%;
+	 overflow-x:hidden;
+	 float:left;
+	 
+	 
+	}
 </style>
 <section id="calUpdate-container">
 <div id="teduri">
-<form name="eventViewForm" action="<%=request.getContextPath()%>/eventUpDate" method="post" enctype="multipart/form-data">
 	<div id="nameUpdate" >
 	<input type="hidden" id="memberId" name="memberId" value=<%=memberId %> />
 		제목 <input type="text" id="title" name="title" autocomplete="off"/>
@@ -85,13 +92,13 @@
 			</tr>
 			<tr>
 				<td>
-				<input type="text" name="groupList" list="data" autocomplete="off"/>
+				<input type="text" id='groupList' name="groupList" list="data" autocomplete="off"/>
                 <datalist id="data">
                 <%
                 
                 	for(int i=0; i<groupList.size();i++){
                 %>
-                	<option value=<%=groupList.get(i).getGroupName()%>></option>
+                	<option value="<%=groupList.get(i).getGroupId()%> : <%=groupList.get(i).getGroupName()%>"></option>
                 <%} %>
                 </datalist>
 				</td>
@@ -113,17 +120,17 @@
 			<tr>
 				<th>파일업로드</th>
 				<td>
-					<input type="file" name="up_file" multiple />
+					<input id='up_file' type="file" name="up_file" multiple />
 				</td>
 			</tr>
 		</table>
 	</div>
+	<div id="images"></div>
 	<div id="btndiv">
-	<input type="submit" id="eUpdate" class="btn" onclick="fn_calUpdate()" value="저장"/>
+	<input type="button" id="eUpdate" class="btn" value="저장"/>
 	&nbsp
 	<input type="button" id="backBtn" class="btn" value="취소" onclick="location.href='<%=request.getContextPath()%>/'" />
 	</div>
-</form>
 </div>
 </section>
 <script>
@@ -139,23 +146,31 @@
 	}
 
 
-	<%-- $(function(){
+	$(function(){
 		$("[name=up_file]").change(function(){
-			$.each(eventViewForm.up_file.files, function(index, item){
+			var iputFiles=document.getElementById('up_file');
+			console.log(iputFiles.files);
+			$.each(iputFiles.files, function(index, item){
 				console.log(item);
 			var reader = new FileReader();
 			reader.onload=function(e){
-				var img = $("<img></img>").attr("src",e.target.result).css({'width':'100px','height':'100px'});
-				$('#image').append(img);
+				var img = $("<img></img>").attr("src",e.target.result).css({'width':'90px','height':'80px'});
+				$('#images').append(img);
 						
 			}
 			reader.readAsDataURL(item);
 		});
 		});
 		$('#eUpdate').on("click", function(){
+			console.log($('#groupList').val()+":"+typeof $('#groupList').val() )
 			var fd=new FormData();
-	
-			$.each(eventViewForm.up_file.files, function(i, item){
+			fd.append('memo',$('#memo').val());
+			fd.append('title',$('#title').val());
+			fd.append('startDate',$('#startDate').val());
+			fd.append('endDate',$('#endDate').val());
+			fd.append('groupList',($('#groupList').val().split(":")[0]));
+			fd.append('memberId','<%=memberId%>');
+			$.each(document.getElementById('up_file').files, function(i, item){
 				fd.append("test"+i,item);
 			});
 			$.ajax({
@@ -166,11 +181,12 @@
 				contentType : false,
 				success : function(data) {
 				alert("업로드 완료");
-				$('#image').html('');
-				$('[name=ajaxFileTest]').val('');
+				$('#images').html('');
+				$('[name=up_file]').val('');
+				location.href="<%=request.getContextPath()%>/showCalendar?memberId=<%=memberId%>";
 			}
 		});
 	});
-}); --%>
+});
 </script>
 <%@ include file="/views/common/footer.jsp" %>

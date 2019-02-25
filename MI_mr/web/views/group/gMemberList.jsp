@@ -11,37 +11,42 @@ String memberId=(String)request.getAttribute("memberId");
 <title>Insert title here</title>
 </head>
 <style>
-	#gName
+	#addMember
 	{
 		width: 290px;
 		height: 150px;
-		/* border: 2px solid red; */
+		border: 2px solid red;
 		overflow-x:hidden;
 	}
 	#gMemberList
 	{
 		width: 290px;
 		height: 200px;
-		/* border: 2px solid blue; */
+		border: 2px solid blue;
 		overflow-x: hidden;
 	}
 	#gMemberPlus
 	{
- 	position: relative;
+ /* 	position: relative;
 		top:50%;
 		left:50%;
 		/* margin-top:-25px;
-		margin-left:-25px; */
+		margin-left:-25px; */ */
 		
 	}
 	#teduri3
 	{
 		width: 300px;
-		height: 370px;
-		/* border: 1px solid green; */
+		height: 400px;
+		border: 1px solid green;
 	}
 h4{
 	margin : 0%
+}
+#btnDiv{
+	border: 1px solid yellow;
+	width: 50px;
+	float:right;
 }
 </style>
 <body>
@@ -58,16 +63,42 @@ h4{
 		</tr>
 	</table>
 	</div>
-	<div id="gName">
-		<h4>아이디검색/추가</h4>
+	<div id="addMember">
+		<h4>멤버 추가</h4>
 			<input type="search" name="serachId" id="searchId" list="datalist" placeholder="아이디검색" autocomplete="off"/>
 		<datalist id="datalist">
 		</datalist>
 		
 		
 		
-		<img src="/views/group/plus.png" width="30px" id="gMemberPlus"/>
+		<!-- <img src="/views/group/plus.png" width="30px" id="gMemberPlus"/> -->
+	</div>
+	<div id="btnDiv">
+		<input type="submit" id="addMemberBtn" value="등록"/>
+		<!-- <input type="button" id="deleGroup" value="삭제"/> -->
+	
 	</div>
 </div>
+<script>
+$("#searchId").keyup(function(){
+	$.ajax({
+		url:"<%=request.getContextPath()%>/member/selectId.do",
+		type:"post",
+		data:{"search":$("#searchId").val()},
+		success:function(data){
+				var html="";
+				for(var i=0;i<data.length;i++)
+				{
+					html+='<option>'+data[i]+"</option>";
+				}
+			$('#datalist').html(html);
+		}
+	});
+});
+
+
+
+
+</script>
 </body>
 </html>
