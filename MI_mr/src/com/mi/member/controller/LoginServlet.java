@@ -52,6 +52,7 @@ public class LoginServlet extends HttpServlet {
 			if(result.getPassword().equals(pw))
 			{
 				/*msg="환영합니다~~";*/
+				view = "/";
 				HttpSession session=request.getSession();
 				session.setAttribute("loginMember", result);
 				

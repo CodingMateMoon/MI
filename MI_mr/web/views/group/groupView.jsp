@@ -15,7 +15,7 @@ String groupId=(String)request.getAttribute("groupId");
   top: 45%;
   left: 32%;
   margin: -200px 0 0 -150px;
- /*  border: 2px solid red; */
+  border: 1px solid gray;
   }
  
  #glist

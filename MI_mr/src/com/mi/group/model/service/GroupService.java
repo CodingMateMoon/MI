@@ -47,4 +47,11 @@ public class GroupService {
 		close(conn);
 		return result;
 	}
+	
+	public String selectGroupId(String groupName) {
+	      Connection conn=getConnection();
+	      String groupId=dao.selectGroupId(conn,groupName);
+	      close(conn);
+	      return groupId;
+	   }
 }

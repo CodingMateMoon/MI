@@ -131,4 +131,23 @@ public class GroupDao {
 		return result;
 	}
 	
+	 public String selectGroupId(Connection conn, String groupName) {
+	      PreparedStatement pstmt=null;
+	      ResultSet rs=null;
+	      String sql=prop.getProperty("selectGroupId");
+	      String groupId="";
+	      try {
+	         pstmt=conn.prepareStatement(sql);
+	         pstmt.setString(1, groupName);
+	         rs=pstmt.executeQuery();
+	         while(rs.next()){
+	            groupId=rs.getString("group_id");
+	         }
+	      }catch(Exception e) {e.printStackTrace();}
+	      finally {
+	         close(rs);
+	      }
+	      return groupId;
+	   }
+
 }
