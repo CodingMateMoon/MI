@@ -1,4 +1,4 @@
-package com.mi.group.controller;
+package com.mi.detail.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,20 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mi.group.model.service.GroupService;
-import com.mi.group.model.vo.Group;
+import com.google.gson.Gson;
+import com.mi.event.model.service.EventService;
+import com.mi.event.model.vo.Event;
 
 /**
- * Servlet implementation class GroupListViewServlet
+ * Servlet implementation class DetailAjaxServlet
  */
-@WebServlet("/groupList")
-public class GroupListViewServlet extends HttpServlet {
+@WebServlet("/detail/ajaxView.do")
+public class DetailAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GroupListViewServlet() {
+    public DetailAjaxServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,18 +32,20 @@ public class GroupListViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-		String memberId=request.getParameter("memberId");
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		
-		List<Group> groupList=new GroupService().selectAllGroup(memberId);
+		String eventId=request.getParameter("eventId");
+		Event e = new EventService().detailEvent(eventId);
 		
+		request.setAttribute("eventId", eventId);
+		request.setAttribute("e", e);
 		
-		request.setAttribute("memberId", memberId);
-		request.setAttribute("groupList",groupList);
-		request.getRequestDispatcher("/views/group/groupView.jsp").forward(request, response);
-
+		new Gson().toJson(e, response.getWriter());
+	
+	
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

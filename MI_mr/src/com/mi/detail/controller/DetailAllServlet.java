@@ -1,4 +1,4 @@
-package com.mi.group.controller;
+package com.mi.detail.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mi.group.model.service.GroupService;
-import com.mi.group.model.vo.Group;
+import com.mi.event.model.service.EventService;
+import com.mi.event.model.vo.Event;
 
 /**
- * Servlet implementation class GroupListViewServlet
+ * Servlet implementation class DetailAllServlet
  */
-@WebServlet("/groupList")
-public class GroupListViewServlet extends HttpServlet {
+@WebServlet("/detailAll")
+public class DetailAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GroupListViewServlet() {
+    public DetailAllServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,18 +31,14 @@ public class GroupListViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
 		String memberId=request.getParameter("memberId");
-		
-		List<Group> groupList=new GroupService().selectAllGroup(memberId);
-		
-		
+		List<Event> list = new EventService().selectAllEvent(memberId);
+	
 		request.setAttribute("memberId", memberId);
-		request.setAttribute("groupList",groupList);
-		request.getRequestDispatcher("/views/group/groupView.jsp").forward(request, response);
-
+		request.setAttribute("list", list);
+		request.getRequestDispatcher("/views/detail/detailAll.jsp").forward(request, response);
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

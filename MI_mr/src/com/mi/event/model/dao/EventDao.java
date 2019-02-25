@@ -1,5 +1,7 @@
 package com.mi.event.model.dao;
 
+import static common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,7 +13,6 @@ import java.util.List;
 import java.util.Properties;
 
 import com.mi.event.model.vo.Event;
-import static common.JDBCTemplate.close;
 public class EventDao {
 	private Properties prop=new Properties();
 	public EventDao() {
@@ -20,6 +21,7 @@ public class EventDao {
 			prop.load(new FileReader(fileName));
 		}catch(Exception e) {e.printStackTrace();}
 	}
+	
 	public List<Event> selectAllEvent(Connection conn,String memberId){
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
@@ -77,4 +79,38 @@ public class EventDao {
 		}
 		return result;
 	}
+	
+	
+	public Event detailEvent(Connection conn, String eventId){
+		PreparedStatement pstmt = null;
+		ResultSet rs=null;
+		Event e =null;
+		String sql=prop.getProperty("detailEvent");
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, eventId);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				e=new Event();
+				e.setEventId(rs.getString("event_id"));
+				e.setTitle(rs.getString("title"));
+				e.setStartDate(rs.getDate("start_date"));
+				e.setEndDate(rs.getDate("end_date"));
+				e.setGroupId(rs.getString("group_id"));
+				e.setMemo(rs.getString("memo"));
+				e.setFilePath(rs.getString("file_path"));
+				e.setPrepairingId(rs.getString("prepairing_id"));
+			}
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			close(rs);
+			close(pstmt);
+		}
+		return e;
+	}
+	
+	
 }
