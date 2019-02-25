@@ -1,6 +1,7 @@
 /com/
 /common/
 /sql/
+<<<<<<< HEAD
 
 
 # Created by https://www.gitignore.io/api/java,eclipse,windows
@@ -128,3 +129,5 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/java,eclipse,windows
+=======
+>>>>>>> refs/heads/feature_detail
