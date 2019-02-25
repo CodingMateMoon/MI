@@ -166,6 +166,33 @@ nav ul li a span {
   line-height: 50px;
   transition: opacity 0.1s ease-in-out;
 }
+
+nav ul ul li a span {
+   color: #9aa3a8;
+   /* text-decoration: none;
+   line-height: 27px;
+   display: block;
+   padding: 0 15px;  */
+   -webkit-transition: all 0.15s;
+   -moz-transition: all 0.15s;
+   -o-transition: all 0.15s;
+   -ms-transition: all 0.15s;
+   transition: all 0.15s;
+}
+nav ul li ul li{
+   display: none;
+}
+nav ul li.calendarMenu{ transition:all 0.5s;}
+nav ul li.calendarMenu:hover ul li{ transition: all 0.5s; display:block; background:rgb(40,50,59); }
+
+nav ul ul li a:hover {
+   background: #003545;
+   color:white;
+}
+nav ul ul li a:hover span {
+   color:white;
+}
+
 main {
   position: absolute;
   transition: all 0.15s ease-in-out;
@@ -270,11 +297,26 @@ main section h1 {
             <span>My page</span>
          </a>
       </li>
-      <li>
+      <li class="calendarMenu">
          <a href="<%=request.getContextPath()%>/showCalendar?memberId=<%=loginMember.getMemberId()%>">
-            <i class="fas fa-calendar-times"></i>
+            <i class="fas fa-calendar-alt"></i>
             <span>My Calendar</span>
          </a>
+         <ul>
+            <li>
+               <a href="<%=request.getContextPath()%>/event?memberId=<%=loginMember.getMemberId()%>">
+               <i class="fas fa-calendar-plus"></i>
+               <span>Schedule Addition</span>
+               </a>
+            </li>
+            <li>
+               <a href="<%=request.getContextPath()%>/detailSchedule?memberID=<%=loginMember.getMemberId()%>">
+               <i class="fas fa-clipboard-list"></i>
+               <span>detailed Schedule</span>
+               </a>
+            </li>
+            
+         </ul>
       </li>
       <li>
          <a href="<%=request.getContextPath() %>/groupView">
