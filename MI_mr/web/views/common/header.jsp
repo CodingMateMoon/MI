@@ -120,8 +120,14 @@ function validate() {
 					<span class="icon-calendar"></span>그룹관리
 				</h3>
 				<ul>
+
 					<li><a href="<%=request.getContextPath() %>/groupView">그룹관리</a></li>
-					<li><a href="<%=request.getContextPath() %>/chat">채팅관리</a></li>
+					<%if(loginMember!=null){ %>
+					<li><a href="<%=request.getContextPath() %>/chatroomList?memberId=<%=loginMember.getMemberId()%>">채팅관리</a></li>
+					<%} else { %>
+					<li><a href="<%=request.getContextPath() %>/loginAlert">채팅관리</a></li>
+					
+					<%} %>
 					<li><a href="#">투표관리</a></li>
 				</ul>
 			</li>
