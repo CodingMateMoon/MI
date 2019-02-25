@@ -59,6 +59,8 @@ section{
 }
 
 #accordian li.active ul {
+	
+
 	display: block;
 }
 
@@ -101,7 +103,7 @@ section{
 }
 
 footer{
-	background-color:#333333;clear:both;
+	background-color:#383e49;clear:both;
 	height:50px;text-align:center;
 	width:100%;
 	padding-top:5px;
