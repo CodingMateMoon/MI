@@ -48,4 +48,10 @@ public class EventService {
 		close(conn);
 		return list;
 	}
+	/*
+	 * public List<Event> detailEvent(String eventId){ Connection
+	 * conn=getConnection(); List<Event> list = dao.detailEvent(conn, eventId);
+	 * close(conn); return list; }
+	 */
+	
 }
