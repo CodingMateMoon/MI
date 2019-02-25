@@ -16,9 +16,9 @@
   height: 400px;
   z-index: 15;
   top: 45%;
-  left: 32%;
+  left: 40%;
   margin: -200px 0 0 -150px;
- /*  border: 2px solid yellow; */
+  border: 2px solid gray;
   }
   #title{
   	width: 230px;
