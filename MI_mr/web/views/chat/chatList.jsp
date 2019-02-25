@@ -61,7 +61,7 @@
 			
 			<tr>
 				<td align='right' cellpadding=0 cellspacing=0 >
-					<img src="<%=request.getContextPath() %>/views/image/plus.png" width="30px" id="plus"/>
+					<img src="<%=request.getContextPath() %>/views/image/plus.png" onclick="addChatroom();" width="30px" id="plus"/>
 				</td>
 			</tr>
 			
@@ -108,5 +108,14 @@
 			chatForm.submit(); */
 			/* form.after($("#teduri")).submit(); */
 		})
+		
+		function addChatroom() {
+			
+			var url = "<%=request.getContextPath()%>/addChatroom";
+			console.log(url);
+			var option = "left=100px, top=0px, width=500px, height=700px, menubar=no, toolbar=no, status=no, scrollbars=yes";		
+			window.open(url, "", option);
+		}
+		
 	</script>
 <%@ include file="/views/common/footer.jsp" %>
