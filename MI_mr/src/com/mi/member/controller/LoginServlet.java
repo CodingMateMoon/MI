@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 			{
 				msg="환영합니다~~";
 				HttpSession session=request.getSession();
-				session.setAttribute("loginMember", m);
+				session.setAttribute("loginMember", result);
 				
 				String saveId=request.getParameter("saveId");
 				if(saveId!=null)

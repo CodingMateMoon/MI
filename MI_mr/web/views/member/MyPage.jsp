@@ -10,6 +10,9 @@
 	#memberId_{
 		background-color:lightgray;
 	}
+	#email{
+		background-color:lightgray;
+	}
 	#enroll-container{
 	 position: absolute;
   width: 260px;
@@ -45,7 +48,7 @@
 		<tr>
 			<th>이메일</th>
 			<td>
-				<input type="email" placeholder="abc@dse.com" name="email" id="email" value="<%=m.getEmail()%>"/>
+				<input type="email" placeholder="abc@dse.com" name="email" id="email" value="<%=m.getEmail()%>" readonly/>
 			</td>
 		</tr>
 		<tr>
@@ -66,7 +69,7 @@
 		function fn_changePw(){
 			var url="<%=request.getContextPath()%>/changePassword?memberId=<%=m.getMemberId()%>";
 			var title="changePassword";
-			var option="left=500px, top=100px, width=400px, height=210px, menubar=no, status=no, scrollbars=yes";
+			var option="left=500px, top=100px, width=480px, height=210px, menubar=no, status=no, scrollbars=yes";
 			var popup=window.open(url,title,option);
 			checkIdDuplicateFrm.password.value=password;
 			checkIdDuplicateFrm.target=title;

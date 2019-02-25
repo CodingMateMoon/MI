@@ -21,7 +21,8 @@ import common.wrapper.EncryptWrapper;
 				"LoginServlet",
 				"MemberJoinEndServlet",
 				"MemberUpdateEndServlet",
-				"ChangePasswordEndServlet"
+				"ChangePasswordEndServlet",
+				"pwChangeEndServlet"
 				
 		}
 		)
