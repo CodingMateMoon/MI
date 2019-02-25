@@ -37,23 +37,13 @@ function validate() {
 	return true;
 }
 
-<%-- function id_pw_forget(){
-	var url="<%=request.getContextPath()%>/IdPwForget";
-	var title="idpwforget";
-	var option="left=500px, top=100px, width=500px, height=400px, menubar=no, status=no, scrollbars=yes";
-	var popup=window.open("",title,option);
-	id_pw_forgetFrm.target=title;
-	id_pw_forgetFrm.action=url;
-	id_pw_forgetFrm.method="post";
-	id_pw_forgetFrm.submit();
-} --%>
 </script>
 <style>
 input[type="checkbox"]#menu_state {
   display: none;
 }
 input[type="checkbox"]:checked ~ nav {
-  width: 250px;
+  width: 210px;
 }
 input[type="checkbox"]:checked ~ nav label[for="menu_state"] i::before {
   content: "\f053";
@@ -82,6 +72,7 @@ nav {
   width: 50px;
   font-family: 'Bahnschrift', sans-serif;
   font-weight: lighter;
+  font-size:12px;
   transition: all 0.15s ease-in-out;
 }
 nav label[for="menu_state"] i {
@@ -212,6 +203,7 @@ main section h1 {
   font-weight: lighter;
 }
 
+
 </style>
 <link rel='stylesheet' href='<%=request.getContextPath()%>/css/style.css' type='text/css' />
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -222,7 +214,7 @@ main section h1 {
 	<li>
 	</li>
 		<li data-content="5" class="active unread">
-			<a href="javascript:void(0)">
+			<a href="<%=request.getContextPath()%>/muchInformation">
 				<i class="fas fa-users"></i>
 				<span>Much Information</span>
 			</a>
