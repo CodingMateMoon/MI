@@ -1,6 +1,7 @@
 package com.mi.event.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Event {
 	private String eventId;
@@ -29,6 +30,9 @@ public class Event {
 		this.prepairingId = prepairingId;
 	}
 
+	
+
+	
 	public String getEventId() {
 		return eventId;
 	}
@@ -49,8 +53,8 @@ public class Event {
 		return startDate;
 	}
 
-	public void setStartDate(Date date) {
-		this.startDate = date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	public Date getEndDate() {
@@ -99,6 +103,8 @@ public class Event {
 				+ ", groupId=" + groupId + ", memo=" + memo + ", filePath=" + filePath + ", prepairingId="
 				+ prepairingId + "]";
 	}
+
+
 
 	
 	

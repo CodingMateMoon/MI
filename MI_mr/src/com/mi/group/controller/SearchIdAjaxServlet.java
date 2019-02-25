@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.mi.group.model.service.GroupService;
-import com.mi.group.model.vo.Group;
 
 /**
- * Servlet implementation class GroupViewServlet
+ * Servlet implementation class SearchIdAjaxServlet
  */
-@WebServlet("/groupView")
-public class GroupViewServlet extends HttpServlet {
+@WebServlet("/member/selectId.do")
+public class SearchIdAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GroupViewServlet() {
+    public SearchIdAjaxServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +31,20 @@ public class GroupViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	String memberId=request.getParameter("memberId");
-		
-		List<Group> groupList=new GroupService().selectAllGroup(memberId);
-		
-		request.setAttribute("memberId", memberId);
-		request.setAttribute("groupList",groupList);
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		String search=request.getParameter("search");
 		
 		
-		request.getRequestDispatcher("/views/group/groupView.jsp").forward(request, response);
+		List<String> isList=new GroupService().selectId(search);
+
+			
+		response.setContentType("application/json;charset=UTF-8");
+		new Gson().toJson(isList, response.getWriter());		
+		
+		
+		
+		
 	}
 
 	/**
