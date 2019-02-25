@@ -42,7 +42,7 @@ public class EventUpdateServlet extends HttpServlet {
   
       int maxSize=1024*1024*10;
       
-      MultipartRequest mr=new MultipartRequest(request,dir,maxSize,"UTF-8",new DefaultFileRenamePolicy());
+      MultipartRequest mr=new MultipartRequest(request,filePath,maxSize,"UTF-8",new DefaultFileRenamePolicy());
       
       Event e=new Event();
       
