@@ -36,6 +36,7 @@ public class CommentInsertServlet extends HttpServlet {
 		int eventCommentRef = Integer.parseInt(request.getParameter("eventCommentRef"));
 		
 		EventComment comment = new EventComment();
+		System.out.println("servlet에서 찍은 eventId : "+eventRef);
 		comment.setEventRef(eventRef);
 		comment.setEventCommentContent(eventCommentContent);
 		comment.setEventCommentLevel(eventCommentLevel);
@@ -48,10 +49,10 @@ public class CommentInsertServlet extends HttpServlet {
 		String view="/views/common/msg.jsp";
 		String loc="/detail/detailAll?no="+eventRef;
 		if(result>0) {
-			msg="등 록 성 공";
+			msg="등록 성공";
 		}
 		else {
-			msg="등 록 실 패";
+			msg="등록 실패";
 		}
 	
 		

@@ -42,11 +42,11 @@ public class CommentDeleteServlet extends HttpServlet {
 		String view="/views/common/msg.jsp";
 		if(result>0) {
 			msg="댓글이 삭제되었습니다.";
-		//	loc="/board/boardView?no="+boardNo;
+		//	loc="/detail/detailAll?no="+??;
 		}
 		else {
 			msg="댓글 삭제가 실패하였습니다.";
-		//	loc="/board/boardView?no="+boardNo;
+		//	loc="/detail/detailAll?no="+??;
 		}
 		
 		

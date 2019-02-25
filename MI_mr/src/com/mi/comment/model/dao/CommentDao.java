@@ -28,7 +28,7 @@ public class CommentDao {
 		PreparedStatement pstmt=null;
 		int result = 0;
 		String sql=prop.getProperty("insertComment");
-		//System.out.println(sql+":"+comment);
+		System.out.println(sql+":"+comment);
 		try {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, comment.getEventCommentLevel());
@@ -37,7 +37,7 @@ public class CommentDao {
 			pstmt.setString(4, comment.getEventRef());
 			//5번이 중요한데 여기에다가 null값을 넣어야함 숫자는 null이 없음 그래서 string으로 넣을겁니다
 			pstmt.setString(5, comment.getEventCommentRef()==0?null:String.valueOf(comment.getEventCommentRef()));
-
+			//pstmt.setInt(5, comment.getEventCommentRef());
 			result=pstmt.executeUpdate();
 		}
 		catch(SQLException e) {
