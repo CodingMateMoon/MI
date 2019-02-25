@@ -57,6 +57,8 @@ public class EventDao {
 		PreparedStatement pstmt=null;
 		int result=0;
 		String sql=prop.getProperty("insertEvent");
+		System.out.println("insertEvent----");
+		System.out.println(e);
 		try {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, e.getTitle());
@@ -112,5 +114,33 @@ public class EventDao {
 		return e;
 	}
 	
+	public List<Event> selectMemberEvent(Connection conn, String memberId){
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+ 		List<Event> list=new ArrayList<Event>();
+		String sql=prop.getProperty("selectMemberEvent");
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Event e=new Event();
+				e.setEventId(rs.getString("event_id"));
+				e.setTitle(rs.getString("title"));
+				e.setStartDate(rs.getDate("start_date"));
+				e.setEndDate(rs.getDate("end_date"));
+				e.setGroupId(rs.getString("group_id"));
+				e.setMemo(rs.getString("memo"));
+				e.setFilePath(rs.getString("file_path"));
+				e.setPrepairingId(rs.getString("prepairing_id"));
+				list.add(e);
+			}
+		}catch(Exception e) {e.printStackTrace();}
+		finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
 	
 }

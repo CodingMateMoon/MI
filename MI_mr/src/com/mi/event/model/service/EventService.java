@@ -42,4 +42,10 @@ public class EventService {
 		return e;
 	}
 	
+	public List<Event> selectMemberEvent(String memberId){
+		Connection conn=getConnection();
+		List<Event> list=dao.selectMemberEvent(conn,memberId);
+		close(conn);
+		return list;
+	}
 }

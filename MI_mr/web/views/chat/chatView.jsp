@@ -12,25 +12,28 @@
 %>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/chatroom.css">
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.css">
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/chatroom.css">
 <title>실시간 채팅</title>
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.js"></script>
+<script src="<%=request.getContextPath() %>/js/jquery-3.3.1.min.js"></script>
+<script src="<%=request.getContextPath() %>/js/bootstrap.js"></script>
 
 </head>
 
 <script>
 	$(function(){
 		
-		<%for (Chat c : list) {
-			 String tempContent = c.getChatContent();
-			 //tempContent = tempContent.replaceAll("′","'"); // 치환된 작은따옴표 원래 작은따옴표로 환원처리
-			 tempContent = tempContent.replaceAll("\n","<br>"); // 줄바꿈처리
-			 tempContent = tempContent.replaceAll("\u0020","&nbsp;"); // 스페이스바로 띄운 공백처리
-		%>
-		addChat('<%=c.getMemberName()%>', '<%=tempContent%>','<%=c.getChatTime()%>');
-		<%} %>
+		<%
+		if (list != null) {
+			for (Chat c : list) {
+				 String tempContent = c.getChatContent();
+				 //tempContent = tempContent.replaceAll("′","'"); // 치환된 작은따옴표 원래 작은따옴표로 환원처리
+				 tempContent = tempContent.replaceAll("\n","<br>"); // 줄바꿈처리
+				 tempContent = tempContent.replaceAll("\u0020","&nbsp;"); // 스페이스바로 띄운 공백처리
+			%>
+			addChat('<%=c.getMemberName()%>', '<%=tempContent%>','<%=c.getChatTime()%>');
+			<%} 
+		}%>
 	});
 </script>
 <body>

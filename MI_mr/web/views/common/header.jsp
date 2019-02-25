@@ -310,7 +310,7 @@ main section h1 {
                </a>
             </li>
             <li>
-               <a href="<%=request.getContextPath()%>/detailSchedule?memberID=<%=loginMember.getMemberId()%>">
+               <a href="<%=request.getContextPath()%>/detailAll?memberId=<%=loginMember.getMemberId()%>">
                <i class="fas fa-clipboard-list"></i>
                <span>detailed Schedule</span>
                </a>
@@ -319,7 +319,7 @@ main section h1 {
          </ul>
       </li>
       <li>
-         <a href="<%=request.getContextPath() %>/groupView">
+         <a href="<%=request.getContextPath() %>/groupView?memberId=<%=loginMember.getMemberId()%>">
             <i class="fas fa-users"></i>
             <span>My Group</span>
          </a>

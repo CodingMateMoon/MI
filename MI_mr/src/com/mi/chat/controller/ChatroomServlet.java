@@ -37,13 +37,13 @@ public class ChatroomServlet extends HttpServlet {
 		List<Chat> list = new ChatService().selectAllChat(chatroomId);
 		System.out.println(list);
 		String msg = "";
-		String loc = "/";
+		String loc = "/views/chat/chatView.jsp?chatroomId=" + chatroomId;
 		String view;
 		if (list.size() > 0) {
 			
 			view = "/views/chat/chatView.jsp?chatroomId=" + chatroomId;
 		} else {
-			msg = "채팅방이 존재하지 않습니다";
+			msg = "채팅이 존재하지 않습니다";
 			view = "views/common/msg.jsp";
 		}
 		

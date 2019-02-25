@@ -35,7 +35,6 @@ public class GroupViewServlet extends HttpServlet {
 		
 		List<Group> groupList=new GroupService().selectAllGroup(memberId);
 		
-		
 		request.setAttribute("memberId", memberId);
 		request.setAttribute("groupList",groupList);
 		
