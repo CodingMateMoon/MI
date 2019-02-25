@@ -70,5 +70,5 @@ margin-left: 5%;
     </div>
   </div>
 </body>
-
 <%@ include file="/views/common/footer.jsp" %>
+
