@@ -1,6 +1,7 @@
 package com.mi.comment.model.service;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.mi.comment.model.dao.CommentDao;
 import com.mi.comment.model.vo.EventComment;
@@ -22,9 +23,9 @@ public class CommentService {
 		return result;
 	}
 
-	public int deleteComment(int delNo) {
+	public int deleteComment(int eventCommentNo) {
 		Connection conn=getConnection();
-		int result = dao.deleteComment(conn, delNo);
+		int result = dao.deleteComment(conn, eventCommentNo);
 		if(result>0) {
 			commit(conn);
 		}
@@ -33,6 +34,13 @@ public class CommentService {
 		}
 		close(conn);
 		return result;
+	}
+	
+	public List<EventComment> commentList(String eventId){
+		Connection conn=getConnection();
+		List<EventComment> list=dao.commentList(conn, eventId);
+		close(conn);
+		return list;
 	}
 
 

@@ -1,12 +1,14 @@
 package com.mi.comment.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.mi.comment.model.service.CommentService;
 import com.mi.comment.model.vo.EventComment;
 
@@ -45,20 +47,7 @@ public class CommentInsertServlet extends HttpServlet {
 		
 		int result = new CommentService().insertComment(comment);
 		
-		String msg="";
-		String view="/views/common/msg.jsp";
-		String loc="/detail/detailAll?no="+eventRef;
-		if(result>0) {
-			msg="등록 성공";
-		}
-		else {
-			msg="등록 실패";
-		}
-	
-		
-		request.setAttribute("msg", msg);
-		request.setAttribute("loc", loc);
-		request.getRequestDispatcher(view).forward(request, response);
+		new Gson().toJson(result,response.getWriter());
 	
 	}
 
