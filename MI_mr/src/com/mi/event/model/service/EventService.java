@@ -53,5 +53,11 @@ public class EventService {
 		close(conn);
 		return list;
 	}
+	public List<Event> selectGroupEvent(String memberId, String groupId){
+		Connection conn=getConnection();
+		List<Event> list=dao.selectGroupEvent(conn, memberId,groupId);
+		close(conn);
+		return list;
+	}
 	
 }
