@@ -15,7 +15,7 @@ String groupId=(String)request.getAttribute("groupId");
   top: 45%;
   left: 32%;
   margin: -200px 0 0 -150px;
-  border: 2px solid red;
+ /*  border: 2px solid red; */
   }
  
  #glist
@@ -23,12 +23,12 @@ String groupId=(String)request.getAttribute("groupId");
  	overflow-x:hidden;
  	width: 300px;
  	height: 400px;
- 	border: 2px solid blue;
+ 	/* border: 2px solid blue; */
  }
  #changeView{
  	width:350px;
  	height: 400px;
- 	border: 2px solid yellow;
+ 	/* border: 2px solid yellow; */
  	position:absolute;
  }
  .inline
@@ -92,7 +92,7 @@ String groupId=(String)request.getAttribute("groupId");
 
 	function fn_memberList(){
 		$.ajax({
-			url:"<%=request.getContextPath()%>/memberView.do?groupId=<%=g.getGroup()%>",
+			url:"<%=request.getContextPath()%>/memberView.do<%-- ?groupId=<%=g.getGroup()%> --%>",
 			success:function(data){
 				$('#changeView').html(data);
 			}

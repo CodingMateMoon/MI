@@ -18,7 +18,7 @@
   top: 45%;
   left: 32%;
   margin: -200px 0 0 -150px;
-  border: 2px solid yellow;
+ /*  border: 2px solid yellow; */
   }
   #title{
   	width: 230px;
@@ -34,7 +34,7 @@
   	width: 146px;
   }
   #inteduri{
-   border: 2px solid red; 
+  /*  border: 2px solid red;  */
    height: 200px;
   }
   #area{
@@ -43,25 +43,25 @@
   }
   #memberSel
   {
-  	 border: 1px solid black; 
+  	 /* border: 1px solid black;  */
   	height:100px;
   }
   #date-container
   {
-  	border: 1px solid blue;
+  	/* border: 1px solid blue; */
   	width : 540px;
-  	style='overflow-x:hidden;'
+  	overflow-x:hidden;
   }
   #nameUpdate
   {
-  	border: 1px solid green;
+  	/* border: 1px solid green; */
   	width : 330px;
   	height: 150px;
   	
   }
 	#btndiv
 	{
-		border: 1px solid red;
+		/* border: 1px solid red; */
 		width: 133px;
   		height: 40px;
   		float:right;

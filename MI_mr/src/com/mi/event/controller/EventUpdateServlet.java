@@ -43,7 +43,7 @@ public class EventUpdateServlet extends HttpServlet {
 		String filePath=dir+"upload" + File.separator + "event";
 		
 		
-		int maxSize=1024*1024*30;
+		int maxSize=1024*1024*100;
 		
 		MultipartRequest mr = null;
 		File file = null;
