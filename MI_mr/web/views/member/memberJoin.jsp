@@ -71,10 +71,75 @@
 		checkEmailDuplicateFrm.method="post";
 		checkEmailDuplicateFrm.submit();
 	}
+	function historyBack(){
+		history.go(-1);
+	}
 
 </script>
 <style>
-	#enroll-container{
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  font-weight: 300;
+}
+body ::-webkit-input-placeholder {
+  /* WebKit browsers */
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  font-weight: 300;
+}
+body :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  opacity: 1;
+  font-weight: 300;
+}
+body ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  opacity: 1;
+  font-weight: 300;
+}
+body :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  font-weight: 300;
+}
+.wrapperjw {
+  background: linear-gradient(to bottom right, #d0d0d0 0%, #000000 100%);
+  position: absolute;
+  top: 45%;
+  left: 0;
+  width: 100%;
+  height: 400px;
+  margin-top: -200px;
+  overflow: hidden;
+}
+.wrapperjw.form-success .container h1 {
+  -webkit-transform: translateY(85px);
+      -ms-transform: translateY(85px);
+          transform: translateY(85px);
+}
+.containerjw {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 50px 0;
+  height: 350px;
+  text-align: center;
+}
+.containerjw h1 {
+  margin:10px;
+  font-size: 35px;
+  font-weight: 200;
+}
+/* 	#enroll-container{
 	 position: absolute;
   width: 350px;
   height: 300px;
@@ -84,7 +149,7 @@
   margin: -200px 0 0 -150px;
   text-align: center;
   border: 2px solid black;
-  }
+  } */
   
   #mailcodeEnd_span{
   	border: 0px;
@@ -92,19 +157,27 @@
     color: blue;
     width: 60px;
   }
+  input[type=submit],[type=reset],[type=button]{
+    background-color: #bbc7d896;
+    border: 0;
+    color: white;
+    cursor: pointer;
+  }
 </style>
 
-<section id="enroll-container">
+<div class="wrapperjw">
+<div class="containerjw">
+<!-- <section id="enroll-container"> -->
 	<h2 id=hjw>회원가입 정보 입력</h2>
-	<form name="memberEnrollFrm"action="<%=request.getContextPath() %>/memberJoinEnd" onsubmit="return fn_enroll_validate()" method="post">
-	<table>
+	<form name="memberEnrollFrm" id="memberEnrollFrm" action="<%=request.getContextPath() %>/memberJoinEnd" onsubmit="return fn_enroll_validate()" method="post">
+	<table align="center">
 		<tr>
 			<th>
 				아이디
 			</th>
 			<td>
 				<input type="text" name="memberId" id="memberId_" required placeholder="4글자 이상 입력">
-				<input type="button" value="중복검사" onclick="fn_checkIdDuplicate()"/>
+				<input type="button" value="중복검사" onclick="fn_checkIdDuplicate()" />
 				<input type="hidden" name="memberId"/>
 			</td>
 		</tr>
@@ -153,8 +226,10 @@
 		
 	</table>
 	<input type="submit" value="가입"/>
-	<input type="reset" value="취소"/>
+	<input type="reset" value="취소" onclick="historyBack()"/>
 	</form>
+	</div>
+	</div>
 	<form name="checkIdDuplicateFrm" method="post">
 		<input type="hidden" name="memberId"/>
 	</form>
@@ -165,6 +240,6 @@
 	</form>
 
 	
-</section>
+<!-- </section> -->
 
 <%@ include file="/views/common/footer.jsp" %>

@@ -31,27 +31,30 @@
 		}
 
 	</script>
-	<style>
-  #mailcodeEnd_span{
-  	border: 0px;
-    pointer-events: none;
-    color: blue;
-    width: 60px;
-  }
-</style>
+	
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
 <title>회원가입 폼</title>
 <style>
-* {margin: 0 auto;}
+  #mailcodeEnd_span{
+  	border: 0px;
+    pointer-events: none;
+    color: blue;
+    width: 60px;
+  }
 a {color:#333; text-decoration: none;}
-.find {text-align:center; width:500px; margin-top:30px; }
+.idFind {text-align:center; width:500px; margin-top:80px; margin-left:25%}
+.pwFind {text-align:center; width:500px; margin-top:30px; margin-left:25%}
+table{
+margin-left:12%
+}
 </style>
 </head>
 <body>
-  <div class="find">
+
+  <div class="idFind">
     <form method="post" action="<%=request.getContextPath()%>/id_find">
       <h1>회원계정 찾기</h1>
       </br>
@@ -73,7 +76,7 @@ a {color:#333; text-decoration: none;}
       </fieldset>
     </form>
   </div>
-  <div class="find">
+  <div class="pwFind">
       <form method="post" action="<%=request.getContextPath()%>/pwFind" name="pwFindFrm" onsubmit="return pwFind_mailCheck()">
         <fieldset>
           <legend>비밀번호 찾기</legend>
