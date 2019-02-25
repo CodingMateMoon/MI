@@ -21,16 +21,16 @@ import com.mi.group.model.service.GroupService;
 import com.mi.group.model.vo.Group;
 
 /**
- * Servlet implementation class CalendarDefaultServlet
+ * Servlet implementation class CalendarGroupsServlet
  */
-@WebServlet("/calendar/defaultAjax.do")
-public class CalendarDefaultServlet extends HttpServlet {
+@WebServlet("/calendar/groupsAjax.do")
+public class CalendarGroupsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CalendarDefaultServlet() {
+    public CalendarGroupsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,7 +41,7 @@ public class CalendarDefaultServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String memberId=request.getParameter("memberId");
 		System.out.println(memberId);
-		List<Event> eventList=new EventService().selectAllEvent(memberId);
+		List<Event> eventList=new EventService().selectGroupsEvent(memberId);
 		List<Group> groupList=new GroupService().selectAllGroup(memberId);
 		System.out.println(eventList);
 		Date today=new Date();
@@ -86,6 +86,7 @@ public class CalendarDefaultServlet extends HttpServlet {
 		json.put("groupJArr", groupJArr);
 		
 		new Gson().toJson(json,response.getWriter());
+		
 	}
 
 	/**

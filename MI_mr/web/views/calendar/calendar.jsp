@@ -7,7 +7,7 @@
 <script src='<%=request.getContextPath() %>/js/moment.min.js'></script>
 <script src='<%=request.getContextPath() %>/js/jquery.min.js'></script>
 <script src='<%=request.getContextPath() %>/js/fullcalendar.min.js'></script>
-
+<script src='<%=request.getContextPath() %>/js/moment.js'></script>
 
 <script>
 <%
@@ -19,6 +19,7 @@ List<Group> groupList=(List<Group>)request.getAttribute("groupList");
 //그룹이름:색  key-value로 맵에 저장
 Map<String, String> map=new HashMap<String, String>();
 String Gcolor="";
+
 for(int i=0;i<eventList.size();i++){
 	if(eventList.get(i).getGroupId()==null){
 		eventList.get(i).setGroupId(memberId);
@@ -38,6 +39,27 @@ for(int i=0;i<eventList.size();i++){
 	}
 	
 }
+ 
+
+String htmlStr="";
+	htmlStr+="<tr>";
+	htmlStr+="<td class='choice_container'>";
+	htmlStr+="<ul id='choice_GroupMember'>";
+	htmlStr+="<li><span onclick='fn_defaultCal_ajax()' style='cursor:pointer;font:16px;'>Schedule</span></li>";
+	htmlStr+="<li><span onclick='fn_memberCal_ajax()' style='color:"+map.get(memberId)+";cursor:pointer'>My schedule</span> </li>";
+	htmlStr+="<li id='groupSchedule'><span onclick='fn_groupsCal_ajax()' style='cursor:pointer;font:16px'>Group Schedule</span>";
+	htmlStr+="<ul id='group_container'>";
+	for(Group g : groupList){
+	htmlStr+="<li><span style='color:"+map.get(g.getGroupId())+"; cursor:pointer'>"+g.getGroupName()+"</span></li>";
+}
+	htmlStr+="</ul>";
+	htmlStr+="</li>";
+	htmlStr+="</ul>";
+	htmlStr+="</td>";
+	htmlStr+="<td>";
+	htmlStr+="<div id='calendar'></div>";
+	htmlStr+="</td>";
+	htmlStr+="</tr>";
 %>
 
   $(document).ready(function() {
@@ -69,22 +91,9 @@ for(int i=0;i<eventList.size();i++){
 	
     
     var htmlStr="";
-    htmlStr+="<tr>";
-   	htmlStr+="<td>";
-   	htmlStr+="<ul id='group_container'>";
-   	htmlStr+="<li><b>GroupList</b></li>";
-   	htmlStr+="<li><span onclick='fn_memberCal_ajax()' style='color:<%=map.get(memberId)%>;cursor:pointer;'>My schedule</span> </li>";
-   	<%for(Group g : groupList){%>
-   	htmlStr+="<li ><span style='color:<%=map.get(g.getGroupId())%>; cursor:pointer'><%=g.getGroupName() %></span></li>";
-   	<%}%>
-   	htmlStr+="</ul>";
-   	htmlStr+="</td>";
-   	htmlStr+="<td>";
-   	htmlStr+="<div id='calendar'></div>";
-   	htmlStr+="</td>";
-   	htmlStr+="</tr>";
-   	$('.content_container').html(htmlStr);
-   
+
+   <%-- 	$('.content_container').html("<%=htmlStr%>");
+    --%>
    	$('#calendar').fullCalendar({
         header: {
           left: 'prev',
@@ -123,9 +132,12 @@ for(int i=0;i<eventList.size();i++){
   	width:80%;
   	float:right;
   }
-  #group_container{
-  	display:inline-block;
+  #choice_GroupMember{
+  	display:block;
   	border:1px solid lightgray;
+  }
+  .choice_container ul {
+  	display:block;
   	list-style:none;
   	max-width:150px;
   	height:180px;
@@ -134,23 +146,31 @@ for(int i=0;i<eventList.size();i++){
   	margin:0px;
   	padding:0px;
   }
-  #group_container li{
+  .choice_container ul li{
   	padding:6px;
   }
-  #group_container li span{
+  .choice_container ul li span{
   	width:150px; 
-  	font-size : 14px;
+  	font-size : 15px;
   	text-decoration:none;
   }
-  #group_container li span:hover, ul li span:focus {
+  .choice_container ul li span:hover, ul li span:focus {
   	border:1px solid lightgray;
   	font:bold;
   }
-  #group_container li span.now {
-	color:#fff;
-	background-color:#f40;
+  .choice_container ul li span.now {
 	border:1px solid #f40;
 }
+
+.choice_container ul li ul li{
+	display: none;
+}
+.group_container{
+	display: none;
+}
+.choice_container ul li#groupSchedule{ transition:all 0.5s;}
+.choice_container ul li#groupSchedule:hover ul li{ transition: all 0.5s; display:block; }
+
   	
 
 </style>
@@ -160,27 +180,148 @@ for(int i=0;i<eventList.size();i++){
 
 <body>
 <table class="content_container">
-<%-- <tr>
-<td>
-	<ul id="group_container">
-		<li><b>Group List</b></li>
-		<li><span onclick="fn_memberCal_ajax()" style="color:<%=map.get(memberId)%>;cursor:pointer;">My schedule</span> </li>
-		<%
-			for(Group g : groupList){
-		%>
-		<li ><span style="color:<%=map.get(g.getGroupId())%>; cursor:pointer"><%=g.getGroupName() %></span></li>
-		<%} %>
+<tr>
+<td class="choice_container">
+	<ul id="choice_GroupMember">
+		<li><span onclick="fn_defaultCal_ajax()" style="cursor:pointer;font:16px;">Schedule</span></li>
+		<li><span onclick="fn_memberCal_ajax()" style="color:<%=map.get(memberId)%>;cursor:pointer;font:16px">My schedule</span> </li>
+		<li id="groupSchedule"><span onclick="fn_groupsCal_ajax()" style="cursor:pointer;font:16px">Group Schedule</span>
+			<ul id="group_container">
+			<%
+				for(Group g : groupList){
+			%>
+			<li ><span style="color:<%=map.get(g.getGroupId())%>; cursor:pointer"><%=g.getGroupName() %></span></li>
+			<%} %>
+			</ul>
+		</li>
 	</ul>
+	
 </td>
 <td>
   	<div id='calendar'></div>
 </td>
-</tr> --%>
+</tr>
 </table>
 <script>
+function fn_defaultCal_ajax(){
+	$.ajax({
+		type:"get",
+		url:"<%=request.getContextPath()%>/calendar/defaultAjax.do",
+		data:{"memberId":'<%=loginMember.getMemberId()%>'},
+		dataType:"json",
+		contentType:'application/json',
+		success:function(data){
+			var memberEventDataset=[];
+			var colorMap={};
+			
+			for(var i=0; i<data.eventJArr.length;i++){
+				var groupId=data.eventJArr[i].groupId;
+				switch(groupId){
+				case "G1" : Gcolor="#F1A94E"; colorMap["G1"]=Gcolor;break;
+				case "G2" : Gcolor="#E45641"; colorMap["G2"]=Gcolor;break;
+				case "G3" : Gcolor="#5D4C46"; colorMap["G3"]=Gcolor;break;
+				case "G4" : Gcolor="#7B8D8E"; colorMap["G4"]=Gcolor;break;
+				case "G5" : Gcolor="#6F3662"; colorMap["G5"]=Gcolor;break;
+				case "G6" : Gcolor="#90909D"; colorMap["G6"]=Gcolor;break;
+				}
+				memberEventDataset.push(
+					{
+						"id":data.eventJArr[i].eventId,
+						"title":data.eventJArr[i].title,
+						"start":moment(data.eventJArr[i].startDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
+						"end":moment(data.eventJArr[i].endDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
+						"color":colorMap[data.eventJArr[i].groupId]
+					}
+					);
+			}
+			
+		   	$('.content_container').html("<%=htmlStr%>");
+		   
+		   	$('#calendar').fullCalendar({
+		        header: {
+		          left: 'prev',
+		          center: 'title',
+		          right: 'today, next'
+		        },
+		        defaultDate: '<%=defaultToday%>',
+		        navLinks: false, // can click day/week names to navigate views
+		        editable: true,
+		        eventLimit: true, // allow "more" link when too many events
+		        events:memberEventDataset,
+		        eventClick: function(event) {
+		      	    console.log(event);
+		      	    
+		      	  }
+		      });
+			
+		},
+		error:function(request,status,error){
+			alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+
+		}
+	}); 
+	}
+function fn_groupsCal_ajax(){
+	$.ajax({
+		type:"get",
+		url:"<%=request.getContextPath()%>/calendar/groupsAjax.do",
+		data:{"memberId":'<%=loginMember.getMemberId()%>'},
+		dataType:"json",
+		contentType:'application/json',
+		success:function(data){
+			var memberEventDataset=[];
+			var colorMap={};
+			
+			for(var i=0; i<data.eventJArr.length;i++){
+				var groupId=data.eventJArr[i].groupId;
+				switch(groupId){
+				case "G1" : Gcolor="#F1A94E"; colorMap["G1"]=Gcolor;break;
+				case "G2" : Gcolor="#E45641"; colorMap["G2"]=Gcolor;break;
+				case "G3" : Gcolor="#5D4C46"; colorMap["G3"]=Gcolor;break;
+				case "G4" : Gcolor="#7B8D8E"; colorMap["G4"]=Gcolor;break;
+				case "G5" : Gcolor="#6F3662"; colorMap["G5"]=Gcolor;break;
+				case "G6" : Gcolor="#90909D"; colorMap["G6"]=Gcolor;break;
+				}
+				memberEventDataset.push(
+					{
+						"id":data.eventJArr[i].eventId,
+						"title":data.eventJArr[i].title,
+						"start":moment(data.eventJArr[i].startDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
+						"end":moment(data.eventJArr[i].endDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
+						"color":colorMap[data.eventJArr[i].groupId]
+					}
+					);
+			}
+			
+		   	$('.content_container').html("<%=htmlStr%>");
+		   
+		   	$('#calendar').fullCalendar({
+		        header: {
+		          left: 'prev',
+		          center: 'title',
+		          right: 'today, next'
+		        },
+		        defaultDate: '<%=defaultToday%>',
+		        navLinks: false, // can click day/week names to navigate views
+		        editable: true,
+		        eventLimit: true, // allow "more" link when too many events
+		        events:memberEventDataset,
+		        eventClick: function(event) {
+		      	    console.log(event);
+		      	    
+		      	  }
+		      });
+			
+		},
+		error:function(request,status,error){
+			alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+
+		}
+	}); 
+	}
+
+
 	function fn_memberCal_ajax(){
-		
-		<%List<Event> memberEventList=new ArrayList<Event>();%>  
 		
 		$.ajax({
 			type:"get",
@@ -189,59 +330,25 @@ for(int i=0;i<eventList.size();i++){
 			dataType:"json",
 			contentType:'application/json',
 			success:function(data){
+				var memberEventDataset=[];
+				for(var i=0; i<data.eventJArr.length;i++){
+					var groupId=data.eventJArr[i].groupId;
+					memberEventDataset.push(
+						{
+							"id":data.eventJArr[i].eventId,
+							"title":data.eventJArr[i].title,
+							"start":moment(data.eventJArr[i].startDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
+							"end":moment(data.eventJArr[i].endDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
+							"color":'#44B3C2'
+						}
+						);
+				}
 				
-				<%-- for(var i=0;i<data.eventJArr.length;i++){
-					console.log(data.eventJArr[i].eventId);
-					<% memberEventList.add(data.eventJArr[i]);%>
-					
-				} 
-				<%System.out.println(memberEventList);%> --%>
+				console.log(data.eventJArr[1].startDate);
+			 	console.log(moment(data.eventJArr[1].startDate,"M월 DD,YYYY").format("YYYY-MM-DD")); 
+				console.log(memberEventDataset);
 				
-			
-<%-- 				var memberEventDataset=[
-				
-				
-		<%
-			for(int i=0;i<memberEventList.length;i++){
-				if(i<memberEventList.length-1){
-		%>
-					{
-						"id":"'"+data.eventJArr[i].eventId+"'",
-						"title":"'"+data.eventJArr[i].title+"'",
-						"start":"'"+data.eventJArr[i].startDate+"'",
-						"end":"'"+data.eventJArr[i].endDate+"'",
-						"color":"'"+map.get(data.eventJArr[i].groupId)%>+"'"
-					},
-					<%
-					}else{%>
-					{
-						"id":"'"+data.eventJArr[i].eventId+"'",
-						"title":"'"+data.eventJArr[i].title+"'",
-						"start":"'"+data.eventJArr[i].startDate+"'",
-						"end":"'"+data.eventJArr[i].endDate+"'",
-						"color":"'"+map.get(data.eventJArr[i].groupId)%>+"'"
-					}
-				<%}
-			}%>
-		];
-				
-			    
-			    var htmlStr="";
-			    htmlStr+="<tr>";
-			   	htmlStr+="<td>";
-			   	htmlStr+="<ul id='group_container'>";
-			   	htmlStr+="<li><b>GroupList</b></li>";
-			   	htmlStr+="<li><span onclick='fn_memberCal_ajax()' style='color:<%=map.get(memberId)%>;cursor:pointer;'>My schedule</span> </li>";
-			   	<%for(Group g : groupList){%>
-			   	htmlStr+="<li ><span style='color:<%=map.get(g.getGroupId())%>; cursor:pointer'><%=g.getGroupName() %></span></li>";
-			   	<%}%>
-			   	htmlStr+="</ul>";
-			   	htmlStr+="</td>";
-			   	htmlStr+="<td>";
-			   	htmlStr+="<div id='calendar'></div>";
-			   	htmlStr+="</td>";
-			   	htmlStr+="</tr>";
-			   	$('.content_container').html(htmlStr);
+			   	$('.content_container').html("<%=htmlStr%>");
 			   
 			   	$('#calendar').fullCalendar({
 			        header: {
@@ -259,7 +366,7 @@ for(int i=0;i<eventList.size();i++){
 			      	    
 			      	  }
 			      });
-			--%>	
+				
 			},
 			error:function(request,status,error){
 				alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리

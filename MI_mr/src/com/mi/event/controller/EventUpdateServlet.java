@@ -70,7 +70,7 @@ public class EventUpdateServlet extends HttpServlet {
        catch (Exception e1) {e1.printStackTrace(); }
        
        String groupId=new GroupService().selectGroupId(mr.getParameter("groupList"));
-       System.out.println("group_id:::::::::::::::::"+groupId);
+       
       e.setGroupId(groupId);
       e.setMemo(mr.getParameter("memo"));
       e.setFilePath(mr.getParameter("filePath"));
