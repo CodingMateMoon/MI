@@ -4,6 +4,7 @@
 <%
 String memberId=(String)request.getAttribute("memberId");
 List<Group> groupList=(List)request.getAttribute("groupList");
+String groupId=(String)request.getAttribute("groupId");
 %>
 <style>
  #teduri{
@@ -91,7 +92,7 @@ List<Group> groupList=(List)request.getAttribute("groupList");
 
 	function fn_memberList(){
 		$.ajax({
-			url:"<%=request.getContextPath()%>/memberView.do",
+			url:"<%=request.getContextPath()%>/memberView.do?groupId=<%=g.getGroup()%>",
 			success:function(data){
 				$('#changeView').html(data);
 			}

@@ -20,6 +20,8 @@ public class GroupService {
 		return groupList;
 	}
 	
+	/* public List<Group> groupMember(String ) */
+	
 	public List<String> selectId(String search)
 	{
 		Connection conn=getConnection();

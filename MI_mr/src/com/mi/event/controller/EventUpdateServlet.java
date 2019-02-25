@@ -2,9 +2,11 @@ package com.mi.event.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,12 +43,57 @@ public class EventUpdateServlet extends HttpServlet {
 		String filePath=dir+"upload" + File.separator + "event";
 		
 		
-		int maxSize=1024*1024*10;
+		int maxSize=1024*1024*30;
 		
-		MultipartRequest mr=new MultipartRequest(request,filePath,maxSize,"UTF-8",new DefaultFileRenamePolicy());
+		MultipartRequest mr = null;
+		File file = null;
 		
-		Event e=new Event();
+		// multipart request 객체 생성
+		try {
+			mr = new MultipartRequest(request,filePath,maxSize,"UTF-8",new DefaultFileRenamePolicy());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
+		//업로드 실패시
+		if(mr == null) {
+			response.setContentType("text/html; charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("<script>alert('업로드실패'); location.href='/';</script>");
+            return;
+		}
+		//업로드 성공시
+		Enumeration forms = mr.getFileNames();
+		/*
+		 * String fileName = ""; String formName = "";
+		 */
+		String fileNames = "";
+//		List<String> fileNames=new ArrayList<>();
+		boolean flagFirst = true;
+		while (forms.hasMoreElements()) {
+			/*
+			 * formName = (String)forms.nextElement();
+			 * 
+			 * fileName = mr.getFilesystemName(formName)
+			 */// 실제 업로드된 파일명
+			            
+			/*
+			 * if(fileName != null) // 파일이 업로드 되면 { file = mr.getFile(formName); //파일 객체 생성
+			 * } //파일 저장
+			 */        
+			 if (flagFirst) {
+				 fileNames = mr.getFilesystemName((String)forms.nextElement());
+				 flagFirst = false;
+			 } else
+				 fileNames += "," + mr.getFilesystemName((String)forms.nextElement());
+			 
+		}  
+		System.out.println("fileNames : " + fileNames);
+			 
+		
+		Event e=new Event(); //form 에 썼던 데이터를 저장하는 이벤트
+		
+		//DB에 저장할 때 데이터 세팅
 		e.setEventId(mr.getParameter("eventId"));
 		e.setTitle(mr.getParameter("title"));
 		String memberId=mr.getParameter("memberId");
@@ -71,27 +118,21 @@ public class EventUpdateServlet extends HttpServlet {
 		 catch (Exception e1) {e1.printStackTrace(); }
 		 
 		System.out.println(e.getEndDate());
-		//SimpDateFormat 문제뜨는중
 		e.setGroupId(mr.getParameter("groupList"));
 		e.setMemo(mr.getParameter("memo"));
-		e.setFilePath(mr.getParameter("filePath"));
-		
+		e.setFilePath(fileNames);
+		System.out.println("servlet : " + fileNames);
 		e.setPrepairingId(mr.getParameter("memberId"));
 		
-		String fileName=mr.getFilesystemName("up_file");
+		/* fileNames=mr.getFilesystemName("up_file"); */
 		
-		File f=mr.getFile("up_file");
-		if(f!=null&&f.length()>0)
-		{
-			File deleFile=new File(filePath+"/"+mr.getParameter("old_file"));
-			boolean result=deleFile.delete();
-		}
-		else
-		{
-			fileName=mr.getParameter("old_file");
-		}
 		
-		e.setFilePath(fileName);
+		//파일처리
+		/*
+		 * File f=mr.getFile("up_file"); if(f!=null&&f.length()>0) { File deleFile=new
+		 * File(filePath+"/"+mr.getParameter("old_file")); boolean
+		 * result=deleFile.delete(); } else { fileName=mr.getParameter("old_file"); }
+		 */
 		
 		System.out.println(e);
 		int result=new EventService().insertEvent(e);

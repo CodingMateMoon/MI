@@ -55,6 +55,8 @@ public class EventDao {
 		PreparedStatement pstmt=null;
 		int result=0;
 		String sql=prop.getProperty("insertEvent");
+		System.out.println("insertEvent----");
+		System.out.println(e);
 		try {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, e.getTitle());

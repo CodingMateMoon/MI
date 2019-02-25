@@ -1,11 +1,16 @@
 package com.mi.group.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.mi.group.model.service.GroupService;
+import com.mi.group.model.vo.Group;
 
 /**
  * Servlet implementation class GroupMemberViewServlet
@@ -27,9 +32,13 @@ public class GroupMemberViewServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String memberId=request.getParameter("memberId");
+		String groupId=request.getParameter("groupId");
+		List<Group> groupMemberList=new GroupService().selectAllGroup(memberId);
+		
+		request.setAttribute("memberId", memberId);
+		
 		request.getRequestDispatcher("/views/group/gMemberList.jsp").forward(request, response);
-		
-		
 	}
 
 	/**

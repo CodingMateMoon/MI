@@ -70,7 +70,7 @@
 </style>
 <section id="calUpdate-container">
 <div id="teduri">
-<form action="<%=request.getContextPath()%>/eventUpDate" method="post" enctype="multipart/form-data">
+<form name="eventViewForm" action="<%=request.getContextPath()%>/eventUpDate" method="post" enctype="multipart/form-data">
 	<div id="nameUpdate" >
 	<input type="hidden" id="memberId" name="memberId" value=<%=memberId %> />
 		제목 <input type="text" id="title" name="title" autocomplete="off"/>
@@ -113,7 +113,7 @@
 			<tr>
 				<th>파일업로드</th>
 				<td>
-					<input type="file" name="up_file" />
+					<input type="file" name="up_file" multiple />
 				</td>
 			</tr>
 		</table>
@@ -139,5 +139,38 @@
 	}
 
 
+	<%-- $(function(){
+		$("[name=up_file]").change(function(){
+			$.each(eventViewForm.up_file.files, function(index, item){
+				console.log(item);
+			var reader = new FileReader();
+			reader.onload=function(e){
+				var img = $("<img></img>").attr("src",e.target.result).css({'width':'100px','height':'100px'});
+				$('#image').append(img);
+						
+			}
+			reader.readAsDataURL(item);
+		});
+		});
+		$('#eUpdate').on("click", function(){
+			var fd=new FormData();
+	
+			$.each(eventViewForm.up_file.files, function(i, item){
+				fd.append("test"+i,item);
+			});
+			$.ajax({
+				url: "<%=request.getContextPath()%>/eventUpDate",
+				data : fd,
+				type : "post",
+				processData : false,
+				contentType : false,
+				success : function(data) {
+				alert("업로드 완료");
+				$('#image').html('');
+				$('[name=ajaxFileTest]').val('');
+			}
+		});
+	});
+}); --%>
 </script>
 <%@ include file="/views/common/footer.jsp" %>
