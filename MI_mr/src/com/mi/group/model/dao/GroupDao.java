@@ -9,9 +9,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import com.mi.event.model.dao.EventDao;
 import com.mi.group.model.vo.Group;
+import com.mi.group.model.vo.GroupByMember;
+
 import static common.JDBCTemplate.close;
 public class GroupDao {
 	private Properties prop=new Properties();
@@ -44,6 +47,38 @@ public class GroupDao {
 		}
 		return list;
 	}
+	
+	public List<GroupByMember> groupMemberList(Connection conn,String groupName)
+	{
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql=prop.getProperty("groupMemberList");
+		List<GroupByMember> list=new ArrayList<GroupByMember>();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, groupName);
+			rs=pstmt.executeQuery();
+			while(rs.next())
+			{
+				GroupByMember gbm=new GroupByMember();
+				gbm.setGroupId(rs.getString("group_id"));
+				gbm.setMemberId(rs.getString("member_id"));
+				list.add(gbm);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+	
+	
 	
 	public List<String> selectId(Connection conn, String search)
 	{

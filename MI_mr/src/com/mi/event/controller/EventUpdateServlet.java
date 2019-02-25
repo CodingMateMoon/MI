@@ -16,8 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mi.event.model.service.EventService;
 import com.mi.event.model.vo.Event;
+import com.mi.group.model.service.GroupService;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+import oracle.net.aso.s;
 /**
  * Servlet implementation class CalendarUpdateServlet
  */
@@ -67,26 +70,11 @@ public class EventUpdateServlet extends HttpServlet {
 		/*
 		 * String fileName = ""; String formName = "";
 		 */
-		String fileNames = "";
-//		List<String> fileNames=new ArrayList<>();
+
+		List<String> fileNames=new ArrayList<>();
 		boolean flagFirst = true;
 		while (forms.hasMoreElements()) {
-			/*
-			 * formName = (String)forms.nextElement();
-			 * 
-			 * fileName = mr.getFilesystemName(formName)
-			 */// 실제 업로드된 파일명
-			            
-			/*
-			 * if(fileName != null) // 파일이 업로드 되면 { file = mr.getFile(formName); //파일 객체 생성
-			 * } //파일 저장
-			 */        
-			 if (flagFirst) {
-				 fileNames = mr.getFilesystemName((String)forms.nextElement());
-				 flagFirst = false;
-			 } else
-				 fileNames += "," + mr.getFilesystemName((String)forms.nextElement());
-			 
+			fileNames.add(mr.getFilesystemName((String)forms.nextElement()));	 
 		}  
 		System.out.println("fileNames : " + fileNames);
 			 
@@ -94,7 +82,7 @@ public class EventUpdateServlet extends HttpServlet {
 		Event e=new Event(); //form 에 썼던 데이터를 저장하는 이벤트
 		
 		//DB에 저장할 때 데이터 세팅
-		e.setEventId(mr.getParameter("eventId"));
+		/* e.setEventId(mr.getParameter("eventId")); */
 		e.setTitle(mr.getParameter("title"));
 		String memberId=mr.getParameter("memberId");
 		e.setPrepairingId(memberId);
@@ -118,7 +106,8 @@ public class EventUpdateServlet extends HttpServlet {
 		 catch (Exception e1) {e1.printStackTrace(); }
 		 
 		System.out.println(e.getEndDate());
-		e.setGroupId(mr.getParameter("groupList"));
+		
+		e.setGroupId(mr.getParameter("groupList").trim());
 		e.setMemo(mr.getParameter("memo"));
 		e.setFilePath(fileNames);
 		System.out.println("servlet : " + fileNames);
