@@ -2,7 +2,6 @@ package com.mi.event.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mi.event.model.service.EventService;
 import com.mi.event.model.vo.Event;
+import com.mi.group.model.service.GroupService;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 /**
@@ -39,8 +39,7 @@ public class EventUpdateServlet extends HttpServlet {
       String dir=getServletContext().getRealPath("/");
       System.out.println(dir);
       String filePath=dir+"upload" + File.separator + "event";
-      
-      
+  
       int maxSize=1024*1024*10;
       
       MultipartRequest mr=new MultipartRequest(request,dir,maxSize,"UTF-8",new DefaultFileRenamePolicy());
@@ -70,12 +69,11 @@ public class EventUpdateServlet extends HttpServlet {
        }
        catch (Exception e1) {e1.printStackTrace(); }
        
-      System.out.println(e.getEndDate());
-      //SimpDateFormat 문제뜨는중
-      e.setGroupId(mr.getParameter("groupList"));
+       String groupId=new GroupService().selectGroupId(mr.getParameter("groupList"));
+       System.out.println("group_id:::::::::::::::::"+groupId);
+      e.setGroupId(groupId);
       e.setMemo(mr.getParameter("memo"));
       e.setFilePath(mr.getParameter("filePath"));
-      
       e.setPrepairingId(mr.getParameter("memberId"));
       
       String fileName=mr.getFilesystemName("up_file");
@@ -108,6 +106,7 @@ public class EventUpdateServlet extends HttpServlet {
       {
          msg="이벤트 등록 실패";
       }
+      System.out.println(e);
       
       
       
