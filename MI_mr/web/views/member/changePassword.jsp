@@ -61,6 +61,27 @@ div#changePassword-container table tr:last-of-type td {
 			}
 			return true;
 		}
+		
+		$(function(){
+			$('#password_ck').blur(function(){
+				var password_new=$('#password_new').val();
+				var password_ck=$('#password_ck').val();
+				var passwordFlag=/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+
+				if(!passwordFlag.test($('#password_new').val())){
+					alert('적어도 하나 이상의 영문 소문자, 숫자, 특수문자가 포함되어야 하며 길이는 8~15글자입니다.');
+					$('#password_new').val('');
+		            $('#password_ck').val('');
+		            $('#password_new').focus();
+		         }
+				if(password_new.trim()!=password_ck.trim()){
+					alert("비밀번호가 다릅니다.");
+					$('#password_new').focus();
+					$('#password_new').val('');
+					$('#password_ck').val('');
+				}
+			});
+		});
 	</script>
 
 </body>
