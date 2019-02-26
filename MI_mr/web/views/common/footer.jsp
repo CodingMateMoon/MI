@@ -5,3 +5,5 @@
 	<p>&lt;Copyright 2019. <strong>Much Information</strong>. 
 	ALL rights reserved.&gt;</p>
 </footer>
+</body>
+</html>

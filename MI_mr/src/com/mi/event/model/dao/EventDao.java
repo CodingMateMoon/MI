@@ -22,6 +22,7 @@ public class EventDao {
 			prop.load(new FileReader(fileName));
 		}catch(Exception e) {e.printStackTrace();}
 	}
+	
 	public List<Event> selectAllEvent(Connection conn,String memberId){
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
@@ -41,7 +42,7 @@ public class EventDao {
 				e.setGroupId(rs.getString("group_id"));
 				e.setMemo(rs.getString("memo"));
 				if(rs.getString("file_path")!=null) {
-					e.setFilePath(Arrays.asList(rs.getString("file_path").split(",")));
+					e.setFilePath(rs.getString("file_path"));
 				}
 				e.setPrepairingId(rs.getString("prepairing_id"));
 				list.add(e);
@@ -61,8 +62,8 @@ public class EventDao {
 		String sql=prop.getProperty("insertEvent");
 		System.out.println("insertEvent----");
 		System.out.println(e);
-		String[] files=new String[e.getFilePath().size()];
-		String transfiles=String.join(",", e.getFilePath().toArray(files));
+		
+
 		try {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, e.getTitle());
@@ -70,7 +71,7 @@ public class EventDao {
 			pstmt.setDate(3, (Date)e.getEndDate());
 			pstmt.setString(4, e.getGroupId());
 			pstmt.setString(5, e.getMemo());
-			pstmt.setString(6,transfiles );
+			pstmt.setString(6,e.getFilePath() );
 			pstmt.setString(7, e.getPrepairingId());
 			
 			result=pstmt.executeUpdate();
@@ -85,37 +86,104 @@ public class EventDao {
 		}
 		return result;
 	}
-	public Event detailEvent(Connection conn, String eventId){
-		PreparedStatement pstmt = null;
+	
+	
+	
+	  public Event detailEvent(Connection conn, String eventId){ PreparedStatement
+	  pstmt = null; ResultSet rs=null; Event e =null; String
+	  sql=prop.getProperty("detailEvent"); try { pstmt=conn.prepareStatement(sql);
+	  pstmt.setString(1, eventId); rs=pstmt.executeQuery(); if(rs.next()) { e=new
+	  Event(); e.setEventId(rs.getString("event_id"));
+	  e.setTitle(rs.getString("title")); e.setStartDate(rs.getDate("start_date"));
+	  e.setEndDate(rs.getDate("end_date")); e.setGroupId(rs.getString("group_id"));
+	  e.setMemo(rs.getString("memo")); e.setFilePath(rs.getString("file_path"));
+	  e.setPrepairingId(rs.getString("prepairing_id")); } } catch(Exception ex) {
+	  ex.printStackTrace(); } finally { close(rs); close(pstmt); } return e; }
+	 
+	
+	public List<Event> selectMemberEvent(Connection conn, String memberId){
+		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		Event e =null;
-		String sql=prop.getProperty("detailEvent");
+ 		List<Event> list=new ArrayList<Event>();
+		String sql=prop.getProperty("selectMemberEvent");
+		
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, eventId);
+			pstmt.setString(1, memberId);
 			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				e=new Event();
+			while(rs.next()) {
+				Event e=new Event();
 				e.setEventId(rs.getString("event_id"));
 				e.setTitle(rs.getString("title"));
 				e.setStartDate(rs.getDate("start_date"));
 				e.setEndDate(rs.getDate("end_date"));
 				e.setGroupId(rs.getString("group_id"));
 				e.setMemo(rs.getString("memo"));
-				if(rs.getString("file_path")!=null) {
-					e.setFilePath(Arrays.asList(rs.getString("file_path").split(",")));
-				}
+				e.setFilePath(rs.getString("file_path"));
 				e.setPrepairingId(rs.getString("prepairing_id"));
+				list.add(e);
 			}
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-		}
+		}catch(Exception e) {e.printStackTrace();}
 		finally {
 			close(rs);
 			close(pstmt);
 		}
-		return e;
+		return list;
 	}
-	
+	public List<Event> selectGroupsEvent(Connection conn, String memberId){
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+ 		List<Event> list=new ArrayList<Event>();
+		String sql=prop.getProperty("selectGroupsEvent");
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Event e=new Event();
+				e.setEventId(rs.getString("event_id"));
+				e.setTitle(rs.getString("title"));
+				e.setStartDate(rs.getDate("start_date"));
+				e.setEndDate(rs.getDate("end_date"));
+				e.setGroupId(rs.getString("group_id"));
+				e.setMemo(rs.getString("memo"));
+				e.setFilePath(rs.getString("file_path"));
+				e.setPrepairingId(rs.getString("prepairing_id"));
+				list.add(e);
+			}
+		}catch(Exception e) {e.printStackTrace();}
+		finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+	public List<Event> selectGroupEvent(Connection conn, String memberId, String groupId){
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+ 		List<Event> list=new ArrayList<Event>();
+		String sql=prop.getProperty("selectGroupEvent");
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Event e=new Event();
+				e.setEventId(rs.getString("event_id"));
+				e.setTitle(rs.getString("title"));
+				e.setStartDate(rs.getDate("start_date"));
+				e.setEndDate(rs.getDate("end_date"));
+				e.setGroupId(rs.getString("group_id"));
+				e.setMemo(rs.getString("memo"));
+				e.setFilePath(rs.getString("file_path"));
+				e.setPrepairingId(rs.getString("prepairing_id"));
+				list.add(e);
+			}
+		}catch(Exception e) {e.printStackTrace();}
+		finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
 }

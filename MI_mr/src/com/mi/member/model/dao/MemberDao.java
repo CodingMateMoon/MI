@@ -134,4 +134,81 @@ private Properties prop=new Properties();
 		}
 		return result;
 	}
+	public Member FindId(Connection conn,Member m)
+	{
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql=prop.getProperty("findId");
+		Member result=null;
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, m.getMemberName());
+			pstmt.setString(2, m.getEmail());
+			rs=pstmt.executeQuery();
+			if(rs.next())
+			{
+				result=new Member();
+				result.setMemberId(rs.getString("member_id"));
+				result.setMemberName(rs.getString("member_name"));
+				result.setEmail(rs.getString("email"));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	public int PwFindChange(Connection conn, Member m) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql=prop.getProperty("PwFindChange");
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, m.getPassword());
+			pstmt.setString(2, m.getMemberId());
+			pstmt.setString(3, m.getEmail());
+			result=pstmt.executeUpdate();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	public Member FindPw(Connection conn,Member m)
+	{
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql=prop.getProperty("findPw");
+		Member result=null;
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, m.getMemberId());
+			pstmt.setString(2, m.getEmail());
+			rs=pstmt.executeQuery();
+			if(rs.next())
+			{
+				result=new Member();
+				result.setMemberId(rs.getString("member_id"));
+				result.setEmail(rs.getString("email"));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
 }

@@ -10,7 +10,7 @@ public class Event {
 	private Date endDate;
 	private String groupId;
 	private String memo;
-	private List<String> filePath;
+	private String filePath;
 	private String prepairingId;
 	
 	public Event() {
@@ -18,7 +18,7 @@ public class Event {
 	}
 
 	public Event(String eventId, String title, Date startDate, Date endDate, String groupId, String memo,
-			List<String> filePath, String prepairingId) {
+			String filePath, String prepairingId) {
 		super();
 		this.eventId = eventId;
 		this.title = title;
@@ -30,9 +30,6 @@ public class Event {
 		this.prepairingId = prepairingId;
 	}
 
-	
-
-	
 	public String getEventId() {
 		return eventId;
 	}
@@ -81,11 +78,11 @@ public class Event {
 		this.memo = memo;
 	}
 
-	public List<String> getFilePath() {
+	public String getFilePath() {
 		return filePath;
 	}
 
-	public void setFilePath(List<String> filePath) {
+	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
 
@@ -99,14 +96,11 @@ public class Event {
 
 	@Override
 	public String toString() {
-		return "Event [eventID=" + eventId + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
+		return "Event [eventId=" + eventId + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", groupId=" + groupId + ", memo=" + memo + ", filePath=" + filePath + ", prepairingId="
 				+ prepairingId + "]";
 	}
 
-
-
-	
 	
 	
 }
