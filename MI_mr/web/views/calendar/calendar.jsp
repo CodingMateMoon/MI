@@ -8,6 +8,7 @@
 <script src='<%=request.getContextPath() %>/js/jquery.min.js'></script>
 <script src='<%=request.getContextPath() %>/js/fullcalendar.min.js'></script>
 <script src='<%=request.getContextPath() %>/js/moment.js'></script>
+<script src='<%=request.getContextPath() %>/js/bootstrap.min.js'></script>
 
 <script>
 <%
@@ -91,7 +92,7 @@ String htmlStr="";
     
     var htmlStr="";
 
-   $('.content_container').html("<%=htmlStr%>");
+   <%-- $('.content_container').html("<%=htmlStr%>"); --%>
    
    	$('#calendar').fullCalendar({
         header: {
@@ -104,9 +105,12 @@ String htmlStr="";
         editable: true,
         eventLimit: true, // allow "more" link when too many events
         events:eventDataset,
-        eventClick: function(event) {
-      	    console.log(event);
-      	    event.dialog({modal:true, title: event.title, width:300});
+        eventClick: function(event, jsEvent, view) {
+      	    $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
+            $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
+            $("#eventInfo").html(event.description);
+            $("#eventLink").attr('href', event.url);
+            $("#eventContent").modal();
       	  }
       });
   });
@@ -182,17 +186,11 @@ font-size:12px;
 </style>
 </head>
 
-<!-- 모달창 -->
-<div id="eventContent" title="Event Details" style="display:none;">
-    Start: <span id="startTime"></span><br>
-    End: <span id="endTime"></span><br><br>
-    <p id="eventInfo"></p>
-    <p><strong><a id="eventLink" href="" target="_blank">Read More</a></strong></p>
-</div>
+
 
 <body>
 <table class="content_container">
-<%-- <tr>
+ <tr>
 <td class="choice_container">
 	<ul id="choice_GroupMember">
 		<li><span onclick="fn_defaultCal_ajax()" style="cursor:pointer;font:16px;">Schedule</span></li>
@@ -211,8 +209,16 @@ font-size:12px;
 </td>
 <td>
   	<div id='calendar'></div>
+  	<!-- 모달창 -->
+<div id="eventContent" title="Event Details" style="display:none;" tabindex="-1" role="dialog">
+    <div class="modal"></div>
+    Start: <span id="startTime"></span><br>
+    End: <span id="endTime"></span><br><br>
+    <p id="eventInfo"></p>
+    <p><strong><a id="eventLink" href="" target="_blank">Read More</a></strong></p>
+</div>
 </td>
-</tr> --%>
+</tr>
 </table>
 <script>
 function fn_groupCal_ajax(){
