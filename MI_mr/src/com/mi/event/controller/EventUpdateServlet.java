@@ -103,7 +103,6 @@ public class EventUpdateServlet extends HttpServlet {
 			 java.util.Date util_endDate=new SimpleDateFormat("yy-MM-dd").parse(mr.getParameter("endDate"));
 			 java.sql.Date sql_endDate=new java.sql.Date(util_endDate.getTime());
 			 e.setEndDate(sql_endDate);
-
 		 }
 		 catch (Exception e1) {e1.printStackTrace(); }
 		 
@@ -140,7 +139,6 @@ public class EventUpdateServlet extends HttpServlet {
 		{
 			msg="이벤트 등록 실패";
 		}
-		
 		
 		
 		request.setAttribute("msg", msg);
