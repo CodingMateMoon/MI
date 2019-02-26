@@ -76,7 +76,9 @@ public class EventUpdateServlet extends HttpServlet {
 		while (forms.hasMoreElements()) {
 			fileNames.add(mr.getFilesystemName((String)forms.nextElement()));	 
 		}  
-		System.out.println("fileNames : " + fileNames);
+		String[] files=new String[fileNames.size()];
+		String transfiles=String.join(",", fileNames.toArray(files));
+		System.out.println("fileNames : " + transfiles);
 			 
 		
 		Event e=new Event(); //form 에 썼던 데이터를 저장하는 이벤트
@@ -101,7 +103,6 @@ public class EventUpdateServlet extends HttpServlet {
 			 java.util.Date util_endDate=new SimpleDateFormat("yy-MM-dd").parse(mr.getParameter("endDate"));
 			 java.sql.Date sql_endDate=new java.sql.Date(util_endDate.getTime());
 			 e.setEndDate(sql_endDate);
-
 		 }
 		 catch (Exception e1) {e1.printStackTrace(); }
 		 
@@ -109,7 +110,7 @@ public class EventUpdateServlet extends HttpServlet {
 		
 		e.setGroupId(mr.getParameter("groupList").trim());
 		e.setMemo(mr.getParameter("memo"));
-		e.setFilePath(fileNames);
+		e.setFilePath(transfiles);
 		System.out.println("servlet : " + fileNames);
 		e.setPrepairingId(mr.getParameter("memberId"));
 		
@@ -138,7 +139,6 @@ public class EventUpdateServlet extends HttpServlet {
 		{
 			msg="이벤트 등록 실패";
 		}
-		
 		
 		
 		request.setAttribute("msg", msg);
