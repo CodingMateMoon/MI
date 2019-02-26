@@ -82,40 +82,20 @@
 	</div>
 	<form name=chatForm></form>
 	<script>
-		function randomNum(){
-			var random = (Math.random() * 10000) + 1;
-			console.log(random);
-			return random;
-		}
 		$(".chatroom").click(function(){
-			/* console.log($(this).children("td").text());
-			console.log($(this).children("input").val()); */
-			console.log('chatroomRandomTest : ' + randomNum());
-			console.log($(this).text().trim());
-			console.log($(this).siblings("input").val());
+			
 			var windowName = $(this).text().trim();
 			var chatroomId = $(this).siblings("input").val();
 			var url = "<%=request.getContextPath()%>/chatroom?chatroomId=" + chatroomId;
 			console.log(url);
 			var option = "left=100px, top=0px, width=500px, height=700px, menubar=no, toolbar=no, status=no, scrollbars=yes";		
 			window.open(url, "", option);
-			
-			/* chatForm.target = windowName;
-			chatForm.action = url;
-			chatForm.method = "get";
-			console.log(chatForm);
-			
-			chatForm.submit(); */
-			/* form.after($("#teduri")).submit(); */
 		})
 		
-		function addChatroom() {
-			
+		function addChatroom(){
 			var url = "<%=request.getContextPath()%>/addChatroom";
-			console.log(url);
 			var option = "left=100px, top=0px, width=500px, height=700px, menubar=no, toolbar=no, status=no, scrollbars=yes";		
 			window.open(url, "", option);
 		}
-		
 	</script>
 <%@ include file="/views/common/footer.jsp" %>

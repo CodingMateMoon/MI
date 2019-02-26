@@ -1,156 +1,101 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.mi.member.model.vo.Member"%>
- 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>채팅방 추가</title>
-</head>
-<body>
-
-
-    
-<%
-	Member logginMember=(Member)session.getAttribute("loginMember");
-%>    
+    pageEncoding="UTF-8" import="java.util.*, com.mi.chat.model.vo.Chatroom"%>
+<%@ include file="/views/common/header.jsp" %>
+<% List<Chatroom> list =  (List<Chatroom>) request.getAttribute("list"); %>
 <style>
-	#mList
-	{
-		border: 1px solid red;
-		width: 180px;
-		height: 300px;
-		display: inline-block;
-	}
-	#addM
-	{
-		border: 1px solid blue; 
-		width: 150px;
-		height: 300px;
-		display: inline-block
-	}
-	#teduri2{	
-		border: 1px solid black;
-		width: 350px;
-		height: 400px;
-		
-	}
-	#teduri2{
-		padding-left:5px;
-	}
-	#anteduri
-	{
-		/* border: 1px solid green; */
-		width: 350px;
-		height: 330px;
-	}
-	#gNamebar
-	{
-		width:170px;
-		height: 30px;
-	}
-	#gUpdate
-	{
-		height:35px;
-	}
-	td{
-		padding-left:5px;
-	}
-	h4{
-	margin:0;
-	}
+ #teduri{
+	/* position: relative; */
+	/* width: 50%;
+	height: 50%;
+	top: 10%;
+	margin:0 auto; */
+	
+	/* border: 2px solid red; */
+	overflow: scroll;
+  }
+ 
+ #glist
+ {
+ 	overflow-x:hidden;
+ 	width: 300px;
+ 	height: 400px;
+ 	border: 2px solid blue;
+ }
+ #changeView{
+ 	width:350px;
+ 	height: 400px;
+ 	border: 2px solid yellow;
+ }
+ .inline
+ {
+ 	display: inline-block;
+ 	/* margin: 1em; */
+ }
+ #gth{
+ 	width:290px;
+ 	height : 40px;
+ 	font-size: 1.5em;
+ }
+ 
+ table#chatTable {
+ 	position: relative;
+	width: 50%;
+	height: 50%;
+	
+	margin: 5% auto;
+ 	text-align: center;
+ 	border:1px solid black; 
+ 	border-collapse:collapse;
+ 	
+ }
+ 
+ table#chatTable tr td{
+ 	border:1px solid black;
+ }
 </style>
-
-	<div id="teduri2">
-			<input type="text" id="gNamebar" required placeholder="채팅방 이름" autocomplete="off"/>
+	<div id="teduri">
+		<table id="chatTable">
+			<tr id="gtr">
+				<th id="gth">채팅 목록</th>
+			</tr>
 			
-			<br/>
-			<br>
-			<div id="anteduri" >
-			<div id="mList">
-				<h4>아이디검색/추가</h4>
-				<input type="search" name="searchId" id="searchId" list="datalist" placeholder="아이디검색" autocomplete="off"/>
-			<datalist id="datalist">
-			</datalist>
-			<br/><br/>
-			<h4>추가된 회원</h4>
+			<tr>
+				<td align='right' cellpadding=0 cellspacing=0 >
+					<img src="<%=request.getContextPath() %>/views/image/plus.png" onclick="addChatroom();" width="30px" id="plus"/>
+				</td>
+			</tr>
 			
-			<div id="addmember"></div>
+			<%for (Chatroom room : list) { %>
+			<tr >
+				<td class="chatroom">
+					<%=room.getChatroomName() %>
+				</td>
+				<input type="hidden" value="<%=room.getChatroomId()%>"/>
+			</tr>
 			
-	
-		
-			</div>
-			
-			
+			<%} %>
+			<tr>
+				<td>Test</td>
+			<tr>
+				
+		</table>
 	</div>
-	<div id="buttonTeduri">
-		<button type="button" id="gUpdate">저장</button>
-	</div>
+	<form name=chatForm></form>
 	<script>
-		$(function(){
-			//로그인한 사용자 처음부터 회원으로 등록
-			$('#addmember').append($('<tr><td class="addGroupMember"><%=logginMember.getMemberId()%></td></tr>'));
+		$(".chatroom").click(function(){
 			
-			$('#gUpdate').click(function(){
-				var gName=$('#gNamebar').val();
-				console.log(gName);
-				var members=[];
-				$.each($('.addGroupMember'),function(index,item){
-					members.push(item.innerHTML);
-				});
-				$.ajax({
-					url:"<%=request.getContextPath()%>/addGroupEnd.do",
-					data:{"gName":gName,"members":members},
-					type:"post",
-					success:function(data){
-						console.log(data);
-						location.href="<%=request.getContextPath()%>/groupView?memberId=<%=logginMember.getMemberId()%>";
-					}
-				})
-			});
-			$("#searchId").change(function(){
-				var value=$(this).val();
-				var flag=false;
-				//console.log($('#datalist').children())
-				 $.each($('#datalist').children(),function(index,item){
-					console.log(item);
-					 if(value==item.innerHTML)
-					{
-						flag=true;
-					}
-					 else{alert("아이디를 전부입력하세요");}
-				});
-				if(flag){
-					$('#addmember').append($('<tr><td class="addGroupMember">'+value+'</td></tr>'));
-					$(this).val("");
-					
-					$('.addGroupMember').click(function(){
-						if('<%=logginMember.getMemberId()%>'!=$(this).html())
-						{
-							$(this).parent().remove();					
-						}
-					});
-				}
-			});
-			
-			$("#searchId").keyup(function(){
-				$.ajax({
-					url:"<%=request.getContextPath()%>/member/selectId.do",
-					type:"post",
-					data:{"search":$("#searchId").val()},
-					success:function(data){
-							var html="";
-							for(var i=0;i<data.length;i++)
-							{
-								html+='<option>'+data[i]+"</option>";
-							}
-						$('#datalist').html(html);
-					}
-				});
-			});
-		});	
-	
+			var windowName = $(this).text().trim();
+			var chatroomId = $(this).siblings("input").val();
+			var url = "<%=request.getContextPath()%>/chatroom?chatroomId=" + chatroomId;
+			console.log(url);
+			var option = "left=100px, top=0px, width=500px, height=700px, menubar=no, toolbar=no, status=no, scrollbars=yes";		
+			window.open(url, "", option);
+		})
+		
+		function addChatroom(){
+			var url = "<%=request.getContextPath()%>/addChatroom";
+			var option = "left=100px, top=0px, width=500px, height=700px, menubar=no, toolbar=no, status=no, scrollbars=yes";		
+			window.open(url, "", option);
+		}
 	</script>
-
-</body>
-</html>
+<%@ include file="/views/common/footer.jsp" %>

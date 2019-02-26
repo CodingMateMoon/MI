@@ -80,7 +80,6 @@
         var url = "ws://" + document.location.host +"/MI_mr/broadsocket?username=<%=loginMember.getMemberId()%>";
         console.log(url);
         var webSocket = new WebSocket(url);
-        <%-- var webSocket = new WebSocket("ws://localhost:9090/MI_mr/broadsocket?username=<%=loginMember.getMemberId()%>"); --%>
         var messageTextArea = document.getElementById("messageTextArea");
         //메시지가 오면 messageTextArea요소에 메시지를 추가한다.
         webSocket.onmessage = function processMessge(message){
