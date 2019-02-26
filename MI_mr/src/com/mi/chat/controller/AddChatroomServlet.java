@@ -1,28 +1,23 @@
-package com.mi.group.controller;
+package com.mi.chat.controller;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.mi.group.model.service.GroupService;
-
 /**
- * Servlet implementation class SearchIdAjaxServlet
+ * Servlet implementation class AddChatroomServlet
  */
-@WebServlet("/member/selectId.do")
-public class SearchIdAjaxServlet extends HttpServlet {
+@WebServlet("/addChatroom")
+public class AddChatroomServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchIdAjaxServlet() {
+    public AddChatroomServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,14 +26,7 @@ public class SearchIdAjaxServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		String search=request.getParameter("search");
-		
-		List<String> isList=new GroupService().selectId(search);
-			
-		response.setContentType("application/json;charset=UTF-8");
-		new Gson().toJson(isList, response.getWriter());		
+		request.getRequestDispatcher("views/chat/addChatroom.jsp").forward(request, response);
 	}
 
 	/**
