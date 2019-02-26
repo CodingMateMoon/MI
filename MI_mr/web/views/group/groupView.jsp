@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, com.mi.group.model.vo.Group"%>
+    pageEncoding="UTF-8" import=" java.util.*, com.mi.group.model.vo.Group"%>
 <%@ include file="/views/common/header.jsp" %>
 <%
 String memberId=(String)request.getAttribute("memberId");
 List<Group> groupList=(List)request.getAttribute("groupList");
 String groupId=(String)request.getAttribute("groupId");
+
 %>
 <style>
  #teduri{
@@ -16,6 +17,7 @@ String groupId=(String)request.getAttribute("groupId");
   left: 32%;
   margin: -200px 0 0 -150px;
   border: 1px solid gray;
+  
   }
  
  #glist
@@ -30,6 +32,7 @@ String groupId=(String)request.getAttribute("groupId");
  	height: 400px;
  	/* border: 2px solid yellow; */
  	position:absolute;
+ 	margin-left: 1em;
  }
  .inline
  {
@@ -49,27 +52,32 @@ String groupId=(String)request.getAttribute("groupId");
  }
  a:link{ color: black; text-decoration: none;}
  a:visited { color: black; text-decoration: none;}
-
+#delete-btn{ display:none; }
+table#gList-table tr:hover button#delete-btn{display:inline;}
+table#gList-table tr td.gList-td {width: 50px; height: 35px;}
 </style>
 <section id="groupUpdate-container">
 	<div id="teduri" name="teduri">
 		<div class="inline" id="glist">
-		<table>
-			<tr id="gtr">
+		<table id="gList-table">
+			<tr>
 				<th id="gth">그룹 목록</th>
 			</tr>
                 <%
                 	for(Group g : groupList){
                 %>
                 <tr>
-                	<td align="center">
+                	<td align="center" class="gList-td">
                 	<%-- <a href='<%=request.getContextPath()%>/memberView.do' onclick="fn_memberList()"><%=g.getGroupName() %></a> --%>
                 	<a href='javascript:void(0)' onclick="fn_memberList()"><%=g.getGroupName() %></a>
                 	</td>
+                	<!-- <td class="gList-td">
+                		<button id="delete-btn" value="" onclik="fn_deleteGroup">삭제</button>
+                	</td> -->
                 </tr>
                 <%} %>
 			<tr>
-				<td align='right' cellpadding=0 cellspacing=0 >
+				<td id="add-btn" align='right' cellpadding=0 cellspacing=0 >
 					<a href="javascript:void(0)" onclick="fn_addGroup()"><img src="<%=request.getContextPath() %>/views/group/plus.png" width="30px" id="plus"></a>
 				</td>
 			</tr>
@@ -88,16 +96,32 @@ String groupId=(String)request.getAttribute("groupId");
 				$('#changeView').html(data);
 			}
 		})
-	}
+	};
 
 	function fn_memberList(){
+		consol.log(this);
 		$.ajax({
-			url:"<%=request.getContextPath()%>/memberView.do<%-- ?groupId=<%=g.getGroup()%> --%>",
+			url:"<%=request.getContextPath()%>/memberView.do?groupName=<%=groupList %>",
 			success:function(data){
 				$('#changeView').html(data);
 			}
 		})
+	};
+	
+/* 	function fn_deleteGroup(){
+		
+		var flag=confirm("그룹을 삭제하시겠습니까??");
+		if(flag)
+			{
+				location.href="http//:www.naver.com";
+			}
+		else
+			{
+				return;
+			}
+		
 	}
+ */
 </script>
 
 
