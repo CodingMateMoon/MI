@@ -240,7 +240,7 @@ main section h1 {
    <ul>
    <li>
    </li>
-      <li data-content="5" class="active unread">
+      <li data-content="10" class="active unread">
          <a href="<%=request.getContextPath()%>/muchInformation">
             <i class="fas fa-users"></i>
             <span>Much Information</span>
