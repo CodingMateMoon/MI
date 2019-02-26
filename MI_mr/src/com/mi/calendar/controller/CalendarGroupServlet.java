@@ -21,16 +21,16 @@ import com.mi.group.model.service.GroupService;
 import com.mi.group.model.vo.Group;
 
 /**
- * Servlet implementation class CalendarDefaultServlet
+ * Servlet implementation class CalendarGroupAjaxServlet
  */
-@WebServlet("/calendar/defaultAjax.do")
-public class CalendarDefaultServlet extends HttpServlet {
+@WebServlet("/calendar/groupAjax.do")
+public class CalendarGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CalendarDefaultServlet() {
+    public CalendarGroupServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,8 +40,9 @@ public class CalendarDefaultServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String memberId=request.getParameter("memberId");
-		System.out.println(memberId);
-		List<Event> eventList=new EventService().selectAllEvent(memberId);
+		String groupId=request.getParameter("groupId");
+		System.out.println(memberId+" : "+groupId);
+		List<Event> eventList=new EventService().selectGroupEvent(memberId,groupId);
 		List<Group> groupList=new GroupService().selectAllGroup(memberId);
 		System.out.println(eventList);
 		Date today=new Date();
@@ -85,8 +86,7 @@ public class CalendarDefaultServlet extends HttpServlet {
 		json.put("eventJArr", eventJArr);
 		json.put("groupJArr", groupJArr);
 		
-		new Gson().toJson(json,response.getWriter());
-	}
+		new Gson().toJson(json,response.getWriter());	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
