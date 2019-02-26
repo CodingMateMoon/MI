@@ -26,7 +26,7 @@ public class MemberService {
 		close(conn);
 		return result;
 	}
-	
+
 	public Member selectOne(Member m) {
 		Connection conn=getConnection();
 		Member result=dao.selectOne(conn,m);
@@ -60,6 +60,33 @@ public class MemberService {
 	public int deleteMember(String userId) {
 		Connection conn=getConnection();
 		int result=dao.deleteMember(conn, userId);
+		if(result>0) {
+			commit(conn);
+		}
+		else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public Member FindId(Member m) {
+		Connection conn=getConnection();
+		Member result=dao.FindId(conn,m);
+		close(conn);
+		return result;
+	}
+	
+	public Member FindPw(Member m) {
+		Connection conn=getConnection();
+		Member result=dao.FindPw(conn,m);
+		close(conn);
+		return result;
+	}
+	
+	public int PwFindChange(Member m) {
+		Connection conn=getConnection();
+		int result=dao.PwFindChange(conn,m);
 		if(result>0) {
 			commit(conn);
 		}

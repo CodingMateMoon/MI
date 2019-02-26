@@ -3,49 +3,64 @@
 <header>
 <%@ page import="com.mi.member.model.vo.Member" %>
 
-	<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+   <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 <%
-	Member loginMember = (Member) session.getAttribute("loginMember");
-	Cookie[] cookies = request.getCookies();
-	String saveId = null;
-	if (cookies != null) {
-		for (Cookie c : cookies) {
-			String key = c.getName();
-			String value = c.getValue();
-			if (key.equals("saveId")) {
-				saveId = value;
-				break;
-			}
-		}
-	}
+   Member loginMember = (Member) session.getAttribute("loginMember");
+   Cookie[] cookies = request.getCookies();
+   String saveId = null;
+   if (cookies != null) {
+      for (Cookie c : cookies) {
+         String key = c.getName();
+         String value = c.getValue();
+         if (key.equals("saveId")) {
+            saveId = value;
+            break;
+         }
+      }
+   }
 %>
 
 <script>
 function validate() {
-	var idVal = $('[name=memberId]').val();
-	var pwVal = $('[name=password]').val();
-	if (idVal.trim().length == 0) {
-		alert("하...아이디입력...");
-		$('[name=memberId]').focus();
-		return false;
-	}
-	if (pwVal.trim().length == 0) {
-		alert("하...비번입력...");
-		$('[name=password]').focus();
-		return false;
-	}
-	return true;
+   var idVal = $('[name=memberId]').val();
+   var pwVal = $('[name=password]').val();
+   if (idVal.trim().length == 0) {
+      alert("하...아이디입력...");
+      $('[name=memberId]').focus();
+      return false;
+   }
+   if (pwVal.trim().length == 0) {
+      alert("하...비번입력...");
+      $('[name=password]').focus();
+      return false;
+   }
+   return true;
 }
 
 </script>
 <style>
-input[type="checkbox"]#menu_state {display: none;}
-input[type="checkbox"]:checked ~ nav { width: 250px;}
-input[type="checkbox"]:checked ~ nav label[for="menu_state"] i::before { content: "\f053";}
-input[type="checkbox"]:checked ~ nav ul {  width: 100%;}
-input[type="checkbox"]:checked ~ nav ul li a i {  border-right: 1px solid #2f343e;}
-input[type="checkbox"]:checked ~ nav ul li a span {  opacity: 1;  transition: opacity 0.25s ease-in-out;}
-input[type="checkbox"]:checked ~ main {  left: 250px;}
+input[type="checkbox"]#menu_state {
+  display: none;
+}
+input[type="checkbox"]:checked ~ nav {
+  width: 210px;
+}
+input[type="checkbox"]:checked ~ nav label[for="menu_state"] i::before {
+  content: "\f053";
+}
+input[type="checkbox"]:checked ~ nav ul {
+  width: 100%;
+}
+input[type="checkbox"]:checked ~ nav ul li a i {
+  border-right: 1px solid #2f343e;
+}
+input[type="checkbox"]:checked ~ nav ul li a span {
+  opacity: 1;
+  transition: opacity 0.25s ease-in-out;
+}
+input[type="checkbox"]:checked ~ main {
+  left: 250px;
+}
 nav {
   position: fixed;
   z-index: 9;
@@ -57,6 +72,7 @@ nav {
   width: 50px;
   font-family: 'Bahnschrift', sans-serif;
   font-weight: lighter;
+  font-size:12px;
   transition: all 0.15s ease-in-out;
 }
 nav label[for="menu_state"] i {
@@ -114,7 +130,7 @@ nav ul li.unread:after {
 nav ul li:not(:last-child) {
   border-bottom: none;
 }
- nav ul li.active a {
+nav ul li.active a {
   background: #4c515d;
   color: #fff;
 }
@@ -152,31 +168,30 @@ nav ul li a span {
 }
 
 nav ul ul li a span {
-	color: #9aa3a8;
-	/* text-decoration: none;
-	line-height: 27px;
-	display: block;
-	padding: 0 15px;  */
-	-webkit-transition: all 0.15s;
-	-moz-transition: all 0.15s;
-	-o-transition: all 0.15s;
-	-ms-transition: all 0.15s;
-	transition: all 0.15s;
+   color: #9aa3a8;
+   /* text-decoration: none;
+   line-height: 27px;
+   display: block;
+   padding: 0 15px;  */
+   -webkit-transition: all 0.15s;
+   -moz-transition: all 0.15s;
+   -o-transition: all 0.15s;
+   -ms-transition: all 0.15s;
+   transition: all 0.15s;
 }
 nav ul li ul li{
-	display: none;
+   display: none;
 }
 nav ul li.calendarMenu{ transition:all 0.5s;}
 nav ul li.calendarMenu:hover ul li{ transition: all 0.5s; display:block; background:rgb(40,50,59); }
 
 nav ul ul li a:hover {
-	background: #003545;
-	color:white;
+   background: #003545;
+   color:white;
 }
 nav ul ul li a:hover span {
-	color:white;
+   color:white;
 }
-
 
 main {
   position: absolute;
@@ -215,147 +230,114 @@ main section h1 {
   font-weight: lighter;
 }
 
+
 </style>
 <link rel='stylesheet' href='<%=request.getContextPath()%>/css/style.css' type='text/css' />
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <input type="checkbox" id="menu_state" checked>
 <nav>
-	<label for="menu_state"><i class="fa"></i></label>
-	<ul>
-	<li>
-	
-	<% if(loginMember == null) {%>
-			<form id="loginFrm" action="<%=request.getContextPath()%>/login" method="post" onsubmit="return validate();">
-
-				<table>
-					<!-- 회원가입 : 아이디 비밀번호 생년월일 이름 이메일 전화번호 -->
-					<tr>
-						<td><input id="idjw" type="text" name="memberId" placeholder="아이디" value="<%=saveId != null ? saveId : ""%>" /></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td><input id="pwjw" type="password" name="password" placeholder="비밀번호" /></td>
-					</tr>
-					<tr>
-						<td><input id="loginjoinjw" type="submit" value="login" /></td>
-					</tr>
-					<tr>
-						<td><input id="loginjw" type="button" value="join" onclick="location.href='<%=request.getContextPath()%>/memberJoin'" /> </td>
-					</tr>
-					<tr>
-						<td colspan="2"><input type='checkbox' name="saveId"
-							id="saveId"  <%=saveId != null ? "checked" : ""%> /> <label for="saveId">아이디저장</label></td>
-					</tr>
-				</table>
-			</form>
-			<%}else{ %>
-			<table id='Logged-in'>
-				<tr>
-					<td><%=loginMember.getMemberId()%>님 안녕하세요</td>
-				</tr>
-				<tr>
-					<td>
-						<input id="mypagejw" type="button" value="마이페이지"
-						onclick="location.href='<%=request.getContextPath()%>/updateMember?memberId=<%=loginMember.getMemberId()%>'" />
-						<input id="logoutjw" type="button" value="로그아웃"
-						onclick="location.href='<%=request.getContextPath()%>/logout'" />
-					</td>
-				</tr>
-			</table>
-			<%} %>
-	</li>
-		<li data-content="5" class="active unread">
-			<a href="<%=request.getContextPath()%>">
-				<i class="fas fa-users"></i>
-				<span>Much Information</span>
-			</a>
-		</li>
-		<%if(loginMember==null){ %>
-		<li>
-			<a href="javascript:void(0)">
-				<i class="fas fa-key"></i>
-				<span>Login/Join</span>
-			</a>
-		</li>
-		<li>
-			<a href="<%=request.getContextPath()%>/loginAlert">
-				<i class="fas fa-calendar-times"></i>
-				<span>My Calendar</span>
-			</a>
-		</li>
-		<li>
-			<a href="<%=request.getContextPath()%>/loginAlert">
-				<i class="fas fa-users"></i>
-				<span>My Group</span>
-			</a>
-		</li>
-		<li>
-			<a href="<%=request.getContextPath()%>/loginAlert">
-				<i class="fas fa-comments"></i>
-				<span>Chat</span>
-			</a>
-		</li>
-		<li data-content="2" class="unread">
-			<a href="<%=request.getContextPath()%>/loginAlert">
-				<i class="fa fa-trash"></i>
-				<span>추가할거있으면 ㄱㄱ</span>
-			</a>
-		</li>
-		<%}else{ %>
-		<li>
-			<a href=href='<%=request.getContextPath()%>/updateMember?memberId=<%=loginMember.getMemberId()%>'>
-				<i class="fas fa-unlock-alt"></i>
-				<span>Logout</span>
-			</a>
-		</li>
-		
-		<li>
-			<a href=href='<%=request.getContextPath()%>/updateMember?memberId=<%=loginMember.getMemberId()%>'>
-				<i class="fas fa-user"></i>
-				<span>My page</span>
-			</a>
-		</li>
-		<li class="calendarMenu">
-			<a href="<%=request.getContextPath()%>/showCalendar?memberId=<%=loginMember.getMemberId()%>">
-				<i class="fas fa-calendar-alt"></i>
-				<span>My Calendar</span>
-			</a>
-			<ul>
-				<li>
-					<a href="<%=request.getContextPath()%>/event?memberId=<%=loginMember.getMemberId()%>">
-					<i class="fas fa-calendar-plus"></i>
-					<span>Schedule Addition</span>
-					</a>
-				</li>
-				<li>
-					<a href="<%=request.getContextPath()%>/detailSchedule?memberID=<%=loginMember.getMemberId()%>">
-					<i class="fas fa-clipboard-list"></i>
-					<span>detailed Schedule</span>
-					</a>
-				</li>
-				
-			</ul>
-		</li>
-		<li>
-			<a href="<%=request.getContextPath() %>/groupView">
-				<i class="fas fa-users"></i>
-				<span>My Group</span>
-			</a>
-		</li>
-		<li>
-			<a href="<%=request.getContextPath() %>/chat">
-				<i class="fas fa-comments"></i>
-				<span>Chat</span>
-			</a>
-		</li>
-		<li data-content="2" class="unread">
-			<a href="javascript:void(0)">
-				<i class="fa fa-trash"></i>
-				<span>추가할거있으면 ㄱㄱ</span>
-			</a>
-		</li>
-		<%} %>
-	</ul>
+   <label for="menu_state"><i class="fa"></i></label>
+   <ul>
+   <li>
+   </li>
+      <li data-content="5" class="active unread">
+         <a href="<%=request.getContextPath()%>/muchInformation">
+            <i class="fas fa-users"></i>
+            <span>Much Information</span>
+         </a>
+      </li>
+      <%if(loginMember==null){ %>
+      <li>
+         <a href="<%=request.getContextPath()%>/loginJoin">
+            <i class="fas fa-key"></i>
+            <span>Login/Join</span>
+         </a>
+      </li>
+      <li>
+         <a href="<%=request.getContextPath()%>/IdPwForget">
+            <i class="fas fa-key"></i>
+            <span>Id/Password Forgot</span>
+         </a>
+      </li>
+      <li>
+         <a href="<%=request.getContextPath()%>/loginAlert">
+            <i class="fas fa-calendar-times"></i>
+            <span>My Calendar</span>
+         </a>
+      </li>
+      <li>
+         <a href="<%=request.getContextPath()%>/loginAlert">
+            <i class="fas fa-users"></i>
+            <span>My Group</span>
+         </a>
+      </li>
+      <li>
+         <a href="<%=request.getContextPath()%>/loginAlert">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+         </a>
+      </li>
+      <li data-content="2" class="unread">
+         <a href="<%=request.getContextPath()%>/loginAlert">
+            <i class="fa fa-trash"></i>
+            <span>추가할거있으면 ㄱㄱ</span>
+         </a>
+      </li>
+      <%}else{ %>
+      <li>
+         <a href="<%=request.getContextPath()%>/logout">
+            <i class="fas fa-unlock-alt"></i>
+            <span>Logout</span>
+         </a>
+      </li>
+      
+      <li>
+         <a href='<%=request.getContextPath()%>/updateMember?memberId=<%=loginMember.getMemberId()%>'>
+            <i class="fas fa-user"></i>
+            <span>My page</span>
+         </a>
+      </li>
+      <li class="calendarMenu">
+         <a href="<%=request.getContextPath()%>/showCalendar?memberId=<%=loginMember.getMemberId()%>">
+            <i class="fas fa-calendar-alt"></i>
+            <span>My Calendar</span>
+         </a>
+         <ul>
+            <li>
+               <a href="<%=request.getContextPath()%>/event?memberId=<%=loginMember.getMemberId()%>">
+               <i class="fas fa-calendar-plus"></i>
+               <span>Schedule Addition</span>
+               </a>
+            </li>
+            <li>
+               <a href="<%=request.getContextPath()%>/detailAll?memberId=<%=loginMember.getMemberId()%>">
+               <i class="fas fa-clipboard-list"></i>
+               <span>detailed Schedule</span>
+               </a>
+            </li>
+            
+         </ul>
+      </li>
+      <li>
+         <a href="<%=request.getContextPath() %>/groupView?memberId=<%=loginMember.getMemberId()%>">
+            <i class="fas fa-users"></i>
+            <span>My Group</span>
+         </a>
+      </li>
+      <li>
+         <a href="<%=request.getContextPath() %>/chatroomList?memberId=<%=loginMember.getMemberId()%>">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+         </a>
+      </li>
+      <li data-content="2" class="unread">
+         <a href="javascript:void(0)">
+            <i class="fa fa-trash"></i>
+            <span>추가할거있으면 ㄱㄱ</span>
+         </a>
+      </li>
+      <%} %>
+   </ul>
 </nav>
 
 </header>

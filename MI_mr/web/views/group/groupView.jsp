@@ -4,6 +4,8 @@
 <%
 String memberId=(String)request.getAttribute("memberId");
 List<Group> groupList=(List)request.getAttribute("groupList");
+String groupId=(String)request.getAttribute("groupId");
+
 %>
 <style>
  #teduri{
@@ -14,7 +16,8 @@ List<Group> groupList=(List)request.getAttribute("groupList");
   top: 45%;
   left: 32%;
   margin: -200px 0 0 -150px;
-  border: 2px solid red;
+  border: 1px solid gray;
+  
   }
  
  #glist
@@ -22,12 +25,14 @@ List<Group> groupList=(List)request.getAttribute("groupList");
  	overflow-x:hidden;
  	width: 300px;
  	height: 400px;
- 	border: 2px solid blue;
+ 	/* border: 2px solid blue; */
  }
  #changeView{
  	width:350px;
  	height: 400px;
- 	border: 2px solid yellow;
+ 	/* border: 2px solid yellow; */
+ 	position:absolute;
+ 	margin-left: 1em;
  }
  .inline
  {
@@ -42,31 +47,38 @@ List<Group> groupList=(List)request.getAttribute("groupList");
  #data{
   RepeatLayout : RepeatLayout.table;
  }
+ a{
+ 	text-decoration:none;
+ }
+ a:link{ color: black; text-decoration: none;}
+ a:visited { color: black; text-decoration: none;}
+#delete-btn{ display:none; }
+table#gList-table tr:hover button#delete-btn{display:inline;}
+table#gList-table tr td.gList-td {width: 50px; height: 35px;}
 </style>
 <section id="groupUpdate-container">
-<form action="<%=request.getContextPath()%>/groupList" method="post">
 	<div id="teduri" name="teduri">
-	<input type="hidden" id="memberId" name="memberId" value=<%=memberId %> />
 		<div class="inline" id="glist">
-		<table width="295px"; height="45px";>
-			<tr id="gtr">
+		<table id="gList-table">
+			<tr>
 				<th id="gth">그룹 목록</th>
 			</tr>
-			<tr>
-				<td align="center">
-					<input type="text" name="groupList" list="data"/>
-				</td>
-			</tr>
-                <datalist id="data">
                 <%
-                	for(int i=0; i<groupList.size();i++){
+                	for(Group g : groupList){
                 %>
-                	<option value=<%=groupList.get(i).getGroupName()%>></option>
+                <tr>
+                	<td align="center" class="gList-td">
+                	<%-- <a href='<%=request.getContextPath()%>/memberView.do' onclick="fn_memberList()"><%=g.getGroupName() %></a> --%>
+                	<a href='javascript:void(0)' onclick="fn_memberList()"><%=g.getGroupName() %></a>
+                	</td>
+                	<!-- <td class="gList-td">
+                		<button id="delete-btn" value="" onclik="fn_deleteGroup">삭제</button>
+                	</td> -->
+                </tr>
                 <%} %>
-                </datalist>
 			<tr>
-				<td align='right' cellpadding=0 cellspacing=0 >
-					<a href="<%=request.getContextPath()%>/groupUpdate"><img src="<%=request.getContextPath() %>/views/group/plus.png" width="30px" id="plus"></a>
+				<td id="add-btn" align='right' cellpadding=0 cellspacing=0 >
+					<a href="javascript:void(0)" onclick="fn_addGroup()"><img src="<%=request.getContextPath() %>/views/group/plus.png" width="30px" id="plus"></a>
 				</td>
 			</tr>
 				
@@ -76,6 +88,42 @@ List<Group> groupList=(List)request.getAttribute("groupList");
 	
 	</div>
 	</div>
-</form>
+<script>
+	function fn_addGroup(){
+		$.ajax({
+			url:"<%=request.getContextPath()%>/addGroup.do",
+			success:function(data){
+				$('#changeView').html(data);
+			}
+		})
+	};
+
+	function fn_memberList(){
+		consol.log(this);
+		$.ajax({
+			url:"<%=request.getContextPath()%>/memberView.do?groupName=<%=groupList %>",
+			success:function(data){
+				$('#changeView').html(data);
+			}
+		})
+	};
+	
+/* 	function fn_deleteGroup(){
+		
+		var flag=confirm("그룹을 삭제하시겠습니까??");
+		if(flag)
+			{
+				location.href="http//:www.naver.com";
+			}
+		else
+			{
+				return;
+			}
+		
+	}
+ */
+</script>
+
+
 </section>
 <%@ include file="/views/common/footer.jsp" %>
