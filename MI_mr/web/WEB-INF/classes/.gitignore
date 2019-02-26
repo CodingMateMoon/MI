@@ -124,4 +124,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/java,eclipse,windows
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/heads/feature_merge
 /sql/

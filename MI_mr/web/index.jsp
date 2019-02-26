@@ -5,64 +5,62 @@
 .container1{
 margin-left: 5%;
 text-align: center;
-img: url("/image/about-bg.jpg");
+background-image : url("<%=request.getContextPath()%>/views/image/about-bg.png");
+background-repeat:no-repeat;
+background-size: 100% 100%;
+padding: 140px 0px;
+width: 100%;
+height: 25%;
+
 }
+
 .container2{
 margin-left: 5%;
 }
+
+body{
+margin-top: 0px;
+margin-right: 0px;
+}
+
 </style>
 
 <body>
  <div class="overlay"></div>
     <div class="container1" >
+    	<div class-"container11">
             <h1>Much Information</h1>
-            <span class="subheading">A Blog Theme by Start Bootstrap</span>
-    </div>
-
+            <span class="subheading">Let's share my schedule</span>
+    	</div>
+	</div>
     <div class="container2">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="post-preview">
+        <div class="Selectlanguage">
+        	<h1>
+        		인사말
+        	</h1>
             <h2 class="post-title">
-              Man must explore, and this is exploration at its greatest
+              	홈페이지 방문을 진심으로 환영합니다.
             </h2>
             <h3 class="post-subtitle">
-              Problems look mighty small from 150 miles up
+              M.I는 사람들의 스케줄을 공유하며 정보를 챙기기 위해 만들어진 기업입니다.
             </h3>
-          <p class="post-meta">Posted by
-            on September 24, 2019</p>
+          <p class="post-meta">
+          	계획적인 시간관리를 필요로 하는 여러분에게 서로 공유하면서 많은 정보들을 얻어 나의 삶을 바꿔볼 수 있으며,
+          	바쁜 현대인들에게 놓치기 쉬운 일정들을 스마트하게 알려주고 서로 공유까지 할 수 있는 너무나도 편리한 M.I 사용해 보시기 바랍니다.<br>
+          	홈페이지가 아직 완벽하지 않으니 불편하시더라도 조금만 참아주세요~~
+          </p>
+          <h4>대표 김 미 리</h4>
         </div>
         <hr>
         <div class="post-preview">
             <h2 class="post-title">
-              I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
+              조직도
             </h2>
-          <p class="post-meta">Posted by
-            on September 18, 2019</p>
+         <img src="<%=request.getContextPath()%>/views/image/조직도.PNG"><br>
         </div>
-        <hr>
-        <div class="post-preview">
-            <h2 class="post-title">
-              Science has not yet mastered prophecy
-            </h2>
-            <h3 class="post-subtitle">
-              We predict too much for the next year and yet far too little for the next ten.
-            </h3>
-          <p class="post-meta">Posted by
-            on August 24, 2019</p>
-        </div>
-        <hr>
-        <div class="post-preview">
-            <h2 class="post-title">
-              Failure is not an option
-            </h2>
-            <h3 class="post-subtitle">
-              Many say exploration is part of our destiny, but it’s actually our duty to future generations.
-            </h3>
-          <p class="post-meta">Posted by
-            on July 8, 2019</p>
-        </div>
-        <hr>
         <!-- Pager -->
         <div class="clearfix">
         </div>
