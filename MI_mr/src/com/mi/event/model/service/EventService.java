@@ -19,6 +19,15 @@ public class EventService {
 		close(conn);
 		return list;
 	}
+	
+	public Event detailEvent(String eventId)
+	{
+		Connection conn=getConnection();
+		Event e=dao.detailEvent(conn, eventId);
+		close(conn);
+		return e;
+	}
+	
 	public int insertEvent(Event e)
 	{
 		Connection conn=getConnection();
@@ -35,12 +44,11 @@ public class EventService {
 		return result;
 	}
 	
-	public Event detailEvent(String eventId){
-		Connection conn=getConnection();
-		Event e = dao.detailEvent(conn, eventId);
-		close(conn);
-		return e;
-	}
+	/*
+	 * public List<Event> detailEvent(String eventId){ Connection
+	 * conn=getConnection(); List<Event> list = dao.detailEvent(conn, eventId);
+	 * close(conn); return list; }
+	 */
 	
 	public List<Event> selectMemberEvent(String memberId){
 		Connection conn=getConnection();

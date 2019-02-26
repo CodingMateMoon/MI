@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.mi.comment.model.service.CommentService;
 
 /**
@@ -28,33 +29,14 @@ public class CommentDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		delNo은 삭제할 댓글 번호
-		int delNo=Integer.parseInt(request.getParameter("delNo"));
-//		이벤트 아이디		
-		int eventId=Integer.parseInt(request.getParameter("eventId"));
 
+		//삭제할 번호 
+		int eventCommentNo=Integer.parseInt(request.getParameter("eventCommentNo"));
+
+		int result = new CommentService().deleteComment(eventCommentNo);
 		
-	
-		int result = new CommentService().deleteComment(delNo);
+		new Gson().toJson(result,response.getWriter());
 		
-		String msg="";
-		String loc="";
-		String view="/views/common/msg.jsp";
-		if(result>0) {
-			msg="댓글이 삭제되었습니다.";
-		//	loc="/detail/detailAll?no="+??;
-		}
-		else {
-			msg="댓글 삭제가 실패하였습니다.";
-		//	loc="/detail/detailAll?no="+??;
-		}
-		
-		
-		request.setAttribute("msg", msg);
-		request.setAttribute("loc", loc);
-		request.getRequestDispatcher(view).forward(request, response);
-	
-	
 	
 	}
 

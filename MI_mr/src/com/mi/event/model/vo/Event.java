@@ -101,11 +101,6 @@ public class Event {
 				+ prepairingId + "]";
 	}
 
-
-
-
-
-	
 	
 	
 }
