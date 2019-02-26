@@ -76,7 +76,9 @@ public class EventUpdateServlet extends HttpServlet {
 		while (forms.hasMoreElements()) {
 			fileNames.add(mr.getFilesystemName((String)forms.nextElement()));	 
 		}  
-		System.out.println("fileNames : " + fileNames);
+		String[] files=new String[fileNames.size()];
+		String transfiles=String.join(",", fileNames.toArray(files));
+		System.out.println("fileNames : " + transfiles);
 			 
 		
 		Event e=new Event(); //form 에 썼던 데이터를 저장하는 이벤트
@@ -109,7 +111,7 @@ public class EventUpdateServlet extends HttpServlet {
 		
 		e.setGroupId(mr.getParameter("groupList").trim());
 		e.setMemo(mr.getParameter("memo"));
-		e.setFilePath(fileNames);
+		e.setFilePath(transfiles);
 		System.out.println("servlet : " + fileNames);
 		e.setPrepairingId(mr.getParameter("memberId"));
 		
