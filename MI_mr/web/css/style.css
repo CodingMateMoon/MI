@@ -114,6 +114,6 @@ footer{
 	text-align:center;
 	width:100%;
 	color:white;
-	position:absolute;
+	position: fixed;
 	bottom:0;
 }
