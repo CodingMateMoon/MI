@@ -10,61 +10,81 @@
 %>
 <%@ include file="/views/common/header.jsp"%>
 <style>
-.slide{
-        width: 500px;
-        height: 800px;
-        overflow: hidden;
-        position: relative;
-        margin: 0 auto;
-      }
-      .slide ul{
-        width: 5000px;
-        position: absolute;
-        top:0;
-        left:0;
-        font-size: 0;
-      }
-      .slide ul li{
-        display: inline-block;
-      }
-      #back{
-        position: absolute;
-        top: 250px;
-        left: 0;
-        cursor: pointer;
-        z-index: 1;
-      }
-      #next{
-        position: absolute;
-        top: 250px;
-        right: 0;
-        cursor: pointer;
-        z-index: 1;
-      }
-div.inline {display: inline-block;}
-#d1 {
-	background-color: lavender; 
+.slide {
+	width: 500px;
+	height: 200px;
+	overflow: hidden;
+	position: relative;
+	margin: 0 auto;
+}
+.slide ul {
+	width: 5000px;
 	position: absolute;
-	width: 15%;
+	top: 0;
+	left: 0;
+	font-size: 0;
+}
+.slide ul li {
+	display: inline-block;
+}
+
+#back {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	cursor: pointer;
+	z-index: 1;
+}
+
+#next {
+	position: absolute;
+	top: 100px;
+	right: 0;
+	cursor: pointer;
+	z-index: 1;
+}
+
+div.inline {
+	display: inline-block;
+}
+
+#d1 {
+	background-color: lavender;
+	position: absolute;
+	width: 20%;
 	height: 70%;
 	margin-left: 5px
 }
+
 #d2 {
- 	/* background-color: lightgoldenrodyellow;  */
+	/* background-color: lightgoldenrodyellow;  */
 	position: absolute;
 	width: 60%;
 	height: 70%;
 	margin-left: 200px;
 }
-.view {cursor: pointer;}
-a{color:black;text-decoration:none;}
-table#list{margin-bottom:10px;width:100%;}
-table#commentList{
-	width:100%;
-	text-align:center;
+
+.view {
+	cursor: pointer;
 }
-table#commentList td,table#commentList tr{
-	text-align:"center";
+
+a {
+	color: black;
+	text-decoration: none;
+}
+
+table#list {
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+table#commentList {
+	width: 100%;
+	text-align: center;
+}
+
+table#commentList td, table#commentList tr {
+	text-align: "center";
 }
 </style>
 
@@ -86,17 +106,16 @@ table#commentList td,table#commentList tr{
 			<tr>
 				<td><%=e.getStartDate()%></td>
 				<td class="view"><b><%=e.getTitle()%></b></td>
-				<input type="hidden" value="<%=e.getEventId() %>"/>
+				<input type="hidden" value="<%=e.getEventId() %>" />
 			</tr>
-			<%}	%> 
+			<%}	%>
 		</table>
 	</div>
 
 	<div id='d2'>
-		<table id="list">	
+		<table id="list">
 		</table>
-		<div id="commentContainer">
-		</div>
+		<div id="commentContainer"></div>
 	</div>
 </div>
 
@@ -106,8 +125,10 @@ table#commentList td,table#commentList tr{
 		function fn_detailAdd(){
 			location.href="<%=request.getContextPath()%>/event?memberId=<%=loginMember.getMemberId()%>";
 		}
+		
 		/* 이미지 슬라이드 정의하기 */
 		$(function(){
+			console.log('슬라이드 기능 작동중')
 			 var imgs;
 			    var img_count;
 			    var img_position = 1;
@@ -154,6 +175,13 @@ table#commentList td,table#commentList tr{
 					data : {"eventId" : $(this).siblings("input").val()},
 				// 서블릿이 응답해서 건네주는 부분
 					success : function(data) {
+					console.log("success함수호출부분");
+					
+					
+					//$('#list').find("").remove();
+					console.log($('#list'));
+					
+						
 						var tr=$("<tr></tr>");
 						var th="<th>제목</th>";
 							th+="<th>시작일자</th>";
@@ -171,21 +199,35 @@ table#commentList td,table#commentList tr{
 								if((Object.keys(data)).includes("filePath")){
 								th+="<th>첨부파일</th>";
 								var filePath=data['filePath'];
-								var fileSplit=filePath.indexOf('.');
-								console.log(fileSplit+":"+filePath.length);
-								var fileValue=filePath.substr(fileSplit+1,filePath.length);
-								console.log("이미지 무엇이더냐?"+fileValue);
-								if(fileValue=='jpg'||fileValue=='png'||fileValue=='gif')
+								console.log(filePath);
+								var container=$('<div class="slide"></div>');
+								var back=$('<img id="back"></img>').attr({"src":"https://cdn.icon-icons.com/icons2/1496/PNG/512/goprevious_103394.png","width":"20"});
+								var ul=$("<ul></ul>");
+								
+								for(var i=0;i<filePath.length;i++)
 								{
 									
+									var fileSplit=filePath[i].indexOf('.');
 									
-									$("#list").after()	
+									console.log(fileSplit+":"+filePath.length);
+									var fileValue=filePath[i].substr(fileSplit+1,filePath[i].length);
+									console.log("이미지 ?"+fileValue);
+									if(fileValue=='jpg'||fileValue=='png'||fileValue=='gif')
+									{
+										var li1=$("<li></li>");
+										var img=$("<img></img>").attr({'width':'400','height':'200','src':'<%=request.getContextPath()%>/upload/event/'+filePath[i]});
+										li1.append(img);
+										console.log("asdfasdf"+li1);
+										ul.append(li1);
+									}	
 								}
+								var next=$('<img id="next"></img>').attr({"src":"https://cdn.icon-icons.com/icons2/1496/PNG/512/gonext_103393.png","width":"20"})
+								container.append(back).append(ul).append(next);
+								$('#list').after(container);
 								/* console.log("변수 테스트(path) : "+filePath);
 								console.log("변수 테스트(split) : "+fileSplit);
 								console.log("변수 테스트(확장자) : "+fileSplit[1]); */
 								
-								/*이미지 파일일때는 이미지를 출력해주기*/
 								}
 							
 							th+="<th>작성자</th>";
@@ -221,6 +263,7 @@ table#commentList td,table#commentList tr{
 					
 						$('#commentArea').after(commentList).after(button1).after(button);
 						
+						
 						fn_eventCommentList(eventId);
 						
 				}
@@ -253,7 +296,6 @@ table#commentList td,table#commentList tr{
 						alert("댓글 입력 성공");
 					}
 					fn_eventCommentList(eventId);
-					
 				}
 			});
 		} 

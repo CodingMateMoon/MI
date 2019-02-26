@@ -1,6 +1,7 @@
 package com.mi.event.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Event {
 	private String eventId;
@@ -9,7 +10,7 @@ public class Event {
 	private Date endDate;
 	private String groupId;
 	private String memo;
-	private String filePath;
+	private List<String> filePath;
 	private String prepairingId;
 	
 	public Event() {
@@ -17,7 +18,7 @@ public class Event {
 	}
 
 	public Event(String eventId, String title, Date startDate, Date endDate, String groupId, String memo,
-			String filePath, String prepairingId) {
+			List<String> filePath, String prepairingId) {
 		super();
 		this.eventId = eventId;
 		this.title = title;
@@ -29,6 +30,9 @@ public class Event {
 		this.prepairingId = prepairingId;
 	}
 
+	
+
+	
 	public String getEventId() {
 		return eventId;
 	}
@@ -49,8 +53,8 @@ public class Event {
 		return startDate;
 	}
 
-	public void setStartDate(Date date) {
-		this.startDate = date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	public Date getEndDate() {
@@ -77,11 +81,11 @@ public class Event {
 		this.memo = memo;
 	}
 
-	public String getFilePath() {
+	public List<String> getFilePath() {
 		return filePath;
 	}
 
-	public void setFilePath(String filePath) {
+	public void setFilePath(List<String> filePath) {
 		this.filePath = filePath;
 	}
 
@@ -99,6 +103,8 @@ public class Event {
 				+ ", groupId=" + groupId + ", memo=" + memo + ", filePath=" + filePath + ", prepairingId="
 				+ prepairingId + "]";
 	}
+
+
 
 	
 	

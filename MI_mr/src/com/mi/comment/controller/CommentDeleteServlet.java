@@ -29,7 +29,8 @@ public class CommentDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		delNo은 삭제할 댓글 번호
+
+		//삭제할 번호 
 		int eventCommentNo=Integer.parseInt(request.getParameter("eventCommentNo"));
 
 		int result = new CommentService().deleteComment(eventCommentNo);
