@@ -38,9 +38,11 @@ public class CommentListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String eventId = request.getParameter("eventId");
+		
 		System.out.println(eventId);
 		List<EventComment> list= new CommentService().commentList(eventId);
-		Map map=new HashMap();
+		System.out.println(list);
+		/*Map map=new HashMap();
 		List<Map>transList=new ArrayList();
 		for(EventComment c : list) {
 			map.put("eventCommentWriter",c.getEventCommentWriter());
@@ -49,9 +51,9 @@ public class CommentListServlet extends HttpServlet {
 			String eventCommentDate=new SimpleDateFormat("yyyy-MM-dd").format(c.getEventCommentDate());
 			map.put("eventCommentDate",eventCommentDate);
 			transList.add(map);
-		}
+		}*/
 		response.setContentType("application/json;charset=UTF-8");
-		new Gson().toJson(transList,response.getWriter());
+		new Gson().toJson(list,response.getWriter());
 	
 	
 	

@@ -11,7 +11,7 @@
 <%@ include file="/views/common/header.jsp"%>
 <style>
 .slide {
-	width: 500px;
+	width: 400px;
 	height: 200px;
 	overflow: hidden;
 	position: relative;
@@ -51,7 +51,7 @@ div.inline {
 #d1 {
 	background-color: lavender;
 	position: absolute;
-	width: 20%;
+	width: 15%;
 	height: 70%;
 	margin-left: 5px
 }
@@ -128,7 +128,6 @@ table#commentList td, table#commentList tr {
 		
 		/* 이미지 슬라이드 정의하기 */
 		$(function(){
-			console.log('슬라이드 기능 작동중')
 			 var imgs;
 			    var img_count;
 			    var img_position = 1;
@@ -138,15 +137,17 @@ table#commentList td, table#commentList tr {
 
 			    //버튼을 클릭했을 때 함수 실행
 			    $('#back').click(function () {
+			    	console.log("back");
 			      back();
 			    });
 			    $('#next').click(function () {
+			    	console.log("next");
 			      next();
 			    });
 			    function back() {
 			        if (1 < img_position) {
 			          imgs.animate({
-			            left: '+=500px'
+			            left: '+=400px'
 			          });
 			          img_position--;
 			        }
@@ -154,7 +155,7 @@ table#commentList td, table#commentList tr {
 			      function next() {
 			        if (img_count > img_position) {
 			          imgs.animate({
-			            left: '-=500px'
+			            left: '-=400px'
 			          });
 			          img_position++;
 			        }
@@ -166,7 +167,6 @@ table#commentList td, table#commentList tr {
 			$('.view').on('click',function(){
 				console.log($(this));
 				eventId=$(this).siblings("input").val();
-			//	console.log("상세일정"+eventId);
 				$.ajax({
 					url:"<%=request.getContextPath()%>/detail/ajaxView.do",
 					type : "post",
@@ -176,10 +176,9 @@ table#commentList td, table#commentList tr {
 				// 서블릿이 응답해서 건네주는 부분
 					success : function(data) {
 					console.log("success함수호출부분");
-					
+					console.log($('#list'));
 					
 					//$('#list').find("").remove();
-					console.log($('#list'));
 					
 						
 						var tr=$("<tr></tr>");
@@ -194,7 +193,7 @@ table#commentList td, table#commentList tr {
 							if((Object.keys(data)).includes("memo")){
 								th+="<th>내용</th>";
 							}
-								/* console.log("data check : "+(Object.keys(data)));
+							/*  console.log("data check : "+(Object.keys(data)));
 								console.log((Object.keys(data)).includes("filePath")); */
 								if((Object.keys(data)).includes("filePath")){
 								th+="<th>첨부파일</th>";
@@ -203,28 +202,24 @@ table#commentList td, table#commentList tr {
 								var container=$('<div class="slide"></div>');
 								var back=$('<img id="back"></img>').attr({"src":"https://cdn.icon-icons.com/icons2/1496/PNG/512/goprevious_103394.png","width":"20"});
 								var ul=$("<ul></ul>");
-								
 								for(var i=0;i<filePath.length;i++)
 								{
-									
 									var fileSplit=filePath[i].indexOf('.');
-									
 									console.log(fileSplit+":"+filePath.length);
 									var fileValue=filePath[i].substr(fileSplit+1,filePath[i].length);
-									console.log("이미지 ?"+fileValue);
+									console.log("이미지 확장자 : "+fileValue);
 									if(fileValue=='jpg'||fileValue=='png'||fileValue=='gif')
 									{
 										var li1=$("<li></li>");
 										var img=$("<img></img>").attr({'width':'400','height':'200','src':'<%=request.getContextPath()%>/upload/event/'+filePath[i]});
 										li1.append(img);
-										console.log("asdfasdf"+li1);
 										ul.append(li1);
 									}	
 								}
 								var next=$('<img id="next"></img>').attr({"src":"https://cdn.icon-icons.com/icons2/1496/PNG/512/gonext_103393.png","width":"20"})
 								container.append(back).append(ul).append(next);
 								$('#list').after(container);
-								/* console.log("변수 테스트(path) : "+filePath);
+							/*  console.log("변수 테스트(path) : "+filePath);
 								console.log("변수 테스트(split) : "+fileSplit);
 								console.log("변수 테스트(확장자) : "+fileSplit[1]); */
 								
@@ -232,9 +227,12 @@ table#commentList td, table#commentList tr {
 							
 							th+="<th>작성자</th>";
 							tr.html(th);	
-						$('#list').html(tr);
+							$('#list').html(tr);
+
+							//파일다운로드 관련
 						var eventCode=data['eventId'];
 						var tr2=$("<tr></tr>");
+						
 						for(var a in data){
 							var td="";
 							if(a=="filePath"){
@@ -246,7 +244,6 @@ table#commentList td, table#commentList tr {
 							else if(a=="eventId")
 							{	//eventId를 key로 했을 때 eventId에 맵핑된 값을 가져와야함
 								td=$("<input type='hidden' id='eventId' value='"+data[a]+"'>");
-								
 								//continue;
 							}
 							else {
@@ -260,17 +257,13 @@ table#commentList td, table#commentList tr {
 						var button1=$("<button class='comment-btn'></button>").html("댓글삭제");
 						$('#commentContainer').html(commentArea);
 						var commentList=$("<table id='commentList'></table>");
-					
-						$('#commentArea').after(commentList).after(button1).after(button);
-						
+						$('#commentArea').after(commentList).after(button);
 						
 						fn_eventCommentList(eventId);
-						
 				}
 			});
 		});
 	});
-			
 			$(document).on('click',".comment-btn", function(){
 				console.log("댓글버튼클릭");
 				fn_commentInsert();
@@ -288,14 +281,16 @@ table#commentList td, table#commentList tr {
 					, "eventRef" : eventId},
 				/* server에서 request.getParameter("commentLevel") 하면 값 넣어준 1이 들어옴 */
 				success:function(data){
-					if(data!="1")
+					console.log("댓글등록버튼실행")
+					console.log(data);
+					if(data!='1')
 					{
 						alert("댓글 입력 실패");	
 					}
 					else{
 						alert("댓글 입력 성공");
-					}
 					fn_eventCommentList(eventId);
+					}
 				}
 			});
 		} 
@@ -319,7 +314,8 @@ table#commentList td, table#commentList tr {
 						tr.append(td);
 						$('.eventComment').on('click',fn_commentDelete(data['eventCommentNo']));
 						$('#commentList').append(tr);
-					}
+					} 
+						console.log(data);
 				}
 			});
 		}
