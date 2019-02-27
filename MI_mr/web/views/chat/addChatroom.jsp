@@ -150,9 +150,10 @@
  				data:{"chatroomName":chatroomName,"members":members, "admin": '<%=loginMember.getMemberId()%>'},
  				type:"post",
  				success:function(data){
- 					console.log(data);
- 					console.log(data["msg"]);
- 					<%-- location.href="<%=request.getContextPath()%>/chatroomList?memberId=<%=loginMember.getMemberId()%>"; --%>
+ 					var tr = $("<tr><td>" + data["chatroomName"] + "</td></tr>");
+ 					tr.insertBefore($(opener.document).find("#last"));
+ 					//tr.insertBefore($(opener.document).find("#chatTable").children(":last"));
+ 					self.close();
  				}
  			})
          }

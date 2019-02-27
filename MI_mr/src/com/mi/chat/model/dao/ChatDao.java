@@ -146,18 +146,13 @@ public class ChatDao {
 		int result = 0;
 		int subResult = 0;
 		String sql = prop.getProperty("addChatroomByMember");
-		for(String s : members) {
-			System.out.println("before chatdao insert : " + s);
-		}
 		try {
 			pstmt = conn.prepareStatement(sql);
 			for (String s : members) {
 				
 				pstmt.setString(1, s);
 				pstmt.setInt(2, chatroomId);
-				System.out.println("member(dao) : " + s);
 				subResult = pstmt.executeUpdate();
-				System.out.println("subResult : " + subResult);
 				result += subResult;
 			}
 			pstmt.setString(1, admin);
