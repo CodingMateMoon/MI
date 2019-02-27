@@ -105,7 +105,7 @@
 					$(this).val("");
 					
 					$('.addGroupMember').click(function(){
-						if('<%=logginMember.getMemberId()%>'!=$(this).html())
+						if('<%=logginMember.getMemberId()%>'!=$(this).html()) 
 						{
 							$(this).parent().remove();					
 						}

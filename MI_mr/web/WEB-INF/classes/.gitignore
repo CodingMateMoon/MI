@@ -1,5 +1,6 @@
 /com/
 /common/
+/sql/
 # Created by https://www.gitignore.io/api/java,eclipse,windows
 # Edit at https://www.gitignore.io/?templates=java,eclipse,windows
 
@@ -124,4 +125,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/java,eclipse,windows
-/sql/

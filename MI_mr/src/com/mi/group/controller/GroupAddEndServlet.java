@@ -32,7 +32,7 @@ public class GroupAddEndServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		request.setCharacterEncoding("UTF-8");
 		String gName = request.getParameter("gName");
 		String[] members = request.getParameterValues("members[]");

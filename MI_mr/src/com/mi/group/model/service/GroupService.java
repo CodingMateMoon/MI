@@ -22,11 +22,11 @@ public class GroupService {
 		return groupList;
 	}
 	
-	public List<GroupByMember> groupMemberList(String groupName)
+	public List groupMemberList(String groupId)
 	{
 		Connection conn=getConnection();
 		
-		List<GroupByMember> groupMember=dao.groupMemberList(conn,groupName);
+		List<GroupByMember> groupMember=dao.groupMemberList(conn,groupId);
 		close(conn);
 		return groupMember;
 	}
@@ -49,6 +49,22 @@ public class GroupService {
 		return result;
 	}
 	
+	public int deleteGroup(String groupId)
+	{
+		Connection conn=getConnection();
+		int result=dao.deleteGroup(conn, groupId);
+		close(conn);
+		return result;
+	}
+	
+	public int memberUpdate(String groupId, String[] members){
+		
+		Connection conn=getConnection();
+		int result=dao.memberUpdate(conn, groupId, members);
+		close(conn);
+		return result;
+	}
+	
 	public int addGroupMember(String gName, String[] members)
 	{
 		Connection conn=getConnection();
@@ -63,4 +79,7 @@ public class GroupService {
 	      close(conn);
 	      return groupId;
 	   }
+	
+
+	
 }
