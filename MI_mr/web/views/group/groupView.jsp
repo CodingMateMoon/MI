@@ -69,7 +69,7 @@ table#gList-table tr td.gList-td {width: 50px; height: 35px;}
                 <tr>
                 	<td align="center" class="gList-td">
                 	<%-- <a href='<%=request.getContextPath()%>/memberView.do' onclick="fn_memberList()"><%=g.getGroupName() %></a> --%>
-                	<a href='javascript:void(0)' onclick="fn_memberList()"><%=g.getGroupName() %></a>
+                	<a href='javascript:void(0)' onclick="fn_memberList()"><%=g.getGroupId()%>:<%=g.getGroupName() %></a>
                 	</td>
                 	<!-- <td class="gList-td">
                 		<button id="delete-btn" value="" onclik="fn_deleteGroup">삭제</button>
@@ -99,10 +99,18 @@ table#gList-table tr td.gList-td {width: 50px; height: 35px;}
 	};
 
 	function fn_memberList(){
-		consol.log(this);
+		var groupNameStr=event.srcElement.innerHTML;
+		var StrArr=groupNameStr.split(":");
+		var groupId=StrArr[0];
 		$.ajax({
-			url:"<%=request.getContextPath()%>/memberView.do?groupName=<%=groupList %>",
+			url:"<%=request.getContextPath()%>/memberView.do?groupId="+groupId,
+			/* data:{"groupName":groupNameStr}, */
+			<%-- type:"get",
+			data:{"memberId":'<%=loginMember.getMemberId()%>',"groupName":groupNameStr},
+			dataType:"json",
+			contentType:'application/json', --%>
 			success:function(data){
+				console.log(data);
 				$('#changeView').html(data);
 			}
 		})

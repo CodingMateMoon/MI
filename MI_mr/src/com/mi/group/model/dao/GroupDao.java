@@ -48,7 +48,7 @@ public class GroupDao {
 		return list;
 	}
 	
-	public List<GroupByMember> groupMemberList(Connection conn,String groupName)
+	public List<GroupByMember> groupMemberList(Connection conn,String groupId)
 	{
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
@@ -56,12 +56,12 @@ public class GroupDao {
 		List<GroupByMember> list=new ArrayList<GroupByMember>();
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, groupName);
+			pstmt.setString(1, groupId);
 			rs=pstmt.executeQuery();
 			while(rs.next())
 			{
 				GroupByMember gbm=new GroupByMember();
-				gbm.setGroupId(rs.getString("group_id"));
+				/* gbm.setGroupId(rs.getString("group_id")); */
 				gbm.setMemberId(rs.getString("member_id"));
 				list.add(gbm);
 			}
@@ -114,6 +114,28 @@ public class GroupDao {
 		return list;
 	}
 	
+	public int deleteGroup(Connection conn, String groupId)
+	{
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql=prop.getProperty("deleteGroup");
+		try
+		{
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			result=pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			close(pstmt);
+		}
+		return result;
+	}
+	
 	public int addGroup(Connection conn, String gName,String[] members)
 	{
 		PreparedStatement pstmt=null;
@@ -149,6 +171,33 @@ public class GroupDao {
 			for(String s : members) {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, gName);
+			pstmt.setString(2, s);
+			result=pstmt.executeUpdate();
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		finally
+		{
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int memberUpdate(Connection conn, String groupId, String[] members)
+	{
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql=prop.getProperty("updateMember");
+		try
+		{
+			for(String s : members) {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
 			pstmt.setString(2, s);
 			result=pstmt.executeUpdate();
 			}
