@@ -87,9 +87,27 @@ public class EventDao {
 		return result;
 	}
 	
+	public int deleteEvent(Connection conn, String eventId) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql=prop.getProperty("deleteEvent");
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, eventId);
+			result=pstmt.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+	}
 	
 	
-	  public Event detailEvent(Connection conn, String eventId){ PreparedStatement
+	
+	 public Event detailEvent(Connection conn, String eventId){ PreparedStatement
 	  pstmt = null; ResultSet rs=null; Event e =null; String
 	  sql=prop.getProperty("detailEvent"); try { pstmt=conn.prepareStatement(sql);
 	  pstmt.setString(1, eventId); rs=pstmt.executeQuery(); if(rs.next()) { e=new

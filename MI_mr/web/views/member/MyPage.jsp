@@ -7,99 +7,66 @@
 	
 %>
 <style>
-	#memberId_{
+ body {
+    margin: 20px 10px;
+    padding: 0;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif,Merriweather Sans;
+    font-size: 14px;
+  }
+#memberId_{
 		background-color:lightgray;
 	}
 	#email{
 		background-color:lightgray;
 	}
-/* 	#enroll-container{
-	 position: absolute;
-  width: 260px;
-  height: 250px;
-  z-index: 15;
-  top: 50%;
-  left: 51%;
-  margin: -200px 0 0 -150px;
-  text-align: center;
-  border: 2px solid black;
-  } */
-  body {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  font-weight: 300;
-}
-body ::-webkit-input-placeholder {
-  /* WebKit browsers */
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  font-weight: 300;
-}
-body :-moz-placeholder {
-  /* Mozilla Firefox 4 to 18 */
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  opacity: 1;
-  font-weight: 300;
-}
-body ::-moz-placeholder {
-  /* Mozilla Firefox 19+ */
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  opacity: 1;
-  font-weight: 300;
-}
-body :-ms-input-placeholder {
-  /* Internet Explorer 10+ */
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  font-weight: 300;
-}
-.wrapperjw {
-  background: linear-gradient(to bottom right, #d0d0d0 0%, #000000 100%);
-  position: absolute;
-  top: 45%;
-  left: 0;
-  width: 100%;
-  height: 400px;
-  margin-top: -200px;
-  overflow: hidden;
-}
-.wrapperjw.form-success .container h1 {
-  -webkit-transform: translateY(85px);
-      -ms-transform: translateY(85px);
-          transform: translateY(85px);
-}
-.containerjw {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 50px 0;
-  height: 350px;
-  text-align: center;
-}
-.containerjw h1 {
-  margin:10px;
-  font-size: 35px;
-  font-weight: 200;
-}
-  input[type=button]{
-    background-color: #bbc7d896;
-    border: 0;
-    color: white;
-    cursor: pointer;
+
+  .wrapperjw{
+  	width:100%;
+  	height:60%;
   }
   #buttonDiv{
-  margin-left: 46px;
+  width:300px;
+  padding-top:30px;
+  padding-left:20px;
+  margin:auto;
   }
-</style>
+  #buttonDiv input {
+  /* font-family:'Source Sans Pro', sans-serif; */
+  text-weight:bold;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 3px;
+  /* width: 250px; */
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+	}
+	.containerjw input[type="text"],[type="email"],[type="tel"]{
+		border: 1px solid gray;
+  		background-color: white;
+  		width: 200px;
+	}
+	table{
+		padding-top:30px;
+	}
+	table tr td{
+		height:50px;
+		padding-left:10px;
+	}
+ </style>
 <body>
+<h1></h1>
+<h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">MY PAGE</h1>
+<hr class="divider my-4">
 <div class="wrapperjw">
 <div class="containerjw">
 <!-- <section id="enroll-container"> -->
-	<h2>회원정보 수정</h2>
+	
 	<form name="memberFrm"action="<%=request.getContextPath() %>/memberUpdateEnd" onsubmit="return fn_enroll_validate()" method="post">
 	<table align="center">
 		<tr>

@@ -163,6 +163,7 @@
 		});
 		$('#eUpdate').on("click", function(){
 			console.log($('#groupList').val()+":"+typeof $('#groupList').val() )
+			console.log("eUpdate----------등록 저장");
 			var fd=new FormData();
 			fd.append('memo',$('#memo').val());
 			fd.append('title',$('#title').val());

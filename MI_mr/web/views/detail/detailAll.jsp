@@ -10,89 +10,35 @@
 %>
 <%@ include file="/views/common/header.jsp"%>
 <style>
-.slide {
-	width: 400px;
-	height: 200px;
-	overflow: hidden;
-	position: relative;
-	margin: 0 auto;
-}
-.slide ul {
-	width: 5000px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	font-size: 0;
-}
-.slide ul li {
-	display: inline-block;
-}
-
-#back {
-	position: absolute;
-	top: 100px;
-	left: 0;
-	cursor: pointer;
-	z-index: 1;
-}
-
-#next {
-	position: absolute;
-	top: 100px;
-	right: 0;
-	cursor: pointer;
-	z-index: 1;
-}
-
-div.inline {
-	display: inline-block;
-}
-
+div.inline {display: inline-block;}
 #d1 {
-	background-color: lavender;
-	position: absolute;
-	width: 15%;
+	/* background-color: lavender; */
+	/* position: absolute; */
+	width: 30%;
 	height: 70%;
 	margin-left: 5px
 }
-
 #d2 {
-	/* background-color: lightgoldenrodyellow;  */
-	position: absolute;
-	width: 60%;
+	/* background-color: lightgoldenrodyellow; */
+	/* position: absolute; */
+	width: 50%;
 	height: 70%;
-	margin-left: 200px;
+	margin-left: 300px;
 }
-
-.view {
-	cursor: pointer;
-}
-
-a {
-	color: black;
-	text-decoration: none;
-}
-
-table#list {
-	margin-bottom: 10px;
-	width: 100%;
-}
-
-table#commentList {
-	width: 100%;
-	text-align: center;
-}
-
-table#commentList td, table#commentList tr {
-	text-align: "center";
-}
+.view {cursor: pointer;}
+a{color:black;text-decoration:none;}
+table#list{margin-bottom:10px;width:100%;}
 </style>
 
 
-
+<section>
+<h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">SCHEDULE</h1>
+<hr class="divider my-4">
 <%if (loginMember != null) {%>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <input type="button" value="등록" id="btn-add" onclick="fn_detailAdd()" />
-<input type="button" value="삭제" id="btn-del" onclick="fn_detailDelete()" />
+<button id="btn-del" onclick="fn_detailDelete();">삭제</button>
 <%}%>
 <div id="container" style="overflow: auto;">
 	<div id="d1" style="overflow: auto;">
@@ -121,9 +67,15 @@ table#commentList td, table#commentList tr {
 
 <script>
 		var eventId="";
-
+		
+		//일정 등록 버튼
 		function fn_detailAdd(){
 			location.href="<%=request.getContextPath()%>/event?memberId=<%=loginMember.getMemberId()%>";
+		}
+		
+		//일정 삭제 버튼
+		function fn_detailDelete(){
+			location.href="<%=request.getContextPath()%>/eventDelete?eventId="+eventId;
 		}
 		
 		/* 이미지 슬라이드 정의하기 */
@@ -136,10 +88,14 @@ table#commentList td, table#commentList tr {
 			    img_count = imgs.children().length;
 
 			    //버튼을 클릭했을 때 함수 실행
-			    $('#back').click(function () {
+			$(document).on('click',".back", function(){
+           		 console.log("back버튼클릭");
+         });
+		
+			    /* $('#back').click(function () {
 			    	console.log("back");
 			      back();
-			    });
+			    }); */
 			    $('#next').click(function () {
 			    	console.log("next");
 			      next();
@@ -175,12 +131,7 @@ table#commentList td, table#commentList tr {
 					data : {"eventId" : $(this).siblings("input").val()},
 				// 서블릿이 응답해서 건네주는 부분
 					success : function(data) {
-					console.log("success함수호출부분");
-					console.log($('#list'));
-					
-					//$('#list').find("").remove();
-					
-						
+						console.log(data);
 						var tr=$("<tr></tr>");
 						var th="<th>제목</th>";
 							th+="<th>시작일자</th>";
@@ -198,31 +149,37 @@ table#commentList td, table#commentList tr {
 								if((Object.keys(data)).includes("filePath")){
 								th+="<th>첨부파일</th>";
 								var filePath=data['filePath'];
+								
+								
+								var filePathList =filePath.split(",");
 								console.log(filePath);
 								var container=$('<div class="slide"></div>');
 								var back=$('<img id="back"></img>').attr({"src":"https://cdn.icon-icons.com/icons2/1496/PNG/512/goprevious_103394.png","width":"20"});
+								$("#back").click(function(){
+									console.log("back");
+								});
 								var ul=$("<ul></ul>");
-								for(var i=0;i<filePath.length;i++)
+								for(var i=0;i<filePathList.length;i++)
 								{
-									var fileSplit=filePath[i].indexOf('.');
-									console.log(fileSplit+":"+filePath.length);
-									var fileValue=filePath[i].substr(fileSplit+1,filePath[i].length);
+									var fileSplit=filePathList[i].indexOf('.');
+									//console.log(fileSplit+":"+filePath.length);
+									var fileValue=filePathList[i].substr(fileSplit+1,filePathList[i].length);
 									console.log("이미지 확장자 : "+fileValue);
 									if(fileValue=='jpg'||fileValue=='png'||fileValue=='gif')
 									{
 										var li1=$("<li></li>");
-										var img=$("<img></img>").attr({'width':'400','height':'200','src':'<%=request.getContextPath()%>/upload/event/'+filePath[i]});
+										var img=$("<img></img>").attr({'width':'400','height':'300','src':'<%=request.getContextPath()%>/upload/event/'+filePathList[i]});
 										li1.append(img);
 										ul.append(li1);
 									}	
 								}
 								var next=$('<img id="next"></img>').attr({"src":"https://cdn.icon-icons.com/icons2/1496/PNG/512/gonext_103393.png","width":"20"})
-								container.append(back).append(ul).append(next);
+								container.append(back).append(next).append(ul);
+								$('#list').parent().children('.slide').remove();
 								$('#list').after(container);
 							/*  console.log("변수 테스트(path) : "+filePath);
 								console.log("변수 테스트(split) : "+fileSplit);
 								console.log("변수 테스트(확장자) : "+fileSplit[1]); */
-								
 								}
 							
 							th+="<th>작성자</th>";
@@ -237,9 +194,9 @@ table#commentList td, table#commentList tr {
 							var td="";
 							if(a=="filePath"){
 							 	td=$("<td></td>");
-							 	console.log('<%=request.getContextPath()%>/fileDownLoad?filePath='+data[a]);
+							 	console.log('<%=request.getContextPath()%>/fileDownLoad?filePath='+filePathList[0]);
 							 	//key:value형식으로 된 객체안에     a가 key값,  data[a]가 변수안에 들어있는 value값 
-							 	td.append($("<a href='<%=request.getContextPath()%>/fileDownLoad?filePath="+data[a]+"'>"+data[a]+"</a>")); 
+							 	td.append($("<a href='<%=request.getContextPath()%>/fileDownLoad?filePath="+filePathList[0]+"'>"+filePathList[0]+"</a>")); 
 							}
 							else if(a=="eventId")
 							{	//eventId를 key로 했을 때 eventId에 맵핑된 값을 가져와야함
@@ -252,7 +209,7 @@ table#commentList td, table#commentList tr {
 							tr2.append(td);
 						}
 						$('#list').append(tr2);
-						var commentArea=$("<textarea cols='50' rows='3' name='comment' id='commentArea'></textarea>");
+						var commentArea=$("<textarea cols='60' rows='2' name='comment' id='commentArea'></textarea>");
 						var button=$("<button class='comment-btn'></button>").html("댓글등록");	
 						var button1=$("<button class='comment-btn'></button>").html("댓글삭제");
 						$('#commentContainer').html(commentArea);
@@ -278,11 +235,9 @@ table#commentList td, table#commentList tr {
 				dataType:"html",
 				data : {"eventCommentLevel" : 1,"eventCommentWriter" : "<%=loginMember.getMemberId()%>",
 					"eventCommentContent" : $("#commentArea").val(), "eventCommentRef" : 0
-					, "eventRef" : eventId},
+					, "eventRef" : eventId },
 				/* server에서 request.getParameter("commentLevel") 하면 값 넣어준 1이 들어옴 */
 				success:function(data){
-					console.log("댓글등록버튼실행")
-					console.log(data);
 					if(data!='1')
 					{
 						alert("댓글 입력 실패");	
@@ -310,29 +265,33 @@ table#commentList td, table#commentList tr {
 						var td="<td>"+data[i]['eventCommentWriter']+"</td>";
 						td+="<td>"+data[i]['eventCommentContent']+"</td>";
 						td+="<td>"+data[i]['eventCommentDate']+"</td>";
-						td+="<td><button class='eventComment'>삭제</button></td>";
+						td+="<td><button class='eventComment' value='"+data[i]['eventCommentNo']+"'>삭제</button></td>";
 						tr.append(td);
-						$('.eventComment').on('click',fn_commentDelete(data['eventCommentNo']));
+						
 						$('#commentList').append(tr);
 					} 
-						console.log(data);
 				}
 			});
 		}
+		
 		//댓글 삭제 구현
-		function fn_commentDelete(eventCode)
-		{
-			<%--			$.ajax({
-				url:"<%=request.getContextPath()%>/commentDelete",
-				type : "post",
-				dataType:"json",
-				//서버에다가 넘겨주는 것
-				data : { "eventId" : $('#eventId').val() 
-				},
-				success:function(data){
-					
-				}
-			});--%> 
-		}  
+		$(document).on('click','.eventComment', function(e){
+							console.log($(this).val());
+							console.log(e.target);
+							var del = e.target;
+						$.ajax({
+								url:"<%=request.getContextPath()%>/commentDelete",
+								type : "post",
+								dataType:"json",
+								data : { "eventCommentNo" : $(this).val()},
+								success:function(data){
+									del.parentElement.parentElement.remove();
+								},
+								error:function(){
+									console.log("댓글 error");
+								}
+							}); 
+			         });
 </script>
+</section>
 <%@ include file="/views/common/footer.jsp"%>
