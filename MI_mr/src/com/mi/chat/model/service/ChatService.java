@@ -38,6 +38,43 @@ public class ChatService {
 		} else {
 			rollback(conn);
 		}
+		close(conn);
+		return result;
+	}
+	
+	public int addChatroom(int chatroomId, String chatroomName, String admin) {
+		Connection conn = getConnection();
+		int result = dao.addChatroom(conn, chatroomId, chatroomName, admin);
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public int findLastChatroomId() {
+		Connection conn = getConnection();
+		int result = dao.findLastChatroomId(conn);
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public int addChatroomByMember(int chatroomId, String[] members, String admin) {
+		Connection conn = getConnection();
+		int result = dao.addChatroomByMember(conn, chatroomId, members, admin);
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
 		return result;
 	}
 }
