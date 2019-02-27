@@ -8,9 +8,11 @@ import java.util.List;
 
 import com.mi.group.model.dao.GroupDao;
 import com.mi.group.model.vo.Group;
+import com.mi.group.model.vo.GroupByMember;
 
 public class GroupService {
 	private GroupDao dao=new GroupDao();
+	
 	
 	public List<Group> selectAllGroup(String memberId){
 		Connection conn=getConnection();
@@ -20,5 +22,45 @@ public class GroupService {
 		return groupList;
 	}
 	
-
+	public List<GroupByMember> groupMemberList(String groupName)
+	{
+		Connection conn=getConnection();
+		
+		List<GroupByMember> groupMember=dao.groupMemberList(conn,groupName);
+		close(conn);
+		return groupMember;
+	}
+	
+	public List<String> selectId(String search)
+	{
+		Connection conn=getConnection();
+		List<String> list=dao.selectId(conn,search);
+		close(conn);
+		return list;
+		
+	}
+	public int addGroup(String gName, String[] members){
+		for(String s : members) {
+			System.out.println(s);
+		}
+		Connection conn=getConnection();
+		int result=dao.addGroup(conn, gName, members);
+		close(conn);
+		return result;
+	}
+	
+	public int addGroupMember(String gName, String[] members)
+	{
+		Connection conn=getConnection();
+		int result=dao.addGroupMember(conn, gName, members);
+		close(conn);
+		return result;
+	}
+	
+	public String selectGroupId(String groupName) {
+	      Connection conn=getConnection();
+	      String groupId=dao.selectGroupId(conn,groupName);
+	      close(conn);
+	      return groupId;
+	   }
 }
