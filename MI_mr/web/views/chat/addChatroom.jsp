@@ -150,7 +150,11 @@
  				data:{"chatroomName":chatroomName,"members":members, "admin": '<%=loginMember.getMemberId()%>'},
  				type:"post",
  				success:function(data){
- 					var tr = $("<tr><td>" + data["chatroomName"] + "</td></tr>");
+ 					var tr = $("<tr></tr>");
+ 					var td =$("<td class='chatroom'>" + data["chatroomName"] + "</td>");
+ 					var chatroomId = $("<input type='hidden' value='" + data["chatroomId"] +"'/>");
+ 					tr.append(td);
+ 					tr.append(chatroomId);
  					tr.insertBefore($(opener.document).find("#last"));
  					//tr.insertBefore($(opener.document).find("#chatTable").children(":last"));
  					self.close();

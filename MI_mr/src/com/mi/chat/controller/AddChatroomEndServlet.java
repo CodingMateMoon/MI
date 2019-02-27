@@ -51,6 +51,11 @@ public class AddChatroomEndServlet extends HttpServlet {
 		int result2 = new ChatService().addChatroomByMember(lastChatroomId + 1, checkMembers, admin);
 		JSONObject jsonobj = new JSONObject();
 		jsonobj.put("chatroomName", chatroomName);
+		if (result2 > 0) {
+			result2 = new ChatService().findLastChatroomId(); 
+			jsonobj.put("chatroomId", result2);
+		}
+		
 		
 		/*request.setAttribute("msg", "채팅방 등록!");
 		request.setAttribute("loc", "/");
