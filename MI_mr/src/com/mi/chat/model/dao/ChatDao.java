@@ -101,4 +101,74 @@ public class ChatDao {
 		}
 		return result;
 	}
+	
+	public int addChatroom(Connection conn, int chatroomId, String chatroomName, String admin) {
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("addChatroom");
+		int result = 0;
+		// INSERT INTO CHATROOM VALUES (?, ?, ?)
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, chatroomId);
+			pstmt.setString(2, chatroomName);
+			pstmt.setString(3, admin);
+			result = pstmt.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int findLastChatroomId(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		String sql = prop.getProperty("findLastChatroomId");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int addChatroomByMember(Connection conn, int chatroomId, String[] members, String admin) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		int subResult = 0;
+		String sql = prop.getProperty("addChatroomByMember");
+		for(String s : members) {
+			System.out.println("before chatdao insert : " + s);
+		}
+		try {
+			pstmt = conn.prepareStatement(sql);
+			for (String s : members) {
+				
+				pstmt.setString(1, s);
+				pstmt.setInt(2, chatroomId);
+				System.out.println("member(dao) : " + s);
+				subResult = pstmt.executeUpdate();
+				System.out.println("subResult : " + subResult);
+				result += subResult;
+			}
+			pstmt.setString(1, admin);
+			pstmt.setInt(2, chatroomId);
+			subResult = pstmt.executeUpdate();
+			result += subResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }
