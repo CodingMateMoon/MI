@@ -80,6 +80,13 @@ public class GroupService {
 	      return groupId;
 	   }
 	
+	public String findLastGroupId() {
+		Connection conn = getConnection();
+		String groupId = dao.findLastGroupId(conn);
+		close(conn);
+		return groupId;
+	}
+	
 
 	
 }

@@ -44,7 +44,12 @@ public class GroupAddEndServlet extends HttpServlet {
 		}
 		
 		int result=new GroupService().addGroup(gName,members);
-		int result2=new GroupService().addGroupMember(gName, members);
+		int result2 = 0;
+		String lastGroupId;
+		if (result > 0) {
+			lastGroupId = new GroupService().findLastGroupId();
+			result2=new GroupService().addGroupMember(lastGroupId, members);
+		}
 		
 		int lastChatroomId = new ChatService().findLastChatroomId();
 		int result3 = new ChatService().addChatroom(lastChatroomId + 1, gName, members[0]);

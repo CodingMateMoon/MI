@@ -1,21 +1,19 @@
 package com.mi.group.model.dao;
 
+import static common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
 import com.mi.event.model.dao.EventDao;
 import com.mi.group.model.vo.Group;
 import com.mi.group.model.vo.GroupByMember;
-
-import static common.JDBCTemplate.close;
 public class GroupDao {
 	private Properties prop=new Properties();
 	
@@ -233,5 +231,25 @@ public class GroupDao {
 	      }
 	      return groupId;
 	   }
+	 
+	 public String findLastGroupId(Connection conn) {
+		 PreparedStatement pstmt = null;
+		 String result = null;
+		 ResultSet rs = null;
+		 String sql = prop.getProperty("findLastGroupId");
+		 try {
+			 pstmt = conn.prepareStatement(sql);
+			 rs = pstmt.executeQuery();
+			 if (rs.next()) {
+				 result = rs.getString(1);
+			 }
+		 } catch (SQLException e) {
+			 e.printStackTrace();
+		 } finally {
+			 close(rs);
+			 close(pstmt);
+		 }
+		 return result;
+	 }
 
 }
