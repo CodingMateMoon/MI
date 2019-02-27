@@ -10,90 +10,30 @@
 %>
 <%@ include file="/views/common/header.jsp"%>
 <style>
-.slide {
-	width: 500px;
-	height: 330px;
-	overflow: hidden;
-	position: relative;
-	margin: 0 auto;
-}
-
-.slide ul {
-	width: 5000px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	font-size: 0;
-}
-
-.slide ul li {
-	display: inline-block;
-}
-
-#back {
-	position: absolute;
-	top: 100px;
-	left: 0;
-	cursor: pointer;
-	z-index: 1;
-}
-
-#next {
-	position: absolute;
-	top: 100px;
-	right: 0;
-	cursor: pointer;
-	z-index: 1;
-}
-
-div.inline {
-	display: inline-block;
-}
-
+div.inline {display: inline-block;}
 #d1 {
-	background-color: lavender;
-	position: absolute;
+	/* background-color: lavender; */
+	/* position: absolute; */
 	width: 30%;
 	height: 70%;
-	margin-left: 100px
+	margin-left: 5px
 }
-
 #d2 {
-	background-color: lightgoldenrodyellow;
-	position: absolute;
-	width: 60%;
+	/* background-color: lightgoldenrodyellow; */
+	/* position: absolute; */
+	width: 50%;
 	height: 70%;
-	margin-left: 400px;
+	margin-left: 300px;
 }
-
-.view {
-	cursor: pointer;
-}
-
-a {
-	color: black;
-	text-decoration: none;
-}
-
-table#list {
-	margin-bottom: 10px;
-	width: 100%;
-}
-
-table#commentList {
-	width: 100%;
-	text-align: center;
-}
-
-table#commentList td, table#commentList tr {
-	text-align: "center";
-}
-
-table td {
-	border: 1px solid #000000;
-	padding: 0px 10px;
-}
+.view {cursor: pointer;}
+a{color:black;text-decoration:none;}
+table#list{margin-bottom:10px;width:100%;}
 </style>
+
+
+<section>
+<h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">SCHEDULE</h1>
+<hr class="divider my-4">
 <%if (loginMember != null) {%>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -353,4 +293,5 @@ table td {
 							}); 
 			         });
 </script>
+</section>
 <%@ include file="/views/common/footer.jsp"%>

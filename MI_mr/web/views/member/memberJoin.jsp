@@ -2,93 +2,94 @@
     pageEncoding="UTF-8"%>
 	
 <%@ include file="/views/common/header.jsp" %>
+
+</head>
 <body>
 <script>
-	var emailButtonCheck=0;
-	var idButtonCheck=0;
+   var emailButtonCheck=0;
+   var idButtonCheck=0;
 
-	function fn_enroll_validate(){
-		var memberId=$("#memberId_").val();
-		if(memberId.trim().length<4){
-			alert("아이디는 항상 4글자이상으로...ㅎㅎㅎ");
-			$("#memberId_").focus();
-			return false;
-		}
-		if(idButtonCheck==0)
-		{
-			alert("중복확인을 해주세요.");
-			return false;
-		}
-		if(emailButtonCheck==0)
-		{
-			alert("메일인증을 해주세요.");
-			return false;
-		}
-		return true;
-		
-	}
-	
-	function fn_checkIdDuplicate(){
-		idButtonCheck++;
-		var memberId=$("#memberId_").val().trim();
-		if(!memberId||memberId.length<4)
-			{
-				alert("아이디는 항상 4글자이상으로...ㅎㅎㅎ");
-				return;
-			}
-		var url="<%=request.getContextPath()%>/chekIdDuplicate";
-		var title="checkIdDuplicate";
-		var option="left=500px, top=100px, width=300px, height=200px, menubar=no, status=no, scrollbars=yes";
-		var popup=window.open("",title,option);
-		checkIdDuplicateFrm.memberId.value=memberId;
-		checkIdDuplicateFrm.target=title;
-		checkIdDuplicateFrm.action=url;
-		checkIdDuplicateFrm.method="post";
-		checkIdDuplicateFrm.submit();
-	}
-	
-	function fn_mailcheck(){
-		emailButtonCheck++;
-		  var email=$("#email").val().trim();
-	      if(email.length<8)
-	         {
-	            alert("메일을 입력해주세요.");
-	            return;
-	         }
-		var url="<%=request.getContextPath()%>/mailcheck";
-		var title="mailcheck";
-		var option="left=500px, top=100px, width=300px, height=150px, menubar=no, status=no, scrollbars=yes";
-		var popup=window.open("",title,option);
-		checkEmailDuplicateFrm.email.value=$("#email").val();
-		checkEmailDuplicateFrm.code_check.value=$("#code_check").val();
-		checkEmailDuplicateFrm.target=title;
-		checkEmailDuplicateFrm.action=url;
-		checkEmailDuplicateFrm.method="post";
-		checkEmailDuplicateFrm.submit();
-	}
-	function historyBack(){
-		history.go(-1);
-	}
- 	$(function(){
-		$('#password_2').blur(function(){
-			var password_=$('#password_').val();
-			var password_2=$('#password_2').val();
-			var passwordFlag=/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+   function fn_enroll_validate(){
+      var memberId=$("#memberId_").val();
+      if(memberId.trim().length<4){
+         alert("아이디는 항상 4글자이상으로...ㅎㅎㅎ");
+         $("#memberId_").focus();
+         return false;
+      }
+      if(idButtonCheck==0)
+      {
+         alert("중복확인을 해주세요.");
+         return false;
+      }
+      if(emailButtonCheck==0)
+      {
+         alert("메일인증을 해주세요.");
+         return false;
+      }
+      return true;
+      
+   }
+   
+   function fn_checkIdDuplicate(){
+      idButtonCheck++;
+      var memberId=$("#memberId_").val().trim();
+      if(!memberId||memberId.length<4)
+         {
+            alert("아이디는 항상 4글자이상으로...ㅎㅎㅎ");
+            return;
+         }
+      var url="<%=request.getContextPath()%>/chekIdDuplicate";
+      var title="checkIdDuplicate";
+      var option="left=500px, top=100px, width=300px, height=200px, menubar=no, status=no, scrollbars=yes";
+      var popup=window.open("",title,option);
+      checkIdDuplicateFrm.memberId.value=memberId;
+      checkIdDuplicateFrm.target=title;
+      checkIdDuplicateFrm.action=url;
+      checkIdDuplicateFrm.method="post";
+      checkIdDuplicateFrm.submit();
+   }
+   function fn_mailcheck(){
+      emailButtonCheck++;
+      var email=$("#email").val().trim();
+      if(email.length<8)
+         {
+            alert("메일을 입력해주세요.");
+            return;
+         }
+      var url="<%=request.getContextPath()%>/mailcheck";
+      var title="mailcheck";
+      var option="left=500px, top=100px, width=300px, height=150px, menubar=no, status=no, scrollbars=yes";
+      var popup=window.open("",title,option);
+      checkEmailDuplicateFrm.email.value=$("#email").val();
+      checkEmailDuplicateFrm.code_check.value=$("#code_check").val();
+      checkEmailDuplicateFrm.target=title;
+      checkEmailDuplicateFrm.action=url;
+      checkEmailDuplicateFrm.method="post";
+      checkEmailDuplicateFrm.submit();
+   }
+   function historyBack(){
+      history.go(-1);
+   }
+    $(function(){
+      $('#password_2').blur(function(){
+         var password_=$('#password_').val();
+         var password_2=$('#password_2').val();
+         var passwordFlag=/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
 
-			if(!passwordFlag.test($('#password_').val())){
-				alert('적어도 하나 이상의 영문 소문자, 숫자, 특수문자가 포함되어야 하며 길이는 8~15글자입니다.');
-				$('#password_').val('');
-	            $('#password_2').val('');
-	            $('#password_').focus();
-	         }
-			if(password_.trim()!=password_2.trim()){
-				alert("비밀번호가 다릅니다.");
-				$('#password_').focus();
-				$('#password_').val('');
-				$('#password_2').val('');
-			}
-		});
-	});
+         if(!passwordFlag.test($('#password_').val())){
+            alert('적어도 하나 이상의 영문 소문자, 숫자, 특수문자가 포함되어야 하며 길이는 8~15글자입니다.');
+            $('#password_').val('');
+               $('#password_2').val('');
+               $('#password_').focus();
+            }
+         if(password_.trim()!=password_2.trim()){
+            alert("비밀번호가 다릅니다.");
+            $('#password_').focus();
+            $('#password_').val('');
+            $('#password_2').val('');
+         }
+      });
+   });
 
 </script>
 <style>
@@ -98,7 +99,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: black;
   font-weight: 300;
 }
 body ::-webkit-input-placeholder {
@@ -127,16 +128,10 @@ body :-ms-input-placeholder {
   color: white;
   font-weight: 300;
 }
-.wrapperjw {
-  background: linear-gradient(to bottom right, #d0d0d0 0%, #000000 100%);
-  position: absolute;
-  top: 45%;
-  left: 0;
+ .wrapperjw {
   width: 100%;
-  height: 400px;
-  margin-top: -200px;
-  overflow: hidden;
-}
+  height: 70%;
+} 
 .wrapperjw.form-success .container h1 {
   -webkit-transform: translateY(85px);
       -ms-transform: translateY(85px);
@@ -154,17 +149,6 @@ body :-ms-input-placeholder {
   font-size: 35px;
   font-weight: 200;
 }
-/* 	#enroll-container{
-	 position: absolute;
-  width: 350px;
-  height: 300px;
-  z-index: 15;
-  top: 50%;
-  left: 50%;
-  margin: -200px 0 0 -150px;
-  text-align: center;
-  border: 2px solid black;
-  } */
   
   #mailcodeEnd_span{
   	border: 0px;
@@ -172,18 +156,43 @@ body :-ms-input-placeholder {
     color: blue;
     width: 60px;
   }
-  input[type=submit],[type=reset],[type=button]{
-    background-color: #bbc7d896;
-    border: 0;
-    color: white;
-    cursor: pointer;
-  }
+  form input[type=button] ,[type=submit],[type=reset]{
+  font-family:Merriweather Sans;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  color: white;
+  border-radius: 3px;
+  width: 80px;
+  height:30px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+}
+ #buttonContainer{
+ 	padding-top:30px;
+ 	margin:auto;
+ }
+.containerjw input[type="text"],[type="password"],[type="email"],[type="tel"]{
+		border: 1px solid gray;
+  		background-color: white;
+	}
+		table{
+		padding-top:20px;
+	}
+	table tr td{
+		height:50px;
+		padding-left:10px;
+	}
 </style>
-
+<body>
+<h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">SIGN UP</h1>
+<hr class="divider my-4">
 <div class="wrapperjw">
 <div class="containerjw">
 <!-- <section id="enroll-container"> -->
-	<h2 id=hjw>회원가입 정보 입력</h2>
 	<form name="memberEnrollFrm" id="memberEnrollFrm" action="<%=request.getContextPath() %>/memberJoinEnd" onsubmit="return fn_enroll_validate()" method="post">
 	<table align="center">
 		<tr>
@@ -240,8 +249,10 @@ body :-ms-input-placeholder {
 
 		
 	</table>
+	<div id="buttonContainer">
 	<input type="submit" value="가입"/>
 	<input type="reset" value="취소" onclick="historyBack()"/>
+	</div>
 	</form>
 	</div>
 	</div>
@@ -253,7 +264,7 @@ body :-ms-input-placeholder {
 		<input type="hidden" name="email"/>
 		<input type="hidden" name="code_check"/>
 	</form>
-
+</body>
 	
 <!-- </section> -->
 

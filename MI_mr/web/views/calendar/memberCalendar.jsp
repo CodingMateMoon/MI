@@ -136,6 +136,8 @@ var eventDataset=[
 
 
 <body>
+<h1>SCHEDULE</h1>
+<hr class="divider my-4">
 <table class="content_container">
 <tr>
 <td>

@@ -10,6 +10,7 @@
 <body>
 	<form id="form2" action="javascript:getPassword()">
 		<table>
+		
 			<tr>
 				<td><span>인증번호</span></td>
 				<td><input type="text" name="code" id="code" onkeyup="checkCode()" placeholder="인증번호를 입력하세요."/>

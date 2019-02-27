@@ -9,12 +9,6 @@
 
 		function mailcheck(){
 			mailButtonCheck++;
-			  var email=$("#email").val().trim();
-		      if(email.length<8)
-		         {
-		            alert("메일을 입력해주세요.");
-		            return;
-		         }
 			var url="<%=request.getContextPath()%>/pwfindMailcheck";
 			var title="mailcheck";
 			var option="left=500px, top=100px, width=300px, height=150px, menubar=no, status=no, scrollbars=yes";
@@ -42,7 +36,6 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>회원가입 폼</title>
 <style>
   #mailcodeEnd_span{
   	border: 0px;
@@ -51,21 +44,59 @@
     width: 60px;
   }
 a {color:#333; text-decoration: none;}
-.idFind {text-align:center; width:500px; margin-top:80px; margin-left:25%}
-.pwFind {text-align:center; width:500px; margin-top:30px; margin-left:25%}
-table{
-margin-left:12%
+.idFind {text-align:center; width:100%; margin-top:20px;}
+.pwFind {text-align:center; width:100%; margin-top:30px;}
+
+	table{
+		padding-top:30px;
+		margin-left:35%;
+	}
+	table tr td{
+		height:50px;
+		padding-left:10px;
+	}
+form input[type=submit] {
+/* margin-left:12%; */
+  font-family:Merriweather Sans;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 3px;
+  width: 150px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+}
+form input[type=button] {
+  font-family:Merriweather Sans;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  /*padding: 10px 15px; */
+  color: white;
+  border-radius: 3px;
+  width: 100px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s; 
 }
 </style>
 </head>
 <body>
 
   <div class="idFind">
+  <h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">FIND MY ID</h1>
+	<hr class="divider my-4">
     <form method="post" action="<%=request.getContextPath()%>/id_find">
-      <h1>회원계정 찾기</h1>
+
       </br>
         <fieldset>
-          <legend>아이디 찾기</legend>
             <table>
               <tr>
                 <td>이름</td>
@@ -83,9 +114,10 @@ margin-left:12%
     </form>
   </div>
   <div class="pwFind">
+  <h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">FIND MY PW</h1>
+	<hr class="divider my-4">
       <form method="post" action="<%=request.getContextPath()%>/pwFind" name="pwFindFrm" onsubmit="return pwFind_mailCheck()">
         <fieldset>
-          <legend>비밀번호 찾기</legend>
             <table>
               <tr>
                 <td>아이디</td>

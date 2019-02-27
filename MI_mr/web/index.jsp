@@ -1,72 +1,88 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ include file="/views/common/header.jsp" %>
-<style>
-.container1{
-margin-left: 5%;
-text-align: center;
-background-image : url("<%=request.getContextPath()%>/views/image/about-bg.png");
-background-repeat:no-repeat;
-background-size: 100% 100%;
-padding: 140px 0px;
-width: 100%;
-height: 25%;
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<%@ include file="/views/common/mainHeader.jsp" %>
 
-}
+<body id="page-top">
 
-.container2{
-margin-left: 5%;
-}
-
-body{
-margin-top: 0px;
-margin-right: 0px;
-}
-
-</style>
-
-<body>
- <div class="overlay"></div>
-    <div class="container1" >
-    	<div class-"container11">
-            <h1>Much Information</h1>
-            <span class="subheading">Let's share my schedule</span>
-    	</div>
-	</div>
-    <div class="container2">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-preview">
-        <div class="Selectlanguage">
-        	<h1>
-        		인사말
-        	</h1>
-            <h2 class="post-title">
-              	홈페이지 방문을 진심으로 환영합니다.
-            </h2>
-            <h3 class="post-subtitle">
-              M.I는 사람들의 스케줄을 공유하며 정보를 챙기기 위해 만들어진 기업입니다.
-            </h3>
-          <p class="post-meta">
-          	계획적인 시간관리를 필요로 하는 여러분에게 서로 공유하면서 많은 정보들을 얻어 나의 삶을 바꿔볼 수 있으며,
-          	바쁜 현대인들에게 놓치기 쉬운 일정들을 스마트하게 알려주고 서로 공유까지 할 수 있는 너무나도 편리한 M.I 사용해 보시기 바랍니다.<br>
-          	홈페이지가 아직 완벽하지 않으니 불편하시더라도 조금만 참아주세요~~
-          </p>
-          <h4>대표 김 미 리</h4>
+  <!-- Masthead -->
+<!-- <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="col-lg-10 align-self-end">
+          <h1 class="text-uppercase text-white font-weight-bold">MANAGE YOUR ALL SCHEDULE WITH MUCH INFORMAION</h1>
+          <hr class="divider my-4">
         </div>
-        <hr>
-        <div class="post-preview">
-            <h2 class="post-title">
-              조직도
-            </h2>
-         <img src="<%=request.getContextPath()%>/views/image/조직도.PNG"><br>
-        </div>
-        <!-- Pager -->
-        <div class="clearfix">
+        <div class="col-lg-8 align-self-baseline">
+          <p class="text-white-75 font-weight-light mb-5">Much Information can help you manage better schedule! Just sign up and manage your schedule with us. change your modern life.</p>
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">SIGN UP</a>
         </div>
       </div>
     </div>
-  </div>
-</body>
-<%@ include file="/views/common/footer.jsp" %>
+  </header> -->
 
+
+  <!-- Services Section -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <h2 class="text-center mt-0">Service and Function</h2>
+      <hr class="divider my-4">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 text-center">
+          <div class="mt-5">
+            <i class="fas fa-4x fas fa-users text-primary mb-4"></i>
+            <h3 class="h4 mb-2">Manage Your Group</h3>
+            <p class="text-muted mb-0">You can enjoy this with others:)</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+          <div class="mt-5">
+            <i class="fas fa-4x fas fa-calendar-alt text-primary mb-4"></i>
+            <h3 class="h4 mb-2">Manage Your Schedule</h3>
+            <p class="text-muted mb-0">You can manage your all schedule easily.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+          <div class="mt-5">
+            <i class="fas fa-4x fas fa-comments text-primary mb-4"></i>
+            <h3 class="h4 mb-2">Chat with others</h3>
+            <p class="text-muted mb-0">You can chat with others!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+          <div class="mt-5">
+            <i class="fas fa-4x fa-heart text-primary mb-4"></i>
+            <h3 class="h4 mb-2">Made with Love</h3>
+            <p class="text-muted mb-0">Is it really open source if it's not made with love?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="page-section" id="contact">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="mt-0">Let's Get In Touch!</h2>
+          <hr class="divider my-4">
+          <p class="text-muted mb-5">Ready to start your life with us? Give us a call or send us an email and we will get back to you as soon as possible!</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 ml-auto text-center">
+          <i class="fas fa-phone fa-3x mb-3 text-muted"></i>
+          <div>+82 (02) 1577-0227</div>
+        </div>
+        <div class="col-lg-4 mr-auto text-center">
+          <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
+          <!-- Make sure to change the email address in anchor text AND the link below! -->
+          <a class="d-block" href="mailto:contact@yourwebsite.com">iamM@muchinfo.com</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+<%@ include file="/views/common/footer.jsp" %>
