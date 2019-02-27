@@ -4,11 +4,13 @@
 <%@ include file="/views/common/header.jsp" %>
 <link href='<%=request.getContextPath() %>/css/fullcalendar.min.css' rel='stylesheet' />
 <link href='<%=request.getContextPath() %>/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<link href='<%=request.getContextPath()%>/css/bootstrap.css' rel='stylesheet'/>
 <script src='<%=request.getContextPath() %>/js/moment.min.js'></script>
 <script src='<%=request.getContextPath() %>/js/jquery.min.js'></script>
 <script src='<%=request.getContextPath() %>/js/fullcalendar.min.js'></script>
 <script src='<%=request.getContextPath() %>/js/moment.js'></script>
 <script src='<%=request.getContextPath() %>/js/bootstrap.min.js'></script>
+
 
 <script>
 <%
@@ -66,15 +68,27 @@ String htmlStr="";
 	  
 	var eventDataset=[
 		<%
+		String gName="";
+			
 			for(int i=0;i<eventList.size();i++){
 				if(i<eventList.size()-1){
+					String gId=eventList.get(i).getGroupId();
+					
+					for(int j=0;j<groupList.size();j++){
+						if(gId.equals(groupList.get(j).getGroupId())){
+							gName=groupList.get(j).getGroupName();
+						}	
+					}
+					
 		%>
 					{
 						"id":'<%=eventList.get(i).getEventId()%>',
 						"title":'<%=eventList.get(i).getTitle()%>',
 						"start":'<%=eventList.get(i).getStartDate()%>',
 						"end":'<%=eventList.get(i).getEndDate()%>',
-						"color":'<%=map.get(eventList.get(i).getGroupId())%>'
+						"color":'<%=map.get(eventList.get(i).getGroupId())%>',
+						"discription":'<%=eventList.get(i).getMemo()%>',
+						"resourceId":'<%=gName%>'
 					},
 					<%
 					}else{%>
@@ -83,7 +97,9 @@ String htmlStr="";
 						"title":'<%=eventList.get(i).getTitle()%>',
 						"start":'<%=eventList.get(i).getStartDate()%>',
 						"end":'<%=eventList.get(i).getEndDate()%>',
-						"color":'<%=map.get(eventList.get(i).getGroupId())%>'
+						"color":'<%=map.get(eventList.get(i).getGroupId())%>',
+						"discription":'<%=eventList.get(i).getMemo()%>',
+						"resourceId":'<%=gName%>'
 					}
 				<%}
 			}%>
@@ -106,14 +122,28 @@ String htmlStr="";
         eventLimit: true, // allow "more" link when too many events
         events:eventDataset,
         eventClick: function(event, jsEvent, view) {
-      	    $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
-            $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
-            $("#eventInfo").html(event.description);
-            $("#eventLink").attr('href', event.url);
-            $("#eventContent").modal();
-      	  }
+        	var eventEnd=moment(event.end).format('YYYY.MM.DD(ddd)');
+        	if(event.end==null){eventEnd=moment(event.start).format('YYYY.MM.DD(ddd)');}
+        	var groupName=event.id;
+        	console.log(event);
+        	 $('#modalTitle').html(event.title);
+             $('#modalDate').html("날짜 : "+moment(event.start).format('YYYY.MM.DD(ddd)')+" - "+eventEnd);
+             $('#modalGroup').html("그룹 : "+event.resourceId)
+             $("#modalMemo").html(event.description);
+             $('#eventUrl').attr('href',event.url);
+             $('#fullCalModal').modal();
+      	  },
+      	dayClick:function(date, allDay, isEvent, view){
+      		var yy=date.format("YYYY");
+      		var mm=date.format("MM");
+      		var dd=date.format("DD");
+      		console.log(yy+"-"+mm+"-"+dd);
+      		location.replace('<%=request.getContextPath()%>/event?memberId=<%=loginMember.getMemberId()%>');
+      		
+      	}
       });
   });
+
 	
 </script>
 <style>
@@ -121,25 +151,25 @@ String htmlStr="";
  body {
     margin: 20px 10px;
     padding: 0;
-    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif,Merriweather Sans;
     font-size: 14px;
   }
 
   #calendar {
-    max-width:90%;
-    max-width:600px;
+    max-width:80%;
+    padding-left:70px;
     margin: 10px 20px;
     display:inline-block;
   }
   .content_container{
-  	width:80%;
-  	float:right;
+  	width:100%;
+  	height:100%;
   }
   #choice_GroupMember{
   	display:block;
   	overflow-y:scroll;
-  	width:300px;
-  	heigth:400px;
+  	width:400px;
+  	heigth:500px;
   	border:1px solid lightgray;
   }
   .choice_container ul {
@@ -157,22 +187,22 @@ String htmlStr="";
   }
   .choice_container ul li span{
   	width:150px; 
-  	font-size : 15px;
+  	font-size : 14px;
   	text-decoration:none;
   }
-  .choice_container ul li span:hover, ul li span:focus {
+  .choice_container ul.choice_GroupMember li span:hover, ul.choice_GroupMember li span:focus {
   	
   	border:1px solid lightgray;
   	font:bold;
   }
-  .choice_container ul li span.now {
+  .choice_container ul.choice_GroupMember li span.now {
 	border:1px solid #f40;
 }
 
-.choice_container ul li ul li{
+.choice_container ul.choice_GroupMember li ul li{
 	display: none;
 }
-.choice_container ul li ul li span{
+.choice_container ul.choice_GroupMember li ul li span{
 font-size:12px;	
 }
 .group_container{
@@ -180,7 +210,21 @@ font-size:12px;
 }
 .choice_container ul li#groupSchedule{ transition:all 0.5s;}
 .choice_container ul li#groupSchedule:hover ul li{ transition: all 0.5s; display:block; }
-
+.btn btn-primary{
+  font-family:Merriweather Sans;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  color: white;
+  border-radius: 3px;
+  width: 80px;
+  height:30px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+}
   	
 
 </style>
@@ -189,6 +233,8 @@ font-size:12px;
 
 
 <body>
+<h1 style="text-align:center;font-family:Merriweather Sans;">MY CALENDAR</h1>
+<hr class="divider my-4">
 <table class="content_container">
  <tr>
 <td class="choice_container">
@@ -210,12 +256,30 @@ font-size:12px;
 <td>
   	<div id='calendar'></div>
   	<!-- 모달창 -->
-<div id="eventContent" title="Event Details" style="display:none;" tabindex="-1" role="dialog">
-    <div class="modal"></div>
-    Start: <span id="startTime"></span><br>
-    End: <span id="endTime"></span><br><br>
-    <p id="eventInfo"></p>
-    <p><strong><a id="eventLink" href="" target="_blank">Read More</a></strong></p>
+<div id="fullCalModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+             <h3 id="modalTitle" class="modal-title"></h3>
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+            </div>
+            <div id="modalBody" class="modal-body">
+           		<h5 id="modalDate"></h5>
+            	<h5 id="modalGroup"></h5>
+            	<div id="memoContainer" style="height:100px; border-top:1px solid lightgray">
+            	<h5>메모</h5>
+            	 <p id="modalMemo"></p>
+            	 </div>
+            </div>
+            
+            
+           
+            <div class="modal-footer">
+                <button class="btn btn-primary" style="background-color: #f4623a;border:#f4623a;"><a id="eventUrl" target="_blank" color="white">Edit</a></button>
+                <button class="btn btn-primary" style="background-color: #f4623a; border:#f4623a;" onclick="location.href='<%=request.getContextPath()%>/detailAll?memberId=<%=loginMember.getMemberId()%>'"><a id="eventUrl" target="_blank" color="white">Read More</a></button>
+            </div>
+        </div>
+    </div>
 </div>
 </td>
 </tr>
@@ -251,7 +315,9 @@ function fn_groupCal_ajax(){
 						"title":data.eventJArr[i].title,
 						"start":moment(data.eventJArr[i].startDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
 						"end":moment(data.eventJArr[i].endDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
-						"color":colorMap[data.eventJArr[i].groupId]
+						"color":colorMap[data.eventJArr[i].groupId],
+						"discription":data.eventJArr[i].memo,
+						"resourceId":data.eventJArr[i].groupId
 					}
 					);
 			}
@@ -315,7 +381,9 @@ function fn_defaultCal_ajax(){
 						"title":data.eventJArr[i].title,
 						"start":moment(data.eventJArr[i].startDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
 						"end":moment(data.eventJArr[i].endDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
-						"color":colorMap['<%=loginMember.getMemberId()%>']
+						"color":colorMap['<%=loginMember.getMemberId()%>'],
+						"discription":data.eventJArr[i].memo,
+						"resourceId":data.eventJArr[i].groupId
 					});
 				}else{
 					memberEventDataset.push(
@@ -324,7 +392,9 @@ function fn_defaultCal_ajax(){
 						"title":data.eventJArr[i].title,
 						"start":moment(data.eventJArr[i].startDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
 						"end":moment(data.eventJArr[i].endDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
-						"color":colorMap[data.eventJArr[i].groupId]
+						"color":colorMap[data.eventJArr[i].groupId],
+						"discription":data.eventJArr[i].memo,
+						"resourceId":data.eventJArr[i].groupId
 						}
 					);
 				}
@@ -385,7 +455,9 @@ function fn_groupsCal_ajax(){
 						"title":data.eventJArr[i].title,
 						"start":moment(data.eventJArr[i].startDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
 						"end":moment(data.eventJArr[i].endDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
-						"color":colorMap[data.eventJArr[i].groupId]
+						"color":colorMap[data.eventJArr[i].groupId],
+						"discription":data.eventJArr[i].memo,
+						"resourceId":data.eventJArr[i].groupId
 					}
 					);
 			}
@@ -435,7 +507,9 @@ function fn_groupsCal_ajax(){
 							"title":data.eventJArr[i].title,
 							"start":moment(data.eventJArr[i].startDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
 							"end":moment(data.eventJArr[i].endDate,"M월 DD,YYYY").format("YYYY-MM-DD"),
-							"color":'#44B3C2'
+							"color":'#44B3C2',
+							"discription":data.eventJArr[i].memo,
+							"resourceId":data.eventJArr[i].groupId
 						}
 						);
 				}

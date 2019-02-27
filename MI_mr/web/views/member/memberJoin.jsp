@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 	
 <%@ include file="/views/common/header.jsp" %>
+
+</head>
 <body>
 <script>
 	var emailButtonCheck=0;
@@ -83,7 +85,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: black;
   font-weight: 300;
 }
 body ::-webkit-input-placeholder {
@@ -112,16 +114,10 @@ body :-ms-input-placeholder {
   color: white;
   font-weight: 300;
 }
-.wrapperjw {
-  background: linear-gradient(to bottom right, #d0d0d0 0%, #000000 100%);
-  position: absolute;
-  top: 45%;
-  left: 0;
+ .wrapperjw {
   width: 100%;
-  height: 400px;
-  margin-top: -200px;
-  overflow: hidden;
-}
+  height: 70%;
+} 
 .wrapperjw.form-success .container h1 {
   -webkit-transform: translateY(85px);
       -ms-transform: translateY(85px);
@@ -139,17 +135,6 @@ body :-ms-input-placeholder {
   font-size: 35px;
   font-weight: 200;
 }
-/* 	#enroll-container{
-	 position: absolute;
-  width: 350px;
-  height: 300px;
-  z-index: 15;
-  top: 50%;
-  left: 50%;
-  margin: -200px 0 0 -150px;
-  text-align: center;
-  border: 2px solid black;
-  } */
   
   #mailcodeEnd_span{
   	border: 0px;
@@ -157,18 +142,43 @@ body :-ms-input-placeholder {
     color: blue;
     width: 60px;
   }
-  input[type=submit],[type=reset],[type=button]{
-    background-color: #bbc7d896;
-    border: 0;
-    color: white;
-    cursor: pointer;
-  }
+  form input[type=button] ,[type=submit],[type=reset]{
+  font-family:Merriweather Sans;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  color: white;
+  border-radius: 3px;
+  width: 80px;
+  height:30px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+}
+ #buttonContainer{
+ 	padding-top:30px;
+ 	margin:auto;
+ }
+.containerjw input[type="text"],[type="password"],[type="email"],[type="tel"]{
+		border: 1px solid gray;
+  		background-color: white;
+	}
+		table{
+		padding-top:20px;
+	}
+	table tr td{
+		height:50px;
+		padding-left:10px;
+	}
 </style>
-
+<body>
+<h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">SIGN UP</h1>
+<hr class="divider my-4">
 <div class="wrapperjw">
 <div class="containerjw">
 <!-- <section id="enroll-container"> -->
-	<h2 id=hjw>회원가입 정보 입력</h2>
 	<form name="memberEnrollFrm" id="memberEnrollFrm" action="<%=request.getContextPath() %>/memberJoinEnd" onsubmit="return fn_enroll_validate()" method="post">
 	<table align="center">
 		<tr>
@@ -225,8 +235,10 @@ body :-ms-input-placeholder {
 
 		
 	</table>
+	<div id="buttonContainer">
 	<input type="submit" value="가입"/>
 	<input type="reset" value="취소" onclick="historyBack()"/>
+	</div>
 	</form>
 	</div>
 	</div>
@@ -238,7 +250,7 @@ body :-ms-input-placeholder {
 		<input type="hidden" name="email"/>
 		<input type="hidden" name="code_check"/>
 	</form>
-
+</body>
 	
 <!-- </section> -->
 

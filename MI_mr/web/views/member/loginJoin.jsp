@@ -1,14 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/views/common/header.jsp" %>
+<%@ include file="/views/common/header2.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<header class="masthead">
+    <div class="container h-100">
+      <div class="rightContainer">
+        <div id="innerContainer">
 
+          <h1 id="mi">[WELCOME TO M.I]</h1>
+          <hr class="divider my-4">
+        </div>
+        <div class="inner2Container" >
+          <p class="text-white-75 font-weight-light mb-5">Change your life with Much Information!</p> 
+          <p class="text-white-75 font-weight-light mb-5">If you are not our family,</p> 
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="<%=request.getContextPath()%>/memberJoin">JOIN</a>
+        </div>
+      </div>
+   </div>
+  </header>
 </head>
-<body>
+
 
 <style>
 body {
@@ -46,13 +61,12 @@ body :-ms-input-placeholder {
   font-weight: 300;
 }
 .wrapperjw {
-  background: linear-gradient(to bottom right, #d0d0d0 0%, #000000 100%);
+  
   position: absolute;
   top: 45%;
   left: 0;
-  width: 100%;
-  height: 400px;
-  margin-top: -200px;
+  width: 50%;
+  height: 100%;
   overflow: hidden;
 }
 .wrapperjw.form-success .container h1 {
@@ -80,8 +94,8 @@ form {
 form input[type=text],[type=password],[type=submit],[type=button] {
   appearance: none;
   outline: 0;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid white;
+  background-color: white;
   width: 250px;
   border-radius: 3px;
   padding: 10px 15px;
@@ -89,7 +103,7 @@ form input[type=text],[type=password],[type=submit],[type=button] {
   display: block;
   text-align: center;
   font-size: 12px;
-  color: white;
+  color: black;
   -webkit-transition-duration: 0.25s;
           transition-duration: 0.25s;
   font-weight: 300;
@@ -101,27 +115,29 @@ form input[type=text],[type=password],[type=submit],[type=button] {
 width:200px;
 }
 #loginjoinjw, #loginjw{
-background-color: #383e4896;
+background-color: #f4623a;
 }
 form input:hover {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: white;
+  color:black;
 }
 form input:focus {
   background-color: white;
   width: 300px;
-  color: #000;
+  color: black;
 }
 form input[type=submit],[type=button] {
+  font-family:Merriweather Sans;
   appearance: none;
   outline: 0;
-  background-color: white;
+  background-color: #f4623a;
   border: 0;
   padding: 10px 15px;
-  color: #000;
+  color: white;
   border-radius: 3px;
   width: 250px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 16px;
   -webkit-transition-duration: 0.25s;
           transition-duration: 0.25s;
 }
@@ -144,10 +160,9 @@ form input[type=submit],[type=button] {
 });
 
   </script>
-  
+  <body>
 <div class="wrapperjw">
 <div class="containerjw">
-	<h1>Welcome</h1>
  <form class="form" id="loginFrm" action="<%=request.getContextPath()%>/login" method="post" onsubmit="return validate();">
 
 					<tr>
@@ -161,10 +176,7 @@ form input[type=submit],[type=button] {
 					</tr>
 					<tr>
 						<td><input id="loginjoinjw" type="submit" value="login" /></td>
-					</tr>
-					<tr>
-						<td><input id="loginjw" type="button" value="join" onclick="location.href='<%=request.getContextPath()%>/memberJoin'" />
-						</td>
+						<td><input id="loginjoinjw" type="button" onclick="location.href='<%=request.getContextPath()%>/IdPwForget'" value="find Id/Pw" /></td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type='checkbox' name="saveId"

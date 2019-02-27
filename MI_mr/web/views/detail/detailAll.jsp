@@ -12,15 +12,15 @@
 <style>
 div.inline {display: inline-block;}
 #d1 {
-	background-color: lavender;
-	position: absolute;
+	/* background-color: lavender; */
+	/* position: absolute; */
 	width: 30%;
 	height: 70%;
 	margin-left: 5px
 }
 #d2 {
-	background-color: lightgoldenrodyellow;
-	position: absolute;
+	/* background-color: lightgoldenrodyellow; */
+	/* position: absolute; */
 	width: 50%;
 	height: 70%;
 	margin-left: 300px;
@@ -31,7 +31,9 @@ table#list{margin-bottom:10px;width:100%;}
 </style>
 
 
-
+<section>
+<h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">SCHEDULE</h1>
+<hr class="divider my-4">
 <%if (loginMember != null) {%>
 <input type="button" value="등록" id="btn-add" onclick="fn_detailAdd()" />
 <input type="button" value="삭제" id="btn-del" onclick="fn_detailDelete()" />
@@ -197,4 +199,5 @@ table#list{margin-bottom:10px;width:100%;}
 			});
 		}  
 </script>
+</section>
 <%@ include file="/views/common/footer.jsp"%>

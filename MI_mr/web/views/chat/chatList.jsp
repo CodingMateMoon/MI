@@ -53,6 +53,8 @@
  	border:1px solid black;
  }
 </style>
+<h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">MY PAGE</h1>
+<hr class="divider my-4">
 	<div id="teduri">
 		<table id="chatTable">
 			<tr id="gtr">
