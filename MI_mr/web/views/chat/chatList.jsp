@@ -74,16 +74,17 @@
 			</tr>
 			
 			<%} %>
-			<tr>
-				<td>Test</td>
+			<tr id="last">
+				<td><br></td>
 			<tr>
 				
 		</table>
 	</div>
 	<form name=chatForm></form>
 	<script>
-		$(".chatroom").click(function(){
-			
+		
+		$(document).on("click",".chatroom",function(event){
+			// 동적으로 여러 태그가 생성된 경우라면 이런식으로 클릭된 객체를 this 키워드를 이용해서 잡아올 수 있다.
 			var windowName = $(this).text().trim();
 			var chatroomId = $(this).siblings("input").val();
 			var url = "<%=request.getContextPath()%>/chatroom?chatroomId=" + chatroomId;
@@ -91,7 +92,7 @@
 			var option = "left=100px, top=0px, width=500px, height=700px, menubar=no, toolbar=no, status=no, scrollbars=yes";		
 			window.open(url, "", option);
 		})
-		
+
 		function addChatroom(){
 			var url = "<%=request.getContextPath()%>/addChatroom";
 			var option = "left=100px, top=0px, width=500px, height=700px, menubar=no, toolbar=no, status=no, scrollbars=yes";		

@@ -49,6 +49,12 @@
 	
 	function fn_mailcheck(){
 		emailButtonCheck++;
+		  var email=$("#email").val().trim();
+	      if(email.length<8)
+	         {
+	            alert("메일을 입력해주세요.");
+	            return;
+	         }
 		var url="<%=request.getContextPath()%>/mailcheck";
 		var title="mailcheck";
 		var option="left=500px, top=100px, width=300px, height=150px, menubar=no, status=no, scrollbars=yes";

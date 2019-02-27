@@ -61,7 +61,7 @@
 
 
 <div id="teduri2">
-      <input type="text" id="gNamebar" required placeholder="채팅방 이름" autocomplete="off"/>
+      <input type="text" id="chatroomNamebar" required placeholder="채팅방 이름" autocomplete="off"/>
       <button type="button" id="save">저장</button>
       
       <br/>
@@ -81,8 +81,8 @@
       
 </div>
 <form name="chatroomForm" action="<%=request.getContextPath()%>/addChatroomEnd" method="post">
-   <input type="hidden" name="memberId" value="<%=loginMember.getMemberId()%>"/>
-   <input type="hidden" name="memberIdList"/>
+   <%-- <input type="hidden" name="memberId" value="<%=loginMember.getMemberId()%>"/>
+   <input type="hidden" name="memberIdList"/> --%>
 </form>
 
    <script>
@@ -90,10 +90,16 @@
          
          $("#searchId").change(function(){
             var value=$(this).val();
+            console.log(value);
+            if (value == '<%=loginMember.getMemberId()%>') {
+         	   alert('채팅 개설자의 id 입니다.');
+         	   return;
+            }
             var flag=false;
             //console.log($('#datalist').children())
              $.each($('#datalist').children(),function(index,item){
                console.log(item);
+               
                if(value==item.innerHTML)
                {
                   flag=true;
@@ -131,19 +137,31 @@
       });   
       
       $("button#save").click(function(){
-         var memberList = [];
+         var members = [];
          $(".addChatroomMember").each(function(index, item) {
-            memberList.push(item.innerHTML);
+        	 members.push(item.innerHTML);
             
          });
-         if(memberList.length > 0) {
-        	 var listObject = new Object();
-
-        	 listObject.value = memberList;	
-        	 /* console.log(JSON.stringify(listObject)) */
-        	 chatroomForm.memberIdList = JSON.stringify(listObject);
-        	 chatroomForm.submit();
+         if(members.length > 0) {
+        	 var chatroomName= $('#chatroomNamebar').val();
+        	 
+        	 $.ajax({
+ 				url: "<%=request.getContextPath()%>/addChatroomEnd",
+ 				data:{"chatroomName":chatroomName,"members":members, "admin": '<%=loginMember.getMemberId()%>'},
+ 				type:"post",
+ 				success:function(data){
+ 					var tr = $("<tr></tr>");
+ 					var td =$("<td class='chatroom'>" + data["chatroomName"] + "</td>");
+ 					var chatroomId = $("<input type='hidden' value='" + data["chatroomId"] +"'/>");
+ 					tr.append(td);
+ 					tr.append(chatroomId);
+ 					tr.insertBefore($(opener.document).find("#last"));
+ 					//tr.insertBefore($(opener.document).find("#chatTable").children(":last"));
+ 					self.close();
+ 				}
+ 			})
          }
+        
       });
    
    </script>

@@ -98,7 +98,7 @@
 					{
 						flag=true;
 					}
-					 else{alert("아이디를 전부입력하세요");}
+					 //else{alert("아이디를 전부입력하세요");}
 				});
 				if(flag){
 					$('#addmember').append($('<tr><td class="addGroupMember">'+value+'</td></tr>'));

@@ -1,6 +1,8 @@
 package com.mi.chat.controller;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
+import com.mi.chat.model.service.ChatService;
 
 
 
@@ -33,26 +35,33 @@ public class AddChatroomEndServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String memberId = request.getParameter("memberId");
-		String memberIdList = request.getParameter("memberIdList");
-		System.out.println("addChatroomEnd---");
-		System.out.println(memberIdList);
+		request.setCharacterEncoding("UTF-8");
+		String chatroomName = request.getParameter("chatroomName");
+		String[] members = request.getParameterValues("members[]");
+		String admin = request.getParameter("admin");
 		
-		if (memberIdList != null) {
-			JSONParser jsonParser = new JSONParser();
-	
-	    	// 클라이언트에서 받은 JSON 형식의 객체를 String으로 받은 다음 JSONParser로 파싱하여 JSONObject로 변환
-	    	JSONObject jsonObject = null;
-			try {
-				jsonObject = (JSONObject) jsonParser.parse(memberIdList.toString());
-				System.out.print(jsonObject.toJSONString());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+		// 아이디 중복 검사
+		Set<String> check = new HashSet<>();
+		for (String s : members) {
+			check.add(s);
 		}
+		String[] checkMembers = check.toArray(new String[check.size()]);
+		int lastChatroomId = new ChatService().findLastChatroomId();
+		int result = new ChatService().addChatroom(lastChatroomId + 1, chatroomName, admin);
+		int result2 = new ChatService().addChatroomByMember(lastChatroomId + 1, checkMembers, admin);
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("chatroomName", chatroomName);
+		if (result2 > 0) {
+			result2 = new ChatService().findLastChatroomId(); 
+			jsonobj.put("chatroomId", result2);
+		}
+		
+		
 		/*request.setAttribute("msg", "채팅방 등록!");
 		request.setAttribute("loc", "/");
 		request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);*/
+		response.setContentType("application/json;charset=UTF-8");
+		response.getWriter().println(jsonobj);
 	}
 
 	/**
