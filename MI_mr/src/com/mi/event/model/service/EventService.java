@@ -44,6 +44,21 @@ public class EventService {
 		return result;
 	}
 	
+	public int deleteEvent(String eventId) {
+		Connection conn=getConnection();
+		int result=dao.deleteEvent(conn,eventId);
+		if(result>0)
+		{
+			commit(conn);
+		}
+		else
+		{
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
 	/*
 	 * public List<Event> detailEvent(String eventId){ Connection
 	 * conn=getConnection(); List<Event> list = dao.detailEvent(conn, eventId);

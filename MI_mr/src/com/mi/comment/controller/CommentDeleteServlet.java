@@ -32,7 +32,7 @@ public class CommentDeleteServlet extends HttpServlet {
 
 		//삭제할 번호 
 		int eventCommentNo=Integer.parseInt(request.getParameter("eventCommentNo"));
-
+		System.out.println("deleteCommentServlet"+eventCommentNo);
 		int result = new CommentService().deleteComment(eventCommentNo);
 		
 		new Gson().toJson(result,response.getWriter());

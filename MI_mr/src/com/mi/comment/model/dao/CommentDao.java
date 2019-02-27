@@ -56,10 +56,11 @@ public class CommentDao {
 		PreparedStatement pstmt=null;
 		int result=0;
 		String sql=prop.getProperty("deleteComment");
+		System.out.println("delectDao"+sql+" : "+eventCommentNo);
 		try {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, eventCommentNo);
-			pstmt.executeQuery();
+			result=pstmt.executeUpdate();
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
