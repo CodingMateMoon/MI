@@ -330,8 +330,6 @@ table td {
 						
 						$('#commentList').append(tr);
 					} 
-					console.log("eventCommentNo확인");
-						console.log(data);
 				}
 			});
 		}
