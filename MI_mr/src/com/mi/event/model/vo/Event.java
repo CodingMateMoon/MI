@@ -30,9 +30,6 @@ public class Event {
 		this.prepairingId = prepairingId;
 	}
 
-	
-
-	
 	public String getEventId() {
 		return eventId;
 	}
@@ -99,10 +96,12 @@ public class Event {
 
 	@Override
 	public String toString() {
-		return "Event [eventID=" + eventId + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
+		return "Event [eventId=" + eventId + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", groupId=" + groupId + ", memo=" + memo + ", filePath=" + filePath + ", prepairingId="
 				+ prepairingId + "]";
 	}
+
+
 
 
 

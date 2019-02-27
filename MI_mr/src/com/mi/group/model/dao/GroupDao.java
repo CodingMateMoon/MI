@@ -9,9 +9,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import com.mi.event.model.dao.EventDao;
 import com.mi.group.model.vo.Group;
+import com.mi.group.model.vo.GroupByMember;
+
 import static common.JDBCTemplate.close;
 public class GroupDao {
 	private Properties prop=new Properties();
@@ -45,6 +48,38 @@ public class GroupDao {
 		return list;
 	}
 	
+	public List<GroupByMember> groupMemberList(Connection conn,String groupId)
+	{
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql=prop.getProperty("groupMemberList");
+		List<GroupByMember> list=new ArrayList<GroupByMember>();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			rs=pstmt.executeQuery();
+			while(rs.next())
+			{
+				GroupByMember gbm=new GroupByMember();
+				/* gbm.setGroupId(rs.getString("group_id")); */
+				gbm.setMemberId(rs.getString("member_id"));
+				list.add(gbm);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+	
+	
+	
 	public List<String> selectId(Connection conn, String search)
 	{
 		PreparedStatement pstmt=null;
@@ -77,6 +112,28 @@ public class GroupDao {
 			}
 		}
 		return list;
+	}
+	
+	public int deleteGroup(Connection conn, String groupId)
+	{
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql=prop.getProperty("deleteGroup");
+		try
+		{
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			result=pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			close(pstmt);
+		}
+		return result;
 	}
 	
 	public int addGroup(Connection conn, String gName,String[] members)
@@ -131,4 +188,50 @@ public class GroupDao {
 		return result;
 	}
 	
+	public int memberUpdate(Connection conn, String groupId, String[] members)
+	{
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql=prop.getProperty("updateMember");
+		try
+		{
+			for(String s : members) {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			pstmt.setString(2, s);
+			result=pstmt.executeUpdate();
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		finally
+		{
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	 public String selectGroupId(Connection conn, String groupName) {
+	      PreparedStatement pstmt=null;
+	      ResultSet rs=null;
+	      String sql=prop.getProperty("selectGroupId");
+	      String groupId="";
+	      try {
+	         pstmt=conn.prepareStatement(sql);
+	         pstmt.setString(1, groupName);
+	         rs=pstmt.executeQuery();
+	         while(rs.next()){
+	            groupId=rs.getString("group_id");
+	         }
+	      }catch(Exception e) {e.printStackTrace();}
+	      finally {
+	         close(rs);
+	      }
+	      return groupId;
+	   }
+
 }

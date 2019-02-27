@@ -51,9 +51,10 @@ public class LoginServlet extends HttpServlet {
 		if(result!=null) {
 			if(result.getPassword().equals(pw))
 			{
-				msg="환영합니다~~";
+				/*msg="환영합니다~~";*/
+				view = "/";
 				HttpSession session=request.getSession();
-				session.setAttribute("loginMember", m);
+				session.setAttribute("loginMember", result);
 				
 				String saveId=request.getParameter("saveId");
 				if(saveId!=null)

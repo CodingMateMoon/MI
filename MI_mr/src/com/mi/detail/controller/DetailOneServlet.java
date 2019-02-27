@@ -12,17 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.mi.event.model.service.EventService;
 import com.mi.event.model.vo.Event;
 
+//일정 하나 가져오는 서블릿
+
 /**
  * Servlet implementation class DetailScheduleServlet
  */
-@WebServlet("/detailSchedule")
-public class DetailScheduleServlet extends HttpServlet {
+@WebServlet("/detailOne")
+public class DetailOneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DetailScheduleServlet() {
+    public DetailOneServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,13 +34,14 @@ public class DetailScheduleServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String eventId=request.getParameter("eventId");
-		List<Event> list=new EventService().detailEvent();
+		Event e=new EventService().detailEvent(eventId);
 		
+		System.out.println("123123일교일교이료교교교"+e);
 		
 		request.setAttribute("eventId", eventId);
-		request.setAttribute("list", list);
-		request.getRequestDispatcher("/views/detail/detailSchedule.jsp").forward(request, response);
-	
+		request.setAttribute("list", e);
+		request.getRequestDispatcher("/views/detail/detailOne.jsp").forward(request, response);
+		
 	}
 
 	/**
