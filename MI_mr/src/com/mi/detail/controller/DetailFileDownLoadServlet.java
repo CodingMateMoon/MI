@@ -33,8 +33,8 @@ public class DetailFileDownLoadServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//upload/event
 
+//		upload/event
 		String filePath = request.getParameter("filePath");
 		System.out.println(filePath);
 //		1실제 파일 저장경로 가져오기
@@ -73,10 +73,8 @@ public class DetailFileDownLoadServlet extends HttpServlet {
 		while((read=bis.read())!=-1) {
 			bos.write(read);
 		}
-		
 		bis.close();
 		bos.close();
-		
 	}
 
 	/**

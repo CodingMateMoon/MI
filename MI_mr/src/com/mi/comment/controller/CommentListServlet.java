@@ -1,6 +1,11 @@
 package com.mi.comment.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,16 +18,16 @@ import com.mi.comment.model.service.CommentService;
 import com.mi.comment.model.vo.EventComment;
 
 /**
- * Servlet implementation class CommentInsertServlet
+ * Servlet implementation class CommentListServlet
  */
-@WebServlet("/commentInsert")
-public class CommentInsertServlet extends HttpServlet {
+@WebServlet("/eventComment/commentList.do")
+public class CommentListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CommentInsertServlet() {
+    public CommentListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,23 +36,26 @@ public class CommentInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String eventRef=request.getParameter("eventRef");
-		String eventCommentWriter = request.getParameter("eventCommentWriter");
-		String eventCommentContent = request.getParameter("eventCommentContent");
-		int eventCommentLevel = Integer.parseInt(request.getParameter("eventCommentLevel"));
-		int eventCommentRef = Integer.parseInt(request.getParameter("eventCommentRef"));
 		
-		EventComment comment = new EventComment();
-		System.out.println("servlet에서 찍은 eventId : "+eventRef);
-		comment.setEventRef(eventRef);
-		comment.setEventCommentContent(eventCommentContent);
-		comment.setEventCommentLevel(eventCommentLevel);
-		comment.setEventCommentRef(eventCommentRef);
-		comment.setEventCommentWriter(eventCommentWriter);
+		String eventId = request.getParameter("eventId");
 		
-		int result = new CommentService().insertComment(comment);
-		
-		new Gson().toJson(result,response.getWriter());
+		System.out.println(eventId);
+		List<EventComment> list= new CommentService().commentList(eventId);
+		System.out.println(list);
+		/*Map map=new HashMap();
+		List<Map>transList=new ArrayList();
+		for(EventComment c : list) {
+			map.put("eventCommentWriter",c.getEventCommentWriter());
+			map.put("eventCommentContent", c.getEventCommentContent());
+			map.put("eventCommentNo",c.getEventCommentNo());
+			String eventCommentDate=new SimpleDateFormat("yyyy-MM-dd").format(c.getEventCommentDate());
+			map.put("eventCommentDate",eventCommentDate);
+			transList.add(map);
+		}*/
+		response.setContentType("application/json;charset=UTF-8");
+		new Gson().toJson(list,response.getWriter());
+	
+	
 	
 	}
 
