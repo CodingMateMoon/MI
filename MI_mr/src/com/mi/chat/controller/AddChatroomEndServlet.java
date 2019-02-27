@@ -50,9 +50,9 @@ public class AddChatroomEndServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		request.setAttribute("msg", "채팅방 등록!");
+		/*request.setAttribute("msg", "채팅방 등록!");
 		request.setAttribute("loc", "/");
-		request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);*/
 	}
 
 	/**
