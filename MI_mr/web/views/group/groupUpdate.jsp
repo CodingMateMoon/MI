@@ -5,11 +5,17 @@
 	Member logginMember=(Member)session.getAttribute("loginMember");
 %>    
 <style>
+	#teduri2{	
+		/* border: 1px solid black; */
+ 		width: 180px;
+		height: 390px;
+		padding-left:5px;
+	}
 	#mList
 	{
 		/* border: 1px solid red; */
-		width: 180px;
-		height: 300px;
+		width: 160px;
+		height: 290px;
 		display: inline-block;
 	}
 	#addM
@@ -19,15 +25,7 @@
 		height: 300px;
 		display: inline-block
 	}
-	#teduri2{	
-		/* border: 1px solid black;
- */		width: 350px;
-		height: 400px;
-		
-	}
-	#teduri2{
-		padding-left:5px;
-	}
+
 	#anteduri
 	{
 		/* border: 1px solid green; */
@@ -36,12 +34,22 @@
 	}
 	#gNamebar
 	{
-		width:170px;
-		height: 30px;
+		width:150px;
+		height: 40px;
+		outline: 0;
+  		border-right:0px;
+  		border-top:0px; 
+  		border-left:0px;
+		border-bottom:1px solid gray;
 	}
 	#gUpdate
 	{
-		height:35px;
+		width: 60px;
+  		height: 40px;
+  		background-color: #f4623a; 
+  		color: white;
+  		border: 0;
+  		border-radius: 3px;
 	}
 	td{
 		padding-left:5px;
@@ -49,23 +57,60 @@
 	h4{
 	margin:0;
 	}
+	#addmember
+	{
+		width:150px;
+		height: 170px;
+		/* border: 2px solid black; */
+		overflow-x: hidden; 
+	}
+	#searchId{background: url(<%=request.getContextPath() %>/views/group/search6.png) no-repeat;
+				padding-left:25px;
+				width: 150px;
+  				height: 35px;
+  				outline: 0;
+  				border-right:0px;
+  				border-top:0px; 
+  				border-left:0px;
+				border-bottom:1px solid gray;
+				}
+	#btnDiv{
+		/* border: 2px solid blue; */
+		text-align:right;
+	}
+.addGroupMember{border:2px solid white;
+				width: 90px;
+  				height: 30px;
+  				text-align: center;
+				border-radius: 15px;
+				background-color: #f4623a; 
+  				color: white;
+  				 border-collapse: separate;
+  				border-spacing: 0 10px;
+  				font-size: 17px;
+}
+
 </style>
 
 <div id="teduri2">
 		<input type="text" id="gNamebar" required placeholder="그룹 이름" autocomplete="off"/>
-		<button type="button" id="gUpdate">저장</button>
 		<br/>
-		<br>
-		<div id="anteduri" >
+		<br/>
+		<!-- <div id="anteduri" > -->
 		<div id="mList">
-			<h4>아이디검색/추가</h4>
+			<!-- <h4>아이디검색/추가</h4> -->
 			<input type="search" name="serachId" id="searchId" list="datalist" placeholder="아이디검색" autocomplete="off"/>
 		<datalist id="datalist">
 		</datalist>
 		<br/><br/>
-		<h4>추가된 회원</h4>
+		<!-- <h4>추가된 회원</h4> -->
 		<div id="addmember"></div>
-
+				</div>
+		<div id='btnDiv'>
+		<button type="button" id="gUpdate">저장</button>
+		</div>
+<!-- </div> -->
+</div>
 	<script>
 		$(function(){
 			//로그인한 사용자 처음부터 회원으로 등록
@@ -131,6 +176,5 @@
 		});	
 	
 	</script>
-		</div>
-</div>
+
 

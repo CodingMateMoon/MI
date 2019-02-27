@@ -16,18 +16,18 @@ String groupId=(String)request.getAttribute("groupId");
 <style>
 	#addMemberview
 	{
-		width: 290px;
-		height: 150px;
+		width: 270px;
+		height: 200px;
 		/* border: 2px solid red; */
 		overflow-x:hidden;
 	}
-	#gMemberList
+	/* #gMemberList
 	{
 		width: 290px;
-		height: 200px;
-		/* border: 2px solid blue; */
+		height: 150px;
+		border: 2px solid blue;
 		overflow-x: hidden;
-	}
+	} */
 	#gMemberPlus
 	{
  /* 	position: relative;
@@ -39,52 +39,102 @@ String groupId=(String)request.getAttribute("groupId");
 	}
 	#teduri3
 	{
-		width: 300px;
+		width: 275px;
 		height: 400px;
 		/* border: 1px solid green; */
 	}
 h4{
 	margin : 0%
 }
+#addmember{/*  border: 1px solid black; */
+			width: 270px;
+			height: 160px;
+			overflow-x:hidden;
+}
+
+#searchId{background: url(<%=request.getContextPath() %>/views/group/search6.png) no-repeat;
+				padding-left:25px;
+				width: 150px;
+  				height: 35px;
+  				outline: 0;
+  				border-right:0px;
+  				border-top:0px; 
+  				border-left:0px;
+				border-bottom:1px solid gray;
+				}
 #btnDiv{
 	/* border: 1px solid yellow; */
-	width: 120px;
+	width: 170px;
 	float:right;
 }
-/* #addmember{ border: 1px solid black;} */
+.btnBtn{
+		width: 70px;
+  		height: 40px;
+  		background-color: #f4623a; 
+  		color: white;
+  		border: 0;
+  		border-radius: 3px;
+  		margin-left: 10px;
+}
+
+#oldMember{border:2px solid white;
+				width: 90px;
+  				height: 30px;
+  				text-align: center;
+				border-radius: 15px;
+				background-color: #C3C3C3; 
+  				color: white;
+  				 border-collapse: separate;
+  				border-spacing: 0 10px;
+  				font-size: 17px;
+
+}
+.addGroupMember{border:2px solid white;
+				width: 90px;
+  				height: 30px;
+  				text-align: center;
+				border-radius: 15px;
+				background-color: #f4623a; 
+  				color: white;
+  				 border-collapse: separate;
+  				border-spacing: 0 10px;
+  				font-size: 17px;
+}
+
 </style>
 <body>
 <div id="teduri3">
-	<div id="gMemberList">
+	<div id="addMemberview">
+			<input type="search" name="serachId" id="searchId" list="datalist" placeholder="아이디검색" autocomplete="off"/>
+		<datalist id="datalist">
+		</datalist>
+		<br>
+		<br>
 	<table>
 		<tr>
-			<th>멤버 목록</th>
+			<!-- <th>멤버 목록</th> -->
 		</tr>
 		  <%for(GroupByMember gbm : groupMemberList){%>
                 <tr>
-                	<td align="center">
+                	<td id="oldMember" align="center">
                 	<%=gbm.getMemberId() %>
                 	</td>
                 </tr>
                 <%} %>
 	</table>
-	</div>
-	<div id="addMemberview">
-		<h4>멤버 추가</h4>
-			<input type="search" name="serachId" id="searchId" list="datalist" placeholder="아이디검색" autocomplete="off"/>
-		<datalist id="datalist">
-		</datalist>
-		<div id="addmember"></div>
 		
 		
-		<!-- <img src="/views/group/plus.png" width="30px" id="gMemberPlus"/> -->
-	</div>
+		
+	<!-- </div>
+	<div id="gMemberList">
+	</div> -->
+</div>
+	<div id="addmember"></div>
 	<div id="btnDiv">
-		<input type="submit" id="addMemberBtn" value="등록"/>
-		<input type="button" id="deleteBtn" value="그룹제거"/>
+		<input type="submit" id="addMemberBtn" class="btnBtn" value="등록"/>
+		<input type="button" id="deleteBtn" class="btnBtn" value="그룹제거"/>
 	
 	</div>
-</div>
 <script>
 $(function(){
 	
