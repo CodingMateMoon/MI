@@ -35,16 +35,10 @@ public class SearchIdAjaxServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		String search=request.getParameter("search");
 		
-		
 		List<String> isList=new GroupService().selectId(search);
-
 			
 		response.setContentType("application/json;charset=UTF-8");
 		new Gson().toJson(isList, response.getWriter());		
-		
-		
-		
-		
 	}
 
 	/**

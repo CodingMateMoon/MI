@@ -6,76 +6,90 @@
 </head>
 <body>
 <script>
-	var emailButtonCheck=0;
-	var idButtonCheck=0;
-	$(function(){
-		$("#password_2").blur(function(){
-			var pw1=$("#password_").val();
-			var pw2=$("#password_2").val();
-			if(pw1.trim()!=pw2.trim()){
-				alert("비밀번호가..일치..하지..않아..");
-				$('#password_').focus();
-				$('#password_').val('');
-				$('#password_2').val('');
-			}
-		})
-	});
-	function fn_enroll_validate(){
-		var memberId=$("#memberId_").val();
-		if(memberId.trim().length<4){
-			alert("아이디는 항상 4글자이상으로...ㅎㅎㅎ");
-			$("#memberId_").focus();
-			return false;
-		}
-		if(idButtonCheck==0)
-		{
-			alert("중복확인을 해주세요.");
-			return false;
-		}
-		if(emailButtonCheck==0)
-		{
-			alert("메일인증을 해주세요.");
-			return false;
-		}
-		return true;
-		
-	}
-	
-	function fn_checkIdDuplicate(){
-		idButtonCheck++;
-		var memberId=$("#memberId_").val().trim();
-		if(!memberId||memberId.length<4)
-			{
-				alert("아이디는 항상 4글자이상으로...ㅎㅎㅎ");
-				return;
-			}
-		var url="<%=request.getContextPath()%>/chekIdDuplicate";
-		var title="checkIdDuplicate";
-		var option="left=500px, top=100px, width=300px, height=200px, menubar=no, status=no, scrollbars=yes";
-		var popup=window.open("",title,option);
-		checkIdDuplicateFrm.memberId.value=memberId;
-		checkIdDuplicateFrm.target=title;
-		checkIdDuplicateFrm.action=url;
-		checkIdDuplicateFrm.method="post";
-		checkIdDuplicateFrm.submit();
-	}
-	
-	function fn_mailcheck(){
-		emailButtonCheck++;
-		var url="<%=request.getContextPath()%>/mailcheck";
-		var title="mailcheck";
-		var option="left=500px, top=100px, width=300px, height=150px, menubar=no, status=no, scrollbars=yes";
-		var popup=window.open("",title,option);
-		checkEmailDuplicateFrm.email.value=$("#email").val();
-		checkEmailDuplicateFrm.code_check.value=$("#code_check").val();
-		checkEmailDuplicateFrm.target=title;
-		checkEmailDuplicateFrm.action=url;
-		checkEmailDuplicateFrm.method="post";
-		checkEmailDuplicateFrm.submit();
-	}
-	function historyBack(){
-		history.go(-1);
-	}
+   var emailButtonCheck=0;
+   var idButtonCheck=0;
+
+   function fn_enroll_validate(){
+      var memberId=$("#memberId_").val();
+      if(memberId.trim().length<4){
+         alert("아이디는 항상 4글자이상으로...ㅎㅎㅎ");
+         $("#memberId_").focus();
+         return false;
+      }
+      if(idButtonCheck==0)
+      {
+         alert("중복확인을 해주세요.");
+         return false;
+      }
+      if(emailButtonCheck==0)
+      {
+         alert("메일인증을 해주세요.");
+         return false;
+      }
+      return true;
+      
+   }
+   
+   function fn_checkIdDuplicate(){
+      idButtonCheck++;
+      var memberId=$("#memberId_").val().trim();
+      if(!memberId||memberId.length<4)
+         {
+            alert("아이디는 항상 4글자이상으로...ㅎㅎㅎ");
+            return;
+         }
+      var url="<%=request.getContextPath()%>/chekIdDuplicate";
+      var title="checkIdDuplicate";
+      var option="left=500px, top=100px, width=300px, height=200px, menubar=no, status=no, scrollbars=yes";
+      var popup=window.open("",title,option);
+      checkIdDuplicateFrm.memberId.value=memberId;
+      checkIdDuplicateFrm.target=title;
+      checkIdDuplicateFrm.action=url;
+      checkIdDuplicateFrm.method="post";
+      checkIdDuplicateFrm.submit();
+   }
+   function fn_mailcheck(){
+      emailButtonCheck++;
+      var email=$("#email").val().trim();
+      if(email.length<8)
+         {
+            alert("메일을 입력해주세요.");
+            return;
+         }
+      var url="<%=request.getContextPath()%>/mailcheck";
+      var title="mailcheck";
+      var option="left=500px, top=100px, width=300px, height=150px, menubar=no, status=no, scrollbars=yes";
+      var popup=window.open("",title,option);
+      checkEmailDuplicateFrm.email.value=$("#email").val();
+      checkEmailDuplicateFrm.code_check.value=$("#code_check").val();
+      checkEmailDuplicateFrm.target=title;
+      checkEmailDuplicateFrm.action=url;
+      checkEmailDuplicateFrm.method="post";
+      checkEmailDuplicateFrm.submit();
+   }
+   function historyBack(){
+      history.go(-1);
+   }
+    $(function(){
+      $('#password_2').blur(function(){
+         var password_=$('#password_').val();
+         var password_2=$('#password_2').val();
+         var passwordFlag=/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+
+         if(!passwordFlag.test($('#password_').val())){
+            alert('적어도 하나 이상의 영문 소문자, 숫자, 특수문자가 포함되어야 하며 길이는 8~15글자입니다.');
+            $('#password_').val('');
+               $('#password_2').val('');
+               $('#password_').focus();
+            }
+         if(password_.trim()!=password_2.trim()){
+            alert("비밀번호가 다릅니다.");
+            $('#password_').focus();
+            $('#password_').val('');
+            $('#password_2').val('');
+         }
+      });
+   });
 
 </script>
 <style>

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mi.chat.model.service.ChatService;
 import com.mi.group.model.service.GroupService;
 
 /**
@@ -31,7 +32,7 @@ public class GroupAddEndServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		request.setCharacterEncoding("UTF-8");
 		String gName = request.getParameter("gName");
 		String[] members = request.getParameterValues("members[]");
@@ -43,7 +44,20 @@ public class GroupAddEndServlet extends HttpServlet {
 		}
 		
 		int result=new GroupService().addGroup(gName,members);
-		int result2=new GroupService().addGroupMember(gName, members);
+		int result2 = 0;
+		String lastGroupId;
+		if (result > 0) {
+			lastGroupId = new GroupService().findLastGroupId();
+			result2=new GroupService().addGroupMember(lastGroupId, members);
+		}
+		
+		int lastChatroomId = new ChatService().findLastChatroomId();
+		int result3 = new ChatService().addChatroom(lastChatroomId + 1, gName, members[0]);
+		String[] chatMembers = new String[members.length - 1];
+		for (int i = 0; i < chatMembers.length; i++) {
+			chatMembers[i] = members[i + 1];
+		}
+		int result4 = new ChatService().addChatroomByMember(lastChatroomId + 1, chatMembers, members[0]);
 		String msg="";
 		String loc="";
 		if(result2>0)

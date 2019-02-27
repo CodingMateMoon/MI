@@ -70,30 +70,30 @@ table#gList-table tr td.gList-td {width: 50px; height: 35px;}
 	<div id="teduri" name="teduri">
 		<div id="contentContainer">
 		<div class="inline" id="glist">
-		<table id="gList-table">
-			<tr>
-				<th id="gth">그룹 목록</th>
-			</tr>
-                <%
-                	for(Group g : groupList){
-                %>
-                <tr>
-                	<td align="center" class="gList-td">
-                	<%-- <a href='<%=request.getContextPath()%>/memberView.do' onclick="fn_memberList()"><%=g.getGroupName() %></a> --%>
-                	<a href='javascript:void(0)' onclick="fn_memberList()"><%=g.getGroupName() %></a>
-                	</td>
-                	<!-- <td class="gList-td">
-                		<button id="delete-btn" value="" onclik="fn_deleteGroup">삭제</button>
-                	</td> -->
-                </tr>
-                <%} %>
-			<tr>
-				<td id="add-btn" align='right' cellpadding=0 cellspacing=0 >
-					<a href="javascript:void(0)" onclick="fn_addGroup()"><img src="<%=request.getContextPath() %>/views/group/plus.png" width="30px" id="plus"></a>
-				</td>
-			</tr>
-				
-		</table>
+			<table id="gList-table">
+				<tr>
+					<th id="gth">그룹 목록</th>
+				</tr>
+	                <%
+	                	for(Group g : groupList){
+	                %>
+	                <tr>
+	                	<td align="center" class="gList-td">
+	                	<%-- <a href='<%=request.getContextPath()%>/memberView.do' onclick="fn_memberList()"><%=g.getGroupName() %></a> --%>
+	                	<a href='javascript:void(0)' onclick="fn_memberList()"><%=g.getGroupId()%>:<%=g.getGroupName() %></a>
+	                	</td>
+	                	<!-- <td class="gList-td">
+	                		<button id="delete-btn" value="" onclik="fn_deleteGroup">삭제</button>
+	                	</td> -->
+	                </tr>
+	                <%} %>
+				<tr>
+					<td id="add-btn" align='right' cellpadding=0 cellspacing=0 >
+						<a href="javascript:void(0)" onclick="fn_addGroup()"><img src="<%=request.getContextPath() %>/views/group/plus.png" width="30px" id="plus"></a>
+					</td>
+				</tr>
+					
+			</table>
 		</div>
 		</div>
 	<div class="inline" id="changeView">
@@ -111,11 +111,18 @@ table#gList-table tr td.gList-td {width: 50px; height: 35px;}
 	};
 
 	function fn_memberList(){
-		var groupIdSrc=event.srcElement.innerHTML;
-		console.log(groupId);
+		var groupNameStr=event.srcElement.innerHTML;
+		var StrArr=groupNameStr.split(":");
+		var groupId=StrArr[0];
 		$.ajax({
-			url:"<%=request.getContextPath()%>/memberView.do?groupId=groupIdSrc",
+			url:"<%=request.getContextPath()%>/memberView.do?groupId="+groupId,
+			/* data:{"groupName":groupNameStr}, */
+			<%-- type:"get",
+			data:{"memberId":'<%=loginMember.getMemberId()%>',"groupName":groupNameStr},
+			dataType:"json",
+			contentType:'application/json', --%>
 			success:function(data){
+				console.log(data);
 				$('#changeView').html(data);
 			}
 		})
