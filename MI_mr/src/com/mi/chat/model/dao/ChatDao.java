@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import com.mi.chat.model.vo.Chat;
 import com.mi.chat.model.vo.Chatroom;
+import com.mi.chat.model.vo.ChatroomByMember;
 
 public class ChatDao {
 	
@@ -54,6 +55,31 @@ public class ChatDao {
 			close(pstmt);
 		}
 		return list;
+	}
+	
+	public List<ChatroomByMember> selectAllChatroomByMember(Connection conn, String memberId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = prop.getProperty("selectAllChatroomByMember");
+		List<ChatroomByMember> cbmList = new ArrayList<>();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ChatroomByMember cbm = new ChatroomByMember();
+				cbm.setMemberId(rs.getString("member_id"));
+				cbm.setMemberName(rs.getString("member_name"));
+				cbm.setChatroomId(rs.getString("chatroom_id"));
+				cbmList.add(cbm);
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return cbmList;
 	}
 	
 //	selectAllChat = SELECT MEMBER_ID, MEMBER_NAME, CHAT_CONTENT, CHATROOM_ID, TO_CHAR(CHAT_TIME, 'RRRR-MM-DD HH24:MI:SS') AS TIME FROM CHAT JOIN MEMBER USING(MEMBER_ID) WHERE CHATROOM_ID = ? ORDER BY TIME;
@@ -166,4 +192,5 @@ public class ChatDao {
 		}
 		return result;
 	}
+	
 }
