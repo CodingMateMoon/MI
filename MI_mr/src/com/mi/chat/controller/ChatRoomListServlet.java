@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mi.chat.model.service.ChatService;
 import com.mi.chat.model.vo.Chatroom;
+import com.mi.chat.model.vo.ChatroomByMember;
 
 /**
  * Servlet implementation class ChatListServlet
@@ -35,7 +36,8 @@ public class ChatRoomListServlet extends HttpServlet {
 		String id = request.getParameter("memberId");
 		System.out.println(id);
 		List<Chatroom> list = new ChatService().selectAllChatroom(id);
-		
+		List<ChatroomByMember> cbmList = new ChatService().selectAllChatroomByMember(id);
+		System.out.println(cbmList);
 		String msg = "";
 		String loc = "/";
 		String view;
@@ -47,6 +49,7 @@ public class ChatRoomListServlet extends HttpServlet {
 			view = "/views/common/msg.jsp";
 		}
 		request.setAttribute("list", list);
+		request.setAttribute("cbmList", cbmList);
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);
 		request.getRequestDispatcher(view).forward(request, response);
