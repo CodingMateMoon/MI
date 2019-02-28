@@ -143,23 +143,54 @@
             
          });
          if(members.length > 0) {
+        	 var uniqueMembers = [];
+        	 $.each(members, function(i, el){
+        			if($.inArray(el, uniqueMembers) === -1) uniqueMembers.push(el);
+       		 });
+        	 
+        	 console.log(uniqueMembers);
         	 var chatroomName= $('#chatroomNamebar').val();
         	 
         	 $.ajax({
  				url: "<%=request.getContextPath()%>/addChatroomEnd",
- 				data:{"chatroomName":chatroomName,"members":members, "admin": '<%=loginMember.getMemberId()%>'},
+ 				data:{"chatroomName":chatroomName,"members":uniqueMembers, "admin": '<%=loginMember.getMemberId()%>'},
  				type:"post",
  				success:function(data){
- 					var tr = $("<tr></tr>");
- 					var td =$("<td class='chatroom'>" + data["chatroomName"] + "</td>");
- 					var chatroomId = $("<input type='hidden' value='" + data["chatroomId"] +"'/>");
- 					tr.append(td);
- 					tr.append(chatroomId);
- 					tr.insertBefore($(opener.document).find("#last"));
- 					//tr.insertBefore($(opener.document).find("#chatTable").children(":last"));
- 					self.close();
+ 					console.log("json 데이터 수신---------");
+ 					
+ 					console.log(data["chatroomName"]);
+ 					console.log(data["chatroomId"]);
+ 					
+ 					var div = $("<div class='roomBorder'></div>");
+ 					var html = "<span class='roomName'>" + chatroomName + "</span>";
+ 					html += "<ul class='memberList'>";
+ 					var count = 0;
+ 					var flag = true;
+ 					for (var i = 0; i < uniqueMembers.length; i++) {
+ 						if (flag) {
+ 							if (count < 4) {
+ 								html += "<li>" + uniqueMembers[i] + "</li>";
+ 							} else {
+ 								html += "<li>...more</li>";
+ 								flag = false;
+ 								break;
+ 							}
+ 							count++;
+ 						}
+ 					}
+ 					while (count < 5) {
+ 						html += "<li><br></li>";
+ 						count++;
+ 					}
+ 					html += "</ul>";
+ 					html += "<button class='chatroom' value='" + data["chatroomId"] + "'>join</button>";
+ 					div.html(html);
+ 					console.log(div);
+ 					$(opener.document).find(".roomListBorder").append(div);
+ 					
+ 					//self.close();
  				}
- 			})
+ 			});
          }
         
       });

@@ -20,7 +20,7 @@ overflow: auto;
 .roomListBorder {
 	width: 800px;
 	margin: 0 auto;
-	margin-top: 50px;
+	/* margin-top: 50px; */
 }
 
 .roomBorder {
@@ -85,8 +85,21 @@ button {
     /* margin: 10px 0 20px 60px; */
     /* text-align: center; */
 }
+
+#imageContainer {
+            margin: 0 auto;
+        }
+#plus {
+   
+    margin-left:100px;
+    margin-top: 3%;
+    /* margin-top: 20%; */
+}
 </style>
 	<div id="teduri">
+		<div id="imgContainer">
+			<img src="<%=request.getContextPath() %>/views/image/plus.png" onclick="addChatroom();" width="30px" id="plus"/>
+        </div>
         <div class="roomListBorder">
             <%for (Chatroom room : chatroomList) { 
             int count = 0;
