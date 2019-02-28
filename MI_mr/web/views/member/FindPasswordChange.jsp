@@ -35,7 +35,34 @@ $(function(){
    });
 });
 </script>
-
+<style>
+form input[type=submit] {
+/* margin-left:12%; */
+  font-family:Merriweather Sans;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 3px;
+  width: 150px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+}
+   table{
+      padding-top:30px;
+      margin-left:35%;
+   }
+   table tr td{
+      height:50px;
+      padding-left:10px;
+   }
+   .pwchange {text-align:center; width:100%; margin-top:20px;}
+</style>
+<div class="pwchange">
  <form method="post" action="<%=request.getContextPath()%>/pwChangeEnd">
       </br>
         <fieldset>
@@ -57,6 +84,7 @@ $(function(){
           <input type="submit" value="비밀변호 변경"/>
       </fieldset>
     </form>
+    </div>
 </body>
 </html>
 <%@ include file="/views/common/footer.jsp" %>
