@@ -127,22 +127,30 @@ button {
 </style>
 	<div id="teduri">
         <div class="roomListBorder">
-            <%for (Chatroom room : chatroomList) { %>
+            <%for (Chatroom room : chatroomList) { 
+            int count = 0;
+            %>
 			<div class="roomBorder">
                 <span class="roomName"><%=room.getChatroomName() %></span>
                 <ul class="memberList">
                 <%for (ChatroomByMember cbm : cbmList) {
                 	if (cbm.getChatroomId() == room.getChatroomId()) {
+                		if (count < 5) {
                 %>
                 
-                    <li>이일교</li>
-                    <li>문장현</li>
-                    <li>신재민</li>
-                    <li>김미리</li>
-                    <li>박진우</li>
-                    <li>...</li>
+                    <li><%=cbm.getMemberName() %></li>
+                    
                 
-                <%  }
+                <%  count++;
+                		} else { %>
+                	<li>...more</li>
+                	<%} 
+                	}
+                }
+                while (count < 5) {%>
+                	<li><br></li>
+                <%
+                	count++;
                 } %>
                 </ul>
                 <button class="chatroom" value="<%=room.getChatroomId()%>">join</button>

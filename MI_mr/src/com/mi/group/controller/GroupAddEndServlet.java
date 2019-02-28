@@ -1,6 +1,8 @@
 package com.mi.group.controller;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,28 +38,30 @@ public class GroupAddEndServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String gName = request.getParameter("gName");
 		String[] members = request.getParameterValues("members[]");
+		String admin = members[0];
 		System.out.println(gName);
-		for (String m : members)
-		{
-			System.out.println(m);
-			
+		Set<String> check = new HashSet<>();
+		for (int i = 1; i < members.length; i++) {
+			check.add(members[i]);
 		}
+		String[] chatMembers = check.toArray(new String[check.size()]);
+		check.add(admin);
+		String[] newMembers = check.toArray(new String[check.size()]);
 		
-		int result=new GroupService().addGroup(gName,members);
+		
+		int result=new GroupService().addGroup(gName,newMembers);
 		int result2 = 0;
 		String lastGroupId;
 		if (result > 0) {
 			lastGroupId = new GroupService().findLastGroupId();
-			result2=new GroupService().addGroupMember(lastGroupId, members);
+			result2=new GroupService().addGroupMember(lastGroupId, newMembers);
 		}
 		
 		int lastChatroomId = new ChatService().findLastChatroomId();
-		int result3 = new ChatService().addChatroom(lastChatroomId + 1, gName, members[0]);
-		String[] chatMembers = new String[members.length - 1];
-		for (int i = 0; i < chatMembers.length; i++) {
-			chatMembers[i] = members[i + 1];
-		}
-		int result4 = new ChatService().addChatroomByMember(lastChatroomId + 1, chatMembers, members[0]);
+		int result3 = new ChatService().addChatroom(lastChatroomId + 1, gName, admin);
+		
+		
+		int result4 = new ChatService().addChatroomByMember(lastChatroomId + 1, chatMembers, admin);
 		String msg="";
 		String loc="";
 		if(result2>0)
