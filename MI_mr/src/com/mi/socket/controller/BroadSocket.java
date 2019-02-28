@@ -1,7 +1,9 @@
 package com.mi.socket.controller;
 
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +20,8 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
  
 @ServerEndpoint("/broadsocket")
 public class BroadSocket {
@@ -33,8 +37,7 @@ public class BroadSocket {
         sessionUsers.add(userSession);
         String username = userSession.getQueryString().split("=")[1];
         userSession.getUserProperties().put("username", username);
-        System.out.println(username);
-        
+        System.out.println("socketId : " + username);
     }
     /**
      * 웹 소켓으로부터 메시지가 오면 호출한다.
@@ -44,19 +47,23 @@ public class BroadSocket {
      */
     @OnMessage
     public void handleMessage(String message,Session userSession) throws IOException{
+    	System.out.println(message);
+    	String username = (String)userSession.getUserProperties().get("username");
+    	JSONParser jsonParser = new JSONParser();
+
+    	// 클라이언트에서 받은 JSON 형식의 객체를 String으로 받은 다음 JSONParser로 파싱하여 JSONObject로 변환
+    	JSONObject jsonObject = null;
+		try {
+			jsonObject = (JSONObject) jsonParser.parse(message);
+//			System.out.print(jsonObject.toJSONString());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
     	
-        String username = (String)userSession.getUserProperties().get("username");
-        //세션 프로퍼티에 username이 없으면 username을 선언하고 해당 세션으로 메시지를 보낸다.(json 형식이다.)
-        //최초 메시지는 username설정
-        if(username == null){
-            userSession.getUserProperties().put("username", message);
-            userSession.getBasicRemote().sendText(buildJsonData("System", "you are now connected as " + message));
-            return;
-        }
-        //username이 있으면 전체에게 메시지를 보낸다.
+        //username이 있으면 전체에게 메시지를 보낸다. (JSON 형식)
         Iterator<Session> iterator = sessionUsers.iterator();
         while(iterator.hasNext()){
-            iterator.next().getBasicRemote().sendText(buildJsonData(username,message));
+            iterator.next().getBasicRemote().sendText(jsonObject.toJSONString());
         }
     }
     /**

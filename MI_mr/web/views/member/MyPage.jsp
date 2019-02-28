@@ -7,27 +7,68 @@
 	
 %>
 <style>
-	#memberId_{
+ body {
+    margin: 20px 10px;
+    padding: 0;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif,Merriweather Sans;
+    font-size: 14px;
+  }
+#memberId_{
 		background-color:lightgray;
 	}
-	#enroll-container{
-	 position: absolute;
-  width: 260px;
-  height: 250px;
-  z-index: 15;
-  top: 50%;
-  left: 51%;
-  margin: -200px 0 0 -150px;
-  text-align: center;
-  border: 2px solid black;
+	#email{
+		background-color:lightgray;
+	}
+
+  .wrapperjw{
+  	width:100%;
+  	height:60%;
   }
-  
-</style>
+  #buttonDiv{
+  width:300px;
+  padding-top:30px;
+  padding-left:20px;
+  margin:auto;
+  }
+  #buttonDiv input {
+  /* font-family:'Source Sans Pro', sans-serif; */
+  text-weight:bold;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 3px;
+  /* width: 250px; */
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+	}
+	.containerjw input[type="text"],[type="email"],[type="tel"]{
+		border: 1px solid gray;
+  		background-color: white;
+  		width: 200px;
+	}
+	table{
+		padding-top:30px;
+	}
+	table tr td{
+		height:50px;
+		padding-left:10px;
+	}
+ </style>
 <body>
-<section id="enroll-container">
-	<h2>회원정보 수정</h2>
+<h1></h1>
+<h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">MY PAGE</h1>
+<hr class="divider my-4">
+<div class="wrapperjw">
+<div class="containerjw">
+<!-- <section id="enroll-container"> -->
+	
 	<form name="memberFrm"action="<%=request.getContextPath() %>/memberUpdateEnd" onsubmit="return fn_enroll_validate()" method="post">
-	<table>
+	<table align="center">
 		<tr>
 			<th>
 				아이디
@@ -45,7 +86,7 @@
 		<tr>
 			<th>이메일</th>
 			<td>
-				<input type="email" placeholder="abc@dse.com" name="email" id="email" value="<%=m.getEmail()%>"/>
+				<input type="email" placeholder="abc@dse.com" name="email" id="email" value="<%=m.getEmail()%>" readonly/>
 			</td>
 		</tr>
 		<tr>
@@ -55,10 +96,14 @@
 			</td>
 		</tr>
 	</table>
+	<div id="buttonDiv">
 	<input type="button" value="수정" onclick="fn_updateMember();"/>
 	<input type="button" onclick="fn_changePw()" value="비밀번호 변경"/>
 	<input type="button" value="탈퇴" onclick="fn_deleteMember();"/>
+	</div>
 	</form>
+	</div>
+	</div>
 	</body>
 	
 	<script>
@@ -66,7 +111,7 @@
 		function fn_changePw(){
 			var url="<%=request.getContextPath()%>/changePassword?memberId=<%=m.getMemberId()%>";
 			var title="changePassword";
-			var option="left=500px, top=100px, width=400px, height=210px, menubar=no, status=no, scrollbars=yes";
+			var option="left=500px, top=100px, width=480px, height=210px, menubar=no, status=no, scrollbars=yes";
 			var popup=window.open(url,title,option);
 			checkIdDuplicateFrm.password.value=password;
 			checkIdDuplicateFrm.target=title;
@@ -104,5 +149,5 @@
 	
 	</script>
 
-</section>
+<!-- </section> -->
     <%@ include file="/views/common/footer.jsp" %>

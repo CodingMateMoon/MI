@@ -1,6 +1,7 @@
 package com.mi.event.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Event {
 	private String eventId;
@@ -49,8 +50,8 @@ public class Event {
 		return startDate;
 	}
 
-	public void setStartDate(Date date) {
-		this.startDate = date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	public Date getEndDate() {
@@ -95,12 +96,11 @@ public class Event {
 
 	@Override
 	public String toString() {
-		return "Event [eventID=" + eventId + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
+		return "Event [eventId=" + eventId + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", groupId=" + groupId + ", memo=" + memo + ", filePath=" + filePath + ", prepairingId="
 				+ prepairingId + "]";
 	}
 
-	
 	
 	
 }

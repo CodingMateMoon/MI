@@ -32,10 +32,10 @@ public class GroupViewServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	String memberId=request.getParameter("memberId");
-		
+	String groupId=request.getParameter("groupId");	
 		List<Group> groupList=new GroupService().selectAllGroup(memberId);
 		
-		
+		request.setAttribute("groupId", groupId);
 		request.setAttribute("memberId", memberId);
 		request.setAttribute("groupList",groupList);
 		
