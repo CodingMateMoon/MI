@@ -13,18 +13,28 @@ String groupId=(String)request.getAttribute("groupId");
     padding: 0;
     font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif,Merriweather Sans;
     font-size: 14px;
+    /* border: 2px solid red; */
   }
  #teduri{
-  width: 100%;
-  height: 100%;s
+  /* position: absolute; */
+  /* left: 50%;
+ top: 50%; */
+ margin-left: 250px;
+ /*margin-top: -250px; */
+  width: 700px;
+  height: 410px;
   /* z-index: 15; */
+ /*  border: 2px solid blue; */
   
   }
-  #contentContainer{
+/*   #contentContainer{
   	width:60%;
   	height:60%;
   	margin:auto; 
-  }
+  	display:inline;
+  	align: center;
+  	border: 2px solid green;
+  } */
  
  #glist
  {
@@ -39,6 +49,7 @@ String groupId=(String)request.getAttribute("groupId");
  	/* border: 2px solid yellow; */
  	position:absolute;
  	margin-left: 1em;
+ 	
  }
  .inline
  {
@@ -46,10 +57,13 @@ String groupId=(String)request.getAttribute("groupId");
  	/* margin: 1em; */
  }
  #gth{
- 	width:290px;
+ 	width:200px;
  	height : 40px;
  	font-size: 1.5em;
+ 	text-align:center
  }
+ 
+
  #data{
   RepeatLayout : RepeatLayout.table;
  }
@@ -58,9 +72,20 @@ String groupId=(String)request.getAttribute("groupId");
  }
  a:link{ color: black; text-decoration: none;}
  a:visited { color: black; text-decoration: none;}
-#delete-btn{ display:none; }
-table#gList-table tr:hover button#delete-btn{display:inline;}
+/* #delete-btn{ display:none; } */
+table#gList-table{width:290px;
+ 				  height : 40px;}
+/* table#gList-table tr:hover button#delete-btn{display:inline;} */
+table#gList-table tr td.gth{}
 table#gList-table tr td.gList-td {width: 50px; height: 35px;}
+#gAddBtn{width: 60px;
+  		height: 40px;
+  		background-color: #f4623a; 
+  		color: white;
+  		border: 0;
+  		border-radius: 3px;
+  		}
+a:hover{color: #f4623a;}
 </style>
 <body>
 <h1></h1>
@@ -68,11 +93,11 @@ table#gList-table tr td.gList-td {width: 50px; height: 35px;}
 <h1 style="text-align:center; ">MANAGE GROUP</h1>
 <hr class="divider my-4">
 	<div id="teduri" name="teduri">
-		<div id="contentContainer">
+		<!-- <div id="contentContainer"> -->
 		<div class="inline" id="glist">
 			<table id="gList-table">
-				<tr>
-					<th id="gth">그룹 목록</th>
+				<tr id="gtr">
+					<th id="gth">Group List</th>
 				</tr>
 	                <%
 	                	for(Group g : groupList){
@@ -89,13 +114,15 @@ table#gList-table tr td.gList-td {width: 50px; height: 35px;}
 	                <%} %>
 				<tr>
 					<td id="add-btn" align='right' cellpadding=0 cellspacing=0 >
-						<a href="javascript:void(0)" onclick="fn_addGroup()"><img src="<%=request.getContextPath() %>/views/group/plus.png" width="30px" id="plus"></a>
+						<%-- <a href="javascript:void(0)" onclick="fn_addGroup()"><img src="<%=request.getContextPath() %>/views/group/plus.png" width="30px" id="plus"></a> --%>
+						<!-- <a href="javascript:void(0)" onclick="fn_addGroup()"><input type="button" id="gAddBtn" value="추가"></a> -->
+						<button type="button" id="gAddBtn" onclick="fn_addGroup()">추가</button>
 					</td>
 				</tr>
 					
 			</table>
 		</div>
-		</div>
+		<!-- </div> -->
 	<div class="inline" id="changeView">
 	
 	</div>
