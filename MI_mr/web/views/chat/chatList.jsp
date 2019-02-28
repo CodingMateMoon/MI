@@ -16,45 +16,6 @@ margin:0 auto; */
 /* border: 2px solid red; */
 overflow: auto;
  }
-
-#glist
-{
-	overflow-x:hidden;
-	width: 300px;
-	height: 400px;
-	border: 2px solid blue;
-}
-#changeView{
-	width:350px;
-	height: 400px;
-	border: 2px solid yellow;
-}
-.inline
-{
-	display: inline-block;
-	/* margin: 1em; */
-}
-#gth{
-	width:290px;
-	height : 40px;
-	font-size: 1.5em;
-}
-
-table#chatTable {
-	position: relative;
-	width: 50%;
-	height: 50%;
-	
-	margin: 5% auto;
-	text-align: center;
-	border:1px solid black; 
-	border-collapse:collapse;
-	
-}
- 
- table#chatTable tr td{
- 	border:1px solid black;
- }
  
 .roomListBorder {
 	width: 800px;
@@ -129,22 +90,23 @@ button {
         <div class="roomListBorder">
             <%for (Chatroom room : chatroomList) { 
             int count = 0;
+            boolean flag = true;
             %>
 			<div class="roomBorder">
                 <span class="roomName"><%=room.getChatroomName() %></span>
                 <ul class="memberList">
                 <%for (ChatroomByMember cbm : cbmList) {
                 	if (cbm.getChatroomId() == room.getChatroomId()) {
-                		if (count < 5) {
+                		if (flag) {
+	                		if (count < 4 && flag) {
                 %>
-                
-                    <li><%=cbm.getMemberName() %></li>
-                    
-                
-                <%  count++;
-                		} else { %>
-                	<li>...more</li>
-                	<%} 
+	                    <li><%=cbm.getMemberName() %></li>
+                <%  
+	                		} else { %>
+	                	<li>...more</li>
+		                	<%flag = false;} 
+	                		count++;
+                		}
                 	}
                 }
                 while (count < 5) {%>
