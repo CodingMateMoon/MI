@@ -1,59 +1,156 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, com.mi.chat.model.vo.Chatroom"%>
+    pageEncoding="UTF-8" import="java.util.*, com.mi.chat.model.vo.*"%>
 <%@ include file="/views/common/header.jsp" %>
-<% List<Chatroom> list =  (List<Chatroom>) request.getAttribute("list"); %>
+<% 
+	List<Chatroom> chatroomList =  (List<Chatroom>) request.getAttribute("list");
+	List<ChatroomByMember> cbmList = (List<ChatroomByMember>) request.getAttribute("cbmList");
+%>
 <style>
- #teduri{
-	/* position: relative; */
-	/* width: 50%;
-	height: 50%;
-	top: 10%;
-	margin:0 auto; */
-	
-	/* border: 2px solid red; */
-	overflow: scroll;
-  }
- 
- #glist
- {
- 	overflow-x:hidden;
- 	width: 300px;
- 	height: 400px;
- 	border: 2px solid blue;
+#teduri{
+/* position: relative; */
+/* width: 50%;
+height: 50%;
+top: 10%;
+margin:0 auto; */
+
+/* border: 2px solid red; */
+overflow: auto;
  }
- #changeView{
- 	width:350px;
- 	height: 400px;
- 	border: 2px solid yellow;
- }
- .inline
- {
- 	display: inline-block;
- 	/* margin: 1em; */
- }
- #gth{
- 	width:290px;
- 	height : 40px;
- 	font-size: 1.5em;
- }
- 
- table#chatTable {
- 	position: relative;
+
+#glist
+{
+	overflow-x:hidden;
+	width: 300px;
+	height: 400px;
+	border: 2px solid blue;
+}
+#changeView{
+	width:350px;
+	height: 400px;
+	border: 2px solid yellow;
+}
+.inline
+{
+	display: inline-block;
+	/* margin: 1em; */
+}
+#gth{
+	width:290px;
+	height : 40px;
+	font-size: 1.5em;
+}
+
+table#chatTable {
+	position: relative;
 	width: 50%;
 	height: 50%;
 	
 	margin: 5% auto;
- 	text-align: center;
- 	border:1px solid black; 
- 	border-collapse:collapse;
- 	
- }
+	text-align: center;
+	border:1px solid black; 
+	border-collapse:collapse;
+	
+}
  
  table#chatTable tr td{
  	border:1px solid black;
  }
+ 
+.roomListBorder {
+	width: 800px;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+
+.roomBorder {
+    width: 250px;
+    background: #0F1012;
+    color: #f9f9f9;
+    float: left;
+    border-radius: 5%;
+    margin: 1%;
+    text-align: center;
+}
+
+.deal {
+    padding: 10px 0 0 0;
+}
+
+.deal span {
+    display: block;
+    text-align: center;
+}
+
+.deal span:first-of-type {
+    font-size: 23px;
+}
+
+.deal span:last-of-type {
+    font-size: 13px;
+}
+
+.roomBorder .roomName {
+    display: block;
+    width: 250px;
+    background: #292b2e;
+    margin: 15px 0 10px 0;
+    text-align: center;
+    font-size: 23px;
+    padding: 17px 0 17px 0;
+}
+
+
+ul {
+    display: block;
+    margin: 20px 0 10px 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+    color: #999999;
+}
+
+li {
+    display: block;
+    margin: 10px 0 0 0;
+}
+
+button {
+    border: none;
+    border-radius: 40px;
+    background: #292b2e;
+    color: #f9f9f9;
+    padding: 10px 37px;
+    margin-bottom: 5%;
+    /* margin: 10px 0 20px 60px; */
+    /* text-align: center; */
+}
 </style>
 	<div id="teduri">
+        <div class="roomListBorder">
+            <%for (Chatroom room : chatroomList) { %>
+			<div class="roomBorder">
+                <span class="roomName"><%=room.getChatroomName() %></span>
+                <ul class="memberList">
+                <%for (ChatroomByMember cbm : cbmList) {
+                	if (cbm.getChatroomId() == room.getChatroomId()) {
+                %>
+                
+                    <li>이일교</li>
+                    <li>문장현</li>
+                    <li>신재민</li>
+                    <li>김미리</li>
+                    <li>박진우</li>
+                    <li>...</li>
+                
+                <%  }
+                } %>
+                </ul>
+                <button class="chatroom" value="<%=room.getChatroomId()%>">join</button>
+            </div>
+            <%} %>
+        </div>    
+    </div>
+	<%-- <div id="teduri">
 		<table id="chatTable">
 			<tr id="gtr">
 				<th id="gth">채팅 목록</th>
@@ -65,7 +162,7 @@
 				</td>
 			</tr>
 			
-			<%for (Chatroom room : list) { %>
+			<%for (Chatroom room : chatroomList) { %>
 			<tr >
 				<td class="chatroom">
 					<%=room.getChatroomName() %>
@@ -79,14 +176,13 @@
 			<tr>
 				
 		</table>
-	</div>
-	<form name=chatForm></form>
+	</div> --%>
 	<script>
 		
 		$(document).on("click",".chatroom",function(event){
 			// 동적으로 여러 태그가 생성된 경우라면 이런식으로 클릭된 객체를 this 키워드를 이용해서 잡아올 수 있다.
-			var windowName = $(this).text().trim();
-			var chatroomId = $(this).siblings("input").val();
+			//var chatroomId = $(this).siblings("input").val();
+			var chatroomId = $(this).val();
 			var url = "<%=request.getContextPath()%>/chatroom?chatroomId=" + chatroomId;
 			console.log(url);
 			var option = "left=100px, top=0px, width=500px, height=700px, menubar=no, toolbar=no, status=no, scrollbars=yes";		

@@ -70,7 +70,7 @@ public class ChatDao {
 				ChatroomByMember cbm = new ChatroomByMember();
 				cbm.setMemberId(rs.getString("member_id"));
 				cbm.setMemberName(rs.getString("member_name"));
-				cbm.setChatroomId(rs.getString("chatroom_id"));
+				cbm.setChatroomId(rs.getInt("chatroom_id"));
 				cbmList.add(cbm);
 			}
 		} catch(SQLException e) {

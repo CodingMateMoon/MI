@@ -1,13 +1,14 @@
 package com.mi.chat.model.vo;
 
 public class ChatroomByMember {
-	private String memberId, memberName, chatroomId;
+	private String memberId, memberName;
+	private int chatroomId;
 	
 	public ChatroomByMember() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ChatroomByMember(String memberId, String memberName, String chatroomId) {
+	public ChatroomByMember(String memberId, String memberName, int chatroomId) {
 		super();
 		this.memberId = memberId;
 		this.memberName = memberName;
@@ -30,11 +31,11 @@ public class ChatroomByMember {
 		this.memberName = memberName;
 	}
 
-	public String getChatroomId() {
+	public int getChatroomId() {
 		return chatroomId;
 	}
 
-	public void setChatroomId(String chatroomId) {
+	public void setChatroomId(int chatroomId) {
 		this.chatroomId = chatroomId;
 	}
 
