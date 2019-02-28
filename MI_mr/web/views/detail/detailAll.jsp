@@ -154,7 +154,8 @@ table#list{margin-bottom:10px;width:100%;}
 								var filePathList =filePath.split(",");
 								console.log(filePath);
 								var container=$('<div class="slide"></div>');
-								var back=$('<img id="back"></img>').attr({"src":"https://cdn.icon-icons.com/icons2/1496/PNG/512/goprevious_103394.png","width":"20"});
+								var back=$('<img id="back"></img>').attr({"src":"<%=request.getContextPath()%>/views/image/goprevious_103394.png","width":"20"});
+								// https://cdn.icon-icons.com/icons2/1496/PNG/512/goprevious_103394.png
 								$("#back").click(function(){
 									console.log("back");
 								});
@@ -277,6 +278,7 @@ table#list{margin-bottom:10px;width:100%;}
 		//댓글 삭제 구현
 		$(document).on('click','.eventComment', function(e){
 							console.log($(this).val());
+							console.log(e);
 							console.log(e.target);
 							var del = e.target;
 						$.ajax({
@@ -285,6 +287,8 @@ table#list{margin-bottom:10px;width:100%;}
 								dataType:"json",
 								data : { "eventCommentNo" : $(this).val()},
 								success:function(data){
+									console.log(data);
+									console.log(del.parentElement.parentElement);
 									del.parentElement.parentElement.remove();
 								},
 								error:function(){
