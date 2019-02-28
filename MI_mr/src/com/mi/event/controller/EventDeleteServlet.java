@@ -33,18 +33,18 @@ public class EventDeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String eventId=request.getParameter("eventId");
-		
+
 		//넘겨줄게 많으면 객체를 선언해서 넘겨주면 되는데 eventId만 넘겨줘서 삭제해주면 되는거라 객체 선언 필요 X
 		//Event e=new Event();
-		
+
 		int result=new EventService().deleteEvent(eventId);
-		
+
 		Member m= (Member)request.getSession().getAttribute("loginMember");
 		String memberId=m.getMemberId();
-		
+
 		List<Event> list = new EventService().selectAllEvent(memberId);
-	
-		
+
+
 		String msg="";
 		String loc="";
 		String view="/views/common/msg.jsp";
@@ -61,8 +61,8 @@ public class EventDeleteServlet extends HttpServlet {
 		request.setAttribute("memberId", memberId);
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/views/detail/detailAll.jsp").forward(request, response);
-		
-		
+
+
 		
 	}
 
