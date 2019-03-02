@@ -1,6 +1,7 @@
 package com.mi.comment.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,8 +37,6 @@ public class CommentDeleteServlet extends HttpServlet {
 		int result = new CommentService().deleteComment(eventCommentNo);
 		
 		new Gson().toJson(result,response.getWriter());
-		
-	
 	}
 
 	/**

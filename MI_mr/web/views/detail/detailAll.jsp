@@ -10,62 +10,178 @@
 %>
 <%@ include file="/views/common/header.jsp"%>
 <style>
-div.inline {display: inline-block;}
+div.inline {
+	display: inline-block;
+}
+
 #d1 {
-	/* background-color: lavender; */
-	/* position: absolute; */
+	background-color: white;
+	position: absolute;
 	width: 30%;
 	height: 70%;
-	margin-left: 5px
+	margin-left: 50px
 }
+
 #d2 {
-	/* background-color: lightgoldenrodyellow; */
-	/* position: absolute; */
-	width: 50%;
+	background-color: white;
+	position: absolute;
+	width: 70%;
 	height: 70%;
 	margin-left: 300px;
 }
-.view {cursor: pointer;}
-a{color:black;text-decoration:none;}
-table#list{margin-bottom:10px;width:100%;}
+
+.view {
+	cursor: pointer;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}
+
+table#list {
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+table tr td{
+      height:30px;
+      padding-left:10px;
+   }
+th {
+	text-align: center;
+}
+
+td {
+	text-align: center;
+}
+
+.slide {
+	width: 500px;
+	height: 330px;
+	overflow: hidden;
+	position: relative;
+	margin: 0 auto;
+}
+
+.slide ul {
+	width: 5000px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: 0;
+}
+
+.slide ul li {
+	display: inline-block;
+}
+
+#back {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	cursor: pointer;
+	z-index: 1;
+}
+
+#next {
+	position: absolute;
+	top: 100px;
+	right: 0;
+	cursor: pointer;
+	z-index: 1;
+}
+
+#activeTest:active {
+	font-weight: bold font-size: 15px;
+	color: crimson;
+}
+
+#btn-add {
+font-family:Merriweather Sans;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  color: white;
+  border-radius: 3px;
+  width: 80px;
+  height:30px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+}
+
+form input[type=button] {
+	font-family:Merriweather Sans;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  color: white;
+  border-radius: 3px;
+  width: 80px;
+  height:30px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;}
+          button{font-family:Merriweather Sans;
+  appearance: none;
+  outline: 0;
+  background-color: #f4623a;
+  border: 0;
+  color: white;
+  border-radius: 3px;
+  width: 80px;
+  height:30px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+          } 
 </style>
 
 
 <section>
-<h1 style="text-align:center;font-family:Merriweather Sans; padding-top:15px;">SCHEDULE</h1>
-<hr class="divider my-4">
-<%if (loginMember != null) {%>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="button" value="등록" id="btn-add" onclick="fn_detailAdd()" />
-<button id="btn-del" onclick="fn_detailDelete();">삭제</button>
-<%}%>
-<div id="container" style="overflow: auto;">
-	<div id="d1" style="overflow: auto;">
-		<!-- 제목을 눌렀을 때 ajax통신으로 아래에 받아주면 됨 -->
-		<table>
-			<tr>
-				<th>시작날짜</th>
-				<th>일정제목</th>
-			</tr>
-			<%	for (Event e : list) {	%>
-			<tr>
-				<td><%=e.getStartDate()%></td>
-				<td class="view"><b><%=e.getTitle()%></b></td>
-				<input type="hidden" value="<%=e.getEventId() %>" />
-			</tr>
-			<%}	%>
-		</table>
+	<h1
+		style="text-align: center; font-family: Merriweather Sans; padding-top: 15px;">SCHEDULE</h1>
+	<hr class="divider my-4">
+	<%if (loginMember != null) {%>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+	<input type="button" value="일정등록" id="btn-add" onclick="fn_detailAdd()" />
+	<button id="btn-del" onclick="fn_detailDelete();">일정삭제</button>
+	<%}%>
+	<div id="container" style="overflow: auto;">
+		<div id="d1"
+			style="overflow: auto; margin-right: 10px; margin-bottom: 10px;">
+			<!-- 제목을 눌렀을 때 ajax통신으로 아래에 받아주면 됨 -->
+			<table>
+				<tr>
+					<th>시작일</th>
+					<th>일정제목</th>
+				</tr>
+				<%	for (Event e : list) {	%>
+				<tr>
+					<td><%=e.getStartDate()%></td>
+					<td class="view" id="activeTest"><b><%=e.getTitle()%></b></td>
+					<input type="hidden" value="<%=e.getEventId() %>" />
+				</tr>
+				<%}	%>
+			</table>
+		</div>
+
+		<div id='d2'>
+			<table id="list">
+			</table>
+			<div id="commentContainer"></div>
+		</div>
 	</div>
 
-	<div id='d2'>
-		<table id="list">
-		</table>
-		<div id="commentContainer"></div>
-	</div>
-</div>
-
-<script>
+	<script>
 		var eventId="";
 		
 		//일정 등록 버튼
@@ -134,8 +250,8 @@ table#list{margin-bottom:10px;width:100%;}
 						console.log(data);
 						var tr=$("<tr></tr>");
 						var th="<th>제목</th>";
-							th+="<th>시작일자</th>";
-							th+="<th>끝일자</th>";
+							th+="<th>시작일</th>";
+							th+="<th>마감일</th>";
 					//true일때 태그가 생성되고 false일땐 태그 생성 x 즉, 값이 있을땐 태그 생성 없을땐 생성 x
 							if((Object.keys(data)).includes("groupId")){
 								th+="<th>그룹</th>";
@@ -155,7 +271,6 @@ table#list{margin-bottom:10px;width:100%;}
 								console.log(filePath);
 								var container=$('<div class="slide"></div>');
 								var back=$('<img id="back"></img>').attr({"src":"<%=request.getContextPath()%>/views/image/goprevious_103394.png","width":"20"});
-								// https://cdn.icon-icons.com/icons2/1496/PNG/512/goprevious_103394.png
 								$("#back").click(function(){
 									console.log("back");
 								});
@@ -169,7 +284,7 @@ table#list{margin-bottom:10px;width:100%;}
 									if(fileValue=='jpg'||fileValue=='png'||fileValue=='gif')
 									{
 										var li1=$("<li></li>");
-										var img=$("<img></img>").attr({'width':'400','height':'300','src':'<%=request.getContextPath()%>/upload/event/'+filePathList[i]});
+										var img=$("<img></img>").attr({'width':'500','height':'300','src':'<%=request.getContextPath()%>/upload/event/'+filePathList[i]});
 										li1.append(img);
 										ul.append(li1);
 									}	
@@ -210,7 +325,7 @@ table#list{margin-bottom:10px;width:100%;}
 							tr2.append(td);
 						}
 						$('#list').append(tr2);
-						var commentArea=$("<textarea cols='60' rows='2' name='comment' id='commentArea'></textarea>");
+						var commentArea=$("<textarea cols='40' rows='1' name='comment' id='commentArea'></textarea>");
 						var button=$("<button class='comment-btn'></button>").html("댓글등록");	
 						var button1=$("<button class='comment-btn'></button>").html("댓글삭제");
 						$('#commentContainer').html(commentArea);
@@ -277,25 +392,25 @@ table#list{margin-bottom:10px;width:100%;}
 		
 		//댓글 삭제 구현
 		$(document).on('click','.eventComment', function(e){
+			console.log("댓글 삭제 드러왔다~");
 							console.log($(this).val());
-							console.log(e);
 							console.log(e.target);
 							var del = e.target;
 						$.ajax({
 								url:"<%=request.getContextPath()%>/commentDelete",
-								type : "post",
-								dataType:"json",
-								data : { "eventCommentNo" : $(this).val()},
-								success:function(data){
-									console.log(data);
-									console.log(del.parentElement.parentElement);
-									del.parentElement.parentElement.remove();
-								},
-								error:function(){
-									console.log("댓글 error");
-								}
-							}); 
-			         });
-</script>
+				type : "post",
+				dataType : "json",
+				data : {
+					"eventCommentNo" : $(this).val()
+				},
+				success : function(data) {
+					del.parentElement.parentElement.remove();
+				},
+				error : function() {
+					console.log("댓글 error");
+				}
+			});
+		});
+	</script>
 </section>
 <%@ include file="/views/common/footer.jsp"%>
